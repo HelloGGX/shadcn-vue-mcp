@@ -44,6 +44,7 @@
     "dotenv": "^16.5.0",
     "jsonrepair": "^3.12.0",
     "mdast-util-from-markdown": "^2.0.2",
+    "playwright": "^1.52.0",
     "unist-util-visit-parents": "^6.0.1",
     "zod": "^3.24.2"
   },
