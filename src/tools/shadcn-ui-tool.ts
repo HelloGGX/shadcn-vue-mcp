@@ -208,7 +208,6 @@ export class refineCodeTool extends BaseTool {
 
   async execute({ userMessage, absolutePathToRefiningFile, context }: z.infer<typeof this.schema>) {
     try {
-
       const fileContent = await this.getContentOfFile(absolutePathToRefiningFile);
 
       const { text } = await generateText({
@@ -254,5 +253,29 @@ export class refineCodeTool extends BaseTool {
       console.error(`Error reading file ${path}:`, error);
       return "";
     }
+  }
+}
+export class reviewUITool extends BaseTool {
+  name = "review-ui";
+  description = `Whenever the user mentions /review, automatically use shadcn/ui components and Tailwind CSS to create or enhance a UI preview based on the results from createUiTool or refineCodeTool. Trigger this behavior right after either tool completes. Provide a visual preview of the UI with clean, styled components using best practices.`;
+
+  // 参数定义
+  schema = z.object({
+    code: z.string().describe("code of the Web UI from createUiTool or refineCodeTool"),
+  });
+
+  async execute({ code }: z.infer<typeof this.schema>): Promise<{
+    content: Array<{ type: "text"; text: string }>;
+  }> {
+    // 预览组件
+
+    return {
+      content: [
+        {
+          type: "text",
+          text: `${res}`,
+        },
+      ],
+    };
   }
 }

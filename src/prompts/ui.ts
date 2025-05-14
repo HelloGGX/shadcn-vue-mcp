@@ -10,7 +10,9 @@ Your analysis should:
 
 I will use your precise component selection to read documentation and implement the UI.
 </requirement>
+
 <response_format>
+Return a single JSON object (not an array) with the following structure:
 {
   "components": [
     {
@@ -27,6 +29,7 @@ I will use your precise component selection to read documentation and implement 
     }
   ]
 }
+**Important**: The response must be a single object, not wrapped in an array (e.g., do not return '[{ components: [] }]', but return '{ components: [], charts: [] }').
 </response_format>`;
 
 export const CREATE_UI = `<role>

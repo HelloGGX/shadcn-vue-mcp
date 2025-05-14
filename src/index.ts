@@ -7,6 +7,7 @@ import {
   readFullDocTool,
   readUsageDocTool,
   refineCodeTool,
+  reviewUITool,
 } from "./tools/shadcn-ui-tool.js";
 
 const VERSION = "0.0.0";
@@ -23,24 +24,23 @@ const server = new McpServer({
   },
 });
 
-server.resource(
-  "tailwindcss-docs",
-  'tailwindcss://docs',
-  async (uri) => {
-    const response = await fetch('https://context7.com/tailwindlabs/tailwindcss.com/llms.txt?tokens=198559');
-    if (!response.ok) {
-      throw new Error(`Failed to fetch ${uri}: ${response.statusText}`);
-    }
-    const text = await response.text();
-    return { contents: [{ uri: uri.href, text: text }] };
+server.resource("tailwindcss-docs", "tailwindcss://docs", async (uri) => {
+  const response = await fetch(
+    "https://context7.com/tailwindlabs/tailwindcss.com/llms.txt?tokens=198559"
+  );
+  if (!response.ok) {
+    throw new Error(`Failed to fetch ${uri}: ${response.statusText}`);
   }
-);
+  const text = await response.text();
+  return { contents: [{ uri: uri.href, text: text }] };
+});
 
 // Register tools
 new readUsageDocTool().register(server);
 new readFullDocTool().register(server);
 new createUiTool().register(server);
 new refineCodeTool().register(server);
+new reviewUITool().register(server);
 
 async function runServer() {
   const transport = new StdioServerTransport();
