@@ -13,6 +13,7 @@ import { parseMessageToJson } from "../utils/parser.js";
 import { generateText } from "ai";
 import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 import dotenv from "dotenv";
+import { CallbackServer } from "../utils/callback-server.js";
 
 // Load environment variables from .env file if present
 dotenv.config();
@@ -268,12 +269,21 @@ export class reviewUITool extends BaseTool {
     content: Array<{ type: "text"; text: string }>;
   }> {
     // 预览组件
+    const server = new CallbackServer();
+    // 启动服务器并打开浏览器
+    const { data } = await server.promptUser({
+      initialData: { data: code }
+    });
+
+    const componentData = data || {
+      text: "No component data received. Please try again.",
+    };
 
     return {
       content: [
         {
-          type: "text",
-          text: `${res}`,
+          type: "text" as const,
+          text: JSON.stringify(componentData, null, 2),
         },
       ],
     };
