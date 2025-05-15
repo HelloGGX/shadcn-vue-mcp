@@ -42,7 +42,7 @@
     "@openrouter/ai-sdk-provider": "^0.4.5",
     "ai": "^4.3.10",
     "dotenv": "^16.5.0",
-    "express": "^5.1.0",
+    "express": "^4.21.2",
     "jsonrepair": "^3.12.0",
     "mdast-util-from-markdown": "^2.0.2",
     "open": "^10.1.2",
