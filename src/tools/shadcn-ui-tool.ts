@@ -272,7 +272,7 @@ export class reviewUITool extends BaseTool {
     const server = new CallbackServer();
     // 启动服务器并打开浏览器
     const { data } = await server.promptUser({
-      initialData: { code },
+      initialData: code,
     });
 
     const componentData = data || {

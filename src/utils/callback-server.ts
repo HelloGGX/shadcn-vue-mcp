@@ -105,7 +105,6 @@ export class CallbackServer {
   ): Promise<CallbackResponse> {
     const { initialData = null, timeout = 300000 } = config;
     this.config = config;
-    console.log(config);
 
     try {
       const availablePort = await this.findAvailablePort();
