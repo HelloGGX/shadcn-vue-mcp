@@ -26,7 +26,7 @@ const server = new McpServer({
 
 server.resource("tailwindcss-docs", "tailwindcss://docs", async (uri) => {
   const response = await fetch(
-    "https://context7.com/tailwindlabs/tailwindcss.com/llms.txt?tokens=198559"
+    "https://context7.com/tailwindlabs/tailwindcss.com/llms.txt?tokens=207297"
   );
   if (!response.ok) {
     throw new Error(`Failed to fetch ${uri}: ${response.statusText}`);

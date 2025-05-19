@@ -52,10 +52,8 @@ export class CallbackServer {
         this.promiseResolve({ data: req.body || {} });
         this.shutdown();
       }
-
       res.json({ status: "success" });
     });
-
 
     this.app.get("*", (req, res) => {
       res.sendFile(path.join(previewerPath, "index.html"));
@@ -100,9 +98,7 @@ export class CallbackServer {
   private promiseResolve?: (value: CallbackResponse) => void;
   private promiseReject?: (reason: any) => void;
 
-  async promptUser(
-    config: CallbackServerConfig = {}
-  ): Promise<CallbackResponse> {
+  async promptUser(config: CallbackServerConfig = {}): Promise<CallbackResponse> {
     const { initialData = null, timeout = 300000 } = config;
     this.config = config;
 
