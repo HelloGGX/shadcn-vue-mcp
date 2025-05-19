@@ -1,5 +1,5 @@
 export const FILTER_COMPONENTS = `<requirement>
-As a web UI expert, analyze the provided UI description thoroughly and identify ONLY the specific components and charts absolutely necessary to implement the described interface.
+As a web UI expert, analyze the provided UI description thoroughly and identify ONLY the specific components absolutely necessary to implement the described interface.
 
 Your analysis should:
 1. Consider the exact functional requirements in the description
@@ -11,26 +11,22 @@ Your analysis should:
 I will use your precise component selection to read documentation and implement the UI.
 </requirement>
 
-<response_format>
 Return a single JSON object (not an array) with the following structure:
+<response_format>
 {
   "components": [
     {
       "name": "string",
-      "necessity": "critical|important|optional",
-      "justification": "string"
-    }
-  ],
-  "charts": [
-    {
-      "name": "string", 
+      "type": "CoreComponents|Application|Marketing"
       "necessity": "critical|important|optional",
       "justification": "string"
     }
   ]
 }
-**Important**: The response must be a single object, not wrapped in an array (e.g., do not return '[{ components: [] }]', but return '{ components: [], charts: [] }').
-</response_format>`;
+
+</response_format>
+**Important**: The response must be a single object, not wrapped in an array (e.g., do not return '[{ components: [] }]', but return '{ components: [] }').
+`;
 
 export const CREATE_UI = `<role>
   You are an expert web developer who specializes in building working website prototypes. Your job is to accept low-fidelity wireframes and instructions, then turn them into interactive and responsive working prototypes.

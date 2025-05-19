@@ -5,45 +5,41 @@ import { visitParents } from "unist-util-visit-parents";
 import { z } from "zod";
 
 const BASE_URL = `https://raw.gitmirror.com/unovue/shadcn-vue/dev/apps/www`;
-const GitHub_URL = `https://api.github.com/repos/unovue/shadcn-vue/contents/apps/www/src/content/docs`;
+
 const CONTEXT7_API_BASE_URL = "https://context7.com/api";
 const DEFAULT_TYPE = "txt";
 const DEFAULT_MINIMUM_TOKENS = 500;
 
-export async function extractComponents() {
+type ComponentDirectory = {
+  application: string[];
+  coreComponents: string[];
+  marketing: string[];
+};
+
+type GithubApiResponse = Array<{ name: string }>;
+
+export async function extractComponents(): Promise<ComponentDirectory> {
+  const componentPaths = ["Application", "CoreComponents", "Marketing"];
+
   try {
-    // 并行发起请求以提高性能
-    const [componentsResponse, chartsResponse] = await Promise.all([
-      fetch(`${GitHub_URL}/components`),
-      fetch(`${GitHub_URL}/charts`),
-    ]);
-    // 并行解析JSON响应
-    const [componentsData, chartsData] = await Promise.all([
-      componentsResponse.json(),
-      chartsResponse.json(),
-    ]);
+    const results = await Promise.all(
+      componentPaths.map((path) =>
+        fetch(
+          `https://api.github.com/repos/TailGrids/tailgrids-vue/contents/src/components/${path}`
+        )
+          .then((res) => res.json())
+          .then((data: GithubApiResponse) => data.map((item) => item.name))
+      )
+    );
 
-    // 定义更明确的类型和提取函数
-    interface GitHubItem {
-      name: string;
-      type: string;
-      [key: string]: any;
-    }
-
-    const extractNames = (items: GitHubItem[]) =>
-      items
-        .filter((item) => item.type === "file" && item.name.endsWith(".md"))
-        .map((item) => item.name.replace(".md", ""));
-
-    // 提取组件和图表名称
-    const components = extractNames(componentsData as GitHubItem[]);
-    const charts = extractNames(chartsData as GitHubItem[]);
-
-    return { components, charts };
+    return {
+      application: results[0],
+      coreComponents: results[1],
+      marketing: results[2],
+    };
   } catch (error) {
-    console.error("获取组件列表失败:", error);
-    // 返回空数组而不是抛出错误，使应用程序更健壮
-    return { components: [], charts: [] };
+    console.error("Error fetching component directories:", error);
+    return { application: [], coreComponents: [], marketing: [] };
   }
 }
 
@@ -127,13 +123,13 @@ ${usageBlocks.join("\n")}
 
 export const ComponentSchema = z.object({
   name: z.string(),
+  type: z.enum(["CoreComponents", "Application", "Marketing"]),
   necessity: z.enum(["critical", "important", "optional"]),
   justification: z.string(),
 });
 
 export const ComponentsSchema = z.object({
-  components: z.array(ComponentSchema),
-  charts: z.array(ComponentSchema),
+  components: z.array(ComponentSchema)
 });
 
 export function createNecessityFilter(necessity: string) {

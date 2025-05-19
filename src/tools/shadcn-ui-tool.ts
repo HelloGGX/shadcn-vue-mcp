@@ -4,16 +4,14 @@ import {
   ComponentsSchema,
   createNecessityFilter,
   extractComponents,
-  fetchLibraryDocumentation,
-  readFullComponentDoc,
   transformMessages,
 } from "../utils/components.js";
-import { CREATE_UI, FILTER_COMPONENTS, REFINED_UI } from "../prompts/ui.js";
-import { parseMessageToJson } from "../utils/parser.js";
+import { FILTER_COMPONENTS, REFINED_UI } from "../prompts/ui.js";
 import { generateText } from "ai";
 import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 import dotenv from "dotenv";
 import { CallbackServer } from "../utils/callback-server.js";
+import { parseMessageToJson } from "../utils/parser.js";
 
 // Load environment variables from .env file if present
 dotenv.config();
@@ -33,67 +31,9 @@ const openrouter = createOpenRouter({
   apiKey: OPENROUTER_API_KEY,
 });
 
-export class readUsageDocTool extends BaseTool {
-  name = "read-usage-doc";
-  description = "read usage doc of a component， Use this tool when mentions /usedoc.";
-
-  // 参数定义
-  schema = z.object({
-    name: z.string().describe("name of the component, lowercase, kebab-case"),
-  });
-
-  async execute({ name }: z.infer<typeof this.schema>): Promise<{
-    content: Array<{ type: "text"; text: string }>;
-  }> {
-    try {
-      const doc = await fetchLibraryDocumentation("/unovue/shadcn-vue", {
-        topic: name,
-      });
-      return {
-        content: [
-          {
-            type: "text",
-            text: doc || "No documentation found for this component",
-          },
-        ],
-      };
-    } catch (error) {
-      console.error("Error executing tool:", error);
-      throw error;
-    }
-  }
-}
-export class readFullDocTool extends BaseTool {
-  name = "read-full-doc";
-  description = "read full doc of a component, Use this tool when mentions /doc.";
-
-  // 参数定义
-  schema = z.object({
-    name: z.string().describe("name of the component, lowercase, kebab-case"),
-  });
-
-  async execute({ name }: z.infer<typeof this.schema>): Promise<{
-    content: Array<{ type: "text"; text: string }>;
-  }> {
-    try {
-      const doc = await readFullComponentDoc({ name });
-      return {
-        content: [
-          {
-            type: "text",
-            text: doc,
-          },
-        ],
-      };
-    } catch (error) {
-      console.error("Error executing tool:", error);
-      throw error;
-    }
-  }
-}
 export class createUiTool extends BaseTool {
   name = "create-ui";
-  description = `create Web UI with shadcn/ui components and tailwindcss, Use this tool when mentions /ui`;
+  description = `create Web UI with tailwindcss components, Use this tool when mentions /ui`;
 
   // 参数定义
   schema = z.object({
@@ -104,15 +44,20 @@ export class createUiTool extends BaseTool {
     content: Array<{ type: "text"; text: string }>;
   }> {
     const components = await extractComponents();
-    // 使用AI模型来筛选适合用户需求的UI组件
+    // // 使用AI模型来筛选适合用户需求的UI组件
     const transformedMessages = transformMessages([
       {
         role: "user",
         content: {
           type: "text",
-          text: `<description>${description}</description><available-components>${JSON.stringify(
-            components
-          )}</available-components>`,
+          text: `<description>${description}</description>
+          ### CoreComponents
+          ${components.coreComponents.map((c) => `${c}`).join("\n")}
+          ### Marketing
+          ${components.marketing.map((c) => `${c}`).join("\n")}
+          ### Application
+          ${components.application.map((c) => `${c}`).join("\n")}
+          `,
         },
       },
     ]);
@@ -123,68 +68,70 @@ export class createUiTool extends BaseTool {
       maxTokens: 2000,
     });
     const responseJson = parseMessageToJson(text);
+
     if (responseJson.component) {
       responseJson.components = responseJson.component;
       delete responseJson.component;
     }
-    if (responseJson.chart) {
-      responseJson.charts = responseJson.chart;
-      delete responseJson.chart;
-    }
-
     const filteredComponents = ComponentsSchema.parse(responseJson);
 
-    filteredComponents.components.forEach((c) => {
-      c.name = c.name.toLowerCase();
-    });
-    filteredComponents.charts.forEach((c) => {
-      c.name = c.name.toLowerCase();
-    });
-
-    const usageDocs = await Promise.all(
-      filteredComponents.components.filter(createNecessityFilter("optional")).map(async (c) => {
-        return {
-          ...c,
-          doc: await fetchLibraryDocumentation("/unovue/shadcn-vue", {
-            topic: c.name,
-          }),
-        };
-      })
+    const resultComponents = filteredComponents.components.filter(
+      createNecessityFilter("optional")
     );
 
-    const createUiResultMessages = transformMessages([
-      {
-        role: "user",
-        content: {
-          type: "text",
-          text: `<description>${description}</description>
-          <available-components>
-            ${usageDocs
-              .map((d) => {
-                return `<component name="${d.name}">
-                  <justification><![CDATA[${d.justification}]]></justification>
-                  <documentation><![CDATA[${d.doc}]]></documentation>
-                </component>`;
-              })
-              .join("\n")}
-          </available-components>`,
-        },
-      },
-    ]);
+    // const fetchComponentFiles = async (component: any) => {
+    //   const vueFiles = await fetch(
+    //     `https://api.github.com/repos/TailGrids/tailgrids-vue/contents/src/components/${component.type}/${component.name}`
+    //   );
+    //   const files = await vueFiles.json();
 
-    const { text: uiCode } = await generateText({
-      system: CREATE_UI,
-      messages: createUiResultMessages,
-      model: openrouter(OPENROUTER_MODEL_ID || ""),
-      maxTokens: 8192,
-      maxRetries: 2,
-    });
+    //   const fetchFileContent = async (file: any) => {
+    //     const fileContent = await fetch(
+    //       `https://api.github.com/repos/TailGrids/tailgrids-vue/contents/src/components/${component.type}/${component.name}/${file.name}`
+    //     );
+    //     const fileInfo = await fileContent.json();
+    //     return fileInfo.content;
+    //   };
+
+    //   const fileContents = await Promise.all(files.map(fetchFileContent));
+    //   return { ...component, files: fileContents };
+    // };
+
+    // const filteredComponentsFiles = await Promise.all(resultComponents.map(fetchComponentFiles));
+
+    // const createUiResultMessages = transformMessages([
+    //   {
+    //     role: "user",
+    //     content: {
+    //       type: "text",
+    //       text: `<description>${description}</description>
+    //       <available-components>
+    //         ${usageDocs
+    //           .map((d) => {
+    //             return `<component name="${d.name}">
+    //               <justification><![CDATA[${d.justification}]]></justification>
+    //               <documentation><![CDATA[${d.doc}]]></documentation>
+    //             </component>`;
+    //           })
+    //           .join("\n")}
+    //       </available-components>`,
+    //     },
+    //   },
+    // ]);
+
+    // const { text: uiCode } = await generateText({
+    //   system: CREATE_UI,
+    //   messages: createUiResultMessages,
+    //   model: openrouter(OPENROUTER_MODEL_ID || ""),
+    //   maxTokens: 8192,
+    //   maxRetries: 2,
+    // });
 
     return {
       content: [
         {
           type: "text",
-          text: uiCode,
+          text: `${JSON.stringify(responseJson)}`,
         },
       ],
     };
@@ -283,7 +230,7 @@ export class reviewUITool extends BaseTool {
       content: [
         {
           type: "text" as const,
-          text: JSON.stringify(componentData, null, 2),
+          text: JSON.stringify(componentData),
         },
       ],
     };
