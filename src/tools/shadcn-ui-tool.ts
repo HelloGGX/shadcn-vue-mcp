@@ -82,13 +82,13 @@ export class createUiTool extends BaseTool {
     );
     const filteredComponentsFiles = await Promise.all(resultComponents.map(fetchComponentFiles));
 
-    const { text: uiCode } = await generateText({
-      system: CREATE_UI,
-      messages: filteredComponentsFiles,
-      model: deepseek(OPENROUTER_MODEL_ID || ""),
-      maxTokens: 8192,
-      maxRetries: 2,
-    });
+    // const { text: uiCode } = await generateText({
+    //   system: CREATE_UI,
+    //   messages: filteredComponentsFiles,
+    //   model: deepseek(OPENROUTER_MODEL_ID || ""),
+    //   maxTokens: 8192,
+    //   maxRetries: 2,
+    // });
 
     return {
       content: [
