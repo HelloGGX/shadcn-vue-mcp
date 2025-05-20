@@ -55,15 +55,9 @@ export const fetchComponentFiles = async (component: any) => {
     `https://api.github.com/repos/TailGrids/tailgrids-vue/contents/src/components/${component.type}/${component.name}`
   );
   const files = await vueFiles.json();
-  // const fetchFileContent = async (file: any) => {
-  //   const fileContent = await fetch(
-  //     `https://api.github.com/repos/TailGrids/tailgrids-vue/contents/src/components/${component.type}/${component.name}/${file.name}`
-  //   );
-  //   const fileInfo = await fileContent.json();
-  //   return fileInfo.content;
-  // };
-
-  return { ...component, files: files };
+  // 只筛选.vue后缀的文件
+  const vues = files.filter((file: any) => file.name.endsWith(".vue"));
+  return { ...component, files: vues.map((file: any) => file.name) };
 };
 
 export function createNecessityFilter(necessity: string) {

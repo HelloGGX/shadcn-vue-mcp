@@ -8,7 +8,7 @@ import {
   transformMessages,
   fetchComponentFiles,
 } from "../utils/components.js";
-import { FILTER_COMPONENTS, REFINED_UI } from "../prompts/ui.js";
+import { CREATE_UI, FILTER_COMPONENTS, REFINED_UI } from "../prompts/ui.js";
 import { generateText } from "ai";
 import { createDeepSeek } from "@ai-sdk/deepseek";
 import dotenv from "dotenv";
@@ -80,42 +80,21 @@ export class createUiTool extends BaseTool {
     const resultComponents = filteredComponents.components.filter(
       createNecessityFilter("optional")
     );
+    const filteredComponentsFiles = await Promise.all(resultComponents.map(fetchComponentFiles));
 
-    // const filteredComponentsFiles = await Promise.all(resultComponents.map(fetchComponentFiles));
-
-    // const createUiResultMessages = transformMessages([
-    //   {
-    //     role: "user",
-    //     content: {
-    //       type: "text",
-    //       text: `<description>${description}</description>
-    //       <available-components>
-    //         ${usageDocs
-    //           .map((d) => {
-    //             return `<component name="${d.name}">
-    //               <justification><![CDATA[${d.justification}]]></justification>
-    //               <documentation><![CDATA[${d.doc}]]></documentation>
-    //             </component>`;
-    //           })
-    //           .join("\n")}
-    //       </available-components>`,
-    //     },
-    //   },
-    // ]);
-
-    // const { text: uiCode } = await generateText({
-    //   system: CREATE_UI,
-    //   messages: createUiResultMessages,
-    //   model: openrouter(OPENROUTER_MODEL_ID || ""),
-    //   maxTokens: 8192,
-    //   maxRetries: 2,
-    // });
+    const { text: uiCode } = await generateText({
+      system: CREATE_UI,
+      messages: filteredComponentsFiles,
+      model: deepseek(OPENROUTER_MODEL_ID || ""),
+      maxTokens: 8192,
+      maxRetries: 2,
+    });
 
     return {
       content: [
         {
           type: "text",
-          text: `${JSON.stringify(resultComponents)}`,
+          text: `${JSON.stringify(filteredComponentsFiles)}`,
         },
       ],
     };
