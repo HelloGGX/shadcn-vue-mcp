@@ -7,11 +7,22 @@ Your analysis should:
 3. Exclude components that might be nice-to-have but aren't essential
 4. Justify each component's selection with a brief reason tied to the requirements
 5. Consider performance and maintainability implications
-
-I will use your precise component selection to read documentation and implement the UI.
 </requirement>
 
-Return a single JSON object (not an array) with the following structure:
+<inputStructure>
+- The UI description is provided within <description>description</description>.
+- Component lists are provided under three categories:
+  ### CoreComponents: Basic structural or interactive components (e.g., Accordions, AccountDropdowns).
+  ### Application: Application-specific components (e.g., Blogs, Cards).
+  ### Marketing: Promotional or decorative components (e.g., Hero, CallToAction).
+</inputStructure>
+
+<constraints>
+- Only select components from the provided lists.
+- Do not modify component names or invent new ones.
+- If no components match a requirement, note this in the response and suggest the closest available component with a justification.
+</constraints>
+
 <response_format>
 {
   "components": [
@@ -23,9 +34,7 @@ Return a single JSON object (not an array) with the following structure:
     }
   ]
 }
-
 </response_format>
-**Important**: The response must be a single object, not wrapped in an array (e.g., do not return '[{ components: [] }]', but return '{ components: [] }').
 `;
 
 export const CREATE_UI = `<role>

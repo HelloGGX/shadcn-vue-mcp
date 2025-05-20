@@ -1,10 +1,6 @@
 import { PromptMessage } from "@modelcontextprotocol/sdk/types.js";
 import { CoreMessage } from "ai";
-import { fromMarkdown } from "mdast-util-from-markdown";
-import { visitParents } from "unist-util-visit-parents";
 import { z } from "zod";
-
-const BASE_URL = `https://raw.gitmirror.com/unovue/shadcn-vue/dev/apps/www`;
 
 const CONTEXT7_API_BASE_URL = "https://context7.com/api";
 const DEFAULT_TYPE = "txt";
@@ -43,84 +39,6 @@ export async function extractComponents(): Promise<ComponentDirectory> {
   }
 }
 
-function extractVueCodeBlocks(markdownContent: string): string[] {
-  // Parse the markdown into an AST
-  const ast = fromMarkdown(markdownContent);
-
-  // 初始化变量用于存储 "Usage" 部分的信息
-  // usageHeadingNode: 存储 "Usage" 标题节点
-  // usageSectionStart: 存储 "Usage" 部分开始的行号
-  // usageSectionEnd: 存储 "Usage" 部分结束的行号，初始设为无穷大
-  // let usageHeadingNode = null;
-  let usageSectionStart = -1;
-  let usageSectionEnd = Infinity;
-
-  // 使用 unist-util-visit-parents 库遍历 AST，查找 "Usage" 标题
-  // visitParents 函数接收三个参数：AST、要查找的节点类型、回调函数
-  visitParents(ast, "heading", (node) => {
-    // 检查当前节点是否为二级标题(## Usage)
-    // 并且标题文本为 "Usage"
-    if (
-      node.depth === 2 && // 检查是否为二级标题
-      node.children &&
-      node.children[0] &&
-      node.children[0].type === "text" &&
-      node.children[0].value === "Usage"
-    ) {
-      // usageHeadingNode = node;
-      usageSectionStart = node.position?.end?.line || -1;
-    }
-  });
-
-  // If no Usage section, return empty array
-  if (usageSectionStart === -1) {
-    console.log("No Usage section found in the markdown");
-    return [];
-  }
-
-  // 再次遍历 AST，查找 "Usage" 部分之后的下一个二级标题
-  // 这用于确定 "Usage" 部分的结束位置
-  visitParents(ast, "heading", (node) => {
-    const headingLine = node.position?.start?.line || Infinity;
-    if (node.depth === 2 && headingLine > usageSectionStart && headingLine < usageSectionEnd) {
-      usageSectionEnd = headingLine;
-    }
-  });
-
-  // 初始化数组用于存储提取的 Vue 代码块
-  const tsxBlocks: string[] = [];
-  visitParents(ast, "code", (node) => {
-    const nodeLine = node.position?.start?.line || 0;
-
-    // 检查代码块是否在 "Usage" 部分内，且语言为 "vue"
-    if (nodeLine > usageSectionStart && nodeLine < usageSectionEnd && node.lang === "vue") {
-      tsxBlocks.push(node.value);
-    }
-  });
-
-  return tsxBlocks;
-}
-
-export async function readFullComponentDoc({ name }: { name: string }) {
-  const res = await fetch(`${BASE_URL}/src/content/docs/components/${name}.md`);
-  const content = await res.text();
-  // 检查内容是否包含 404 错误信息
-  if (content.includes('<div class="error-code">404</div>')) {
-    return "No documentation found for this component";
-  }
-  return content;
-}
-
-export async function readUsageComponentDoc({ name }: { name: string }) {
-  const fileContent = await readFullComponentDoc({ name });
-
-  const usageBlocks = extractVueCodeBlocks(fileContent);
-
-  return `\`\`\`\`vue
-${usageBlocks.join("\n")}
-\`\`\`\``;
-}
-
 export const ComponentSchema = z.object({
   name: z.string(),
   type: z.enum(["CoreComponents", "Application", "Marketing"]),
@@ -129,8 +47,24 @@ export const ComponentSchema = z.object({
 });
 
 export const ComponentsSchema = z.object({
-  components: z.array(ComponentSchema)
+  components: z.array(ComponentSchema),
 });
+
+export const fetchComponentFiles = async (component: any) => {
+  const vueFiles = await fetch(
+    `https://api.github.com/repos/TailGrids/tailgrids-vue/contents/src/components/${component.type}/${component.name}`
+  );
+  const files = await vueFiles.json();
+  // const fetchFileContent = async (file: any) => {
+  //   const fileContent = await fetch(
+  //     `https://api.github.com/repos/TailGrids/tailgrids-vue/contents/src/components/${component.type}/${component.name}/${file.name}`
+  //   );
+  //   const fileInfo = await fileContent.json();
+  //   return fileInfo.content;
+  // };
+
+  return { ...component, files: files };
+};
 
 export function createNecessityFilter(necessity: string) {
   return (component: { necessity: string }) => {

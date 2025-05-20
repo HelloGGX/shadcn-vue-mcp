@@ -36,6 +36,7 @@
     "url": "https://github.com/HelloGGX/shadcn-vue-mcp/issues"
   },
   "dependencies": {
+    "@ai-sdk/deepseek": "^0.2.14",
     "@modelcontextprotocol/sdk": "^1.10.2",
     "@openrouter/ai-sdk-provider": "^0.4.5",
     "ai": "^4.3.10",
@@ -52,13 +53,15 @@
     "@types/node": "^22.14.0",
     "@typescript-eslint/eslint-plugin": "^8.31.1",
     "@typescript-eslint/parser": "^8.31.1",
+    "@vitejs/plugin-vue": "^5.2.4",
     "eslint": "^9.25.1",
     "eslint-config-prettier": "^10.1.2",
     "eslint-plugin-prettier": "^5.2.6",
     "prettier": "^3.5.3",
     "shx": "^0.4.0",
     "typescript": "^5.7.3",
-    "typescript-eslint": "^8.31.1"
+    "typescript-eslint": "^8.31.1",
+    "vite": "^6.3.5"
   },
   "engines": {
     "node": ">=18.0.0"

@@ -2,13 +2,15 @@ import { z } from "zod";
 import { BaseTool } from "../utils/base-tool.js";
 import {
   ComponentsSchema,
+  ComponentSchema,
   createNecessityFilter,
   extractComponents,
   transformMessages,
+  fetchComponentFiles,
 } from "../utils/components.js";
 import { FILTER_COMPONENTS, REFINED_UI } from "../prompts/ui.js";
 import { generateText } from "ai";
-import { createOpenRouter } from "@openrouter/ai-sdk-provider";
+import { createDeepSeek } from "@ai-sdk/deepseek";
 import dotenv from "dotenv";
 import { CallbackServer } from "../utils/callback-server.js";
 import { parseMessageToJson } from "../utils/parser.js";
@@ -27,7 +29,7 @@ if (!OPENROUTER_API_KEY) {
   throw new Error("OPENROUTER_API_KEY is not set");
 }
 
-const openrouter = createOpenRouter({
+const deepseek = createDeepSeek({
   apiKey: OPENROUTER_API_KEY,
 });
 
@@ -47,7 +49,7 @@ export class createUiTool extends BaseTool {
     // // 使用AI模型来筛选适合用户需求的UI组件
     const transformedMessages = transformMessages([
       {
-        role: "user",
+        role: "assistant",
         content: {
           type: "text",
           text: `<description>${description}</description>
@@ -64,7 +66,7 @@ export class createUiTool extends BaseTool {
     const { text } = await generateText({
       system: FILTER_COMPONENTS,
       messages: transformedMessages,
-      model: openrouter(OPENROUTER_MODEL_ID || ""),
+      model: deepseek(OPENROUTER_MODEL_ID || ""),
       maxTokens: 2000,
     });
     const responseJson = parseMessageToJson(text);
@@ -78,24 +80,6 @@ export class createUiTool extends BaseTool {
     const resultComponents = filteredComponents.components.filter(
       createNecessityFilter("optional")
     );
-
-    // const fetchComponentFiles = async (component: any) => {
-    //   const vueFiles = await fetch(
-    //     `https://api.github.com/repos/TailGrids/tailgrids-vue/contents/src/components/${component.type}/${component.name}`
-    //   );
-    //   const files = await vueFiles.json();
-
-    //   const fetchFileContent = async (file: any) => {
-    //     const fileContent = await fetch(
-    //       `https://api.github.com/repos/TailGrids/tailgrids-vue/contents/src/components/${component.type}/${component.name}/${file.name}`
-    //     );
-    //     const fileInfo = await fileContent.json();
-    //     return fileInfo.content;
-    //   };
-
-    //   const fileContents = await Promise.all(files.map(fetchFileContent));
-    //   return { ...component, files: fileContents };
-    // };
 
     // const filteredComponentsFiles = await Promise.all(resultComponents.map(fetchComponentFiles));
 
@@ -131,7 +115,7 @@ export class createUiTool extends BaseTool {
       content: [
         {
           type: "text",
-          text: `${JSON.stringify(responseJson)}`,
+          text: `${JSON.stringify(resultComponents)}`,
         },
       ],
     };
@@ -174,7 +158,7 @@ export class refineCodeTool extends BaseTool {
             ],
           },
         ],
-        model: openrouter(OPENROUTER_MODEL_ID || ""),
+        model: deepseek(OPENROUTER_MODEL_ID || ""),
         maxTokens: 8192,
         maxRetries: 2,
       });
