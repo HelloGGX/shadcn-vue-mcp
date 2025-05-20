@@ -53,12 +53,9 @@ export class createUiTool extends BaseTool {
         content: {
           type: "text",
           text: `<description>${description}</description>
-          ### CoreComponents
-          ${components.coreComponents.map((c) => `${c}`).join("\n")}
-          ### Marketing
-          ${components.marketing.map((c) => `${c}`).join("\n")}
-          ### Application
-          ${components.application.map((c) => `${c}`).join("\n")}
+          <CoreComponents>${JSON.stringify(components.coreComponents.map((c) => `${c}`))}</CoreComponents>
+          <Marketing>${JSON.stringify(components.marketing.map((c) => `${c}`))}</Marketing>
+          <Application>${JSON.stringify(components.application.map((c) => `${c}`))}</Application>
           `,
         },
       },

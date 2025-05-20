@@ -9,18 +9,10 @@ Your analysis should:
 5. Consider performance and maintainability implications
 </requirement>
 
-<inputStructure>
-- The UI description is provided within <description>description</description>.
-- Component lists are provided under three categories:
-  ### CoreComponents: Basic structural or interactive components (e.g., Accordions, AccountDropdowns).
-  ### Application: Application-specific components (e.g., Blogs, Cards).
-  ### Marketing: Promotional or decorative components (e.g., Hero, CallToAction).
-</inputStructure>
-
 <constraints>
+- The “type” field for each chosen component must match its source list (CoreComponents / Application / Marketing).
 - Only select components from the provided lists.
 - Do not modify component names or invent new ones.
-- If no components match a requirement, note this in the response and suggest the closest available component with a justification.
 </constraints>
 
 <response_format>
