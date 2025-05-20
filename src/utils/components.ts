@@ -58,14 +58,14 @@ export const fetchComponentFiles = async (component: any) => {
   // 只筛选.vue后缀的文件
   const vues = files.filter((file: any) => file.name.endsWith(".vue"));
   // 使用 Promise.all 并行处理所有文件获取和解码操作
-  const contents = await Promise.all(vues.map(async (v: { name: any }) => {
-    const vueFile = await fetch(
-      `https://api.github.com/repos/TailGrids/tailgrids-vue/contents/src/components/${component.type}/${component.name}/${v.name}`
-    );
-    const file = await vueFile.json();
-    const decodedContent = Buffer.from(file.content, "base64").toString("utf-8");
-    return decodedContent.replace(/\\"/g, '"').replace(/\\n/g, '\n');
-  }));
+  const contents = await Promise.all(
+    vues.map(async (v: { name: any }) => {
+      const vueFile = await fetch(
+        `https://cdn.jsdelivr.net/gh/TailGrids/tailgrids-vue@main/src/components/${component.type}/${component.name}/${v.name}`
+      );
+      return vueFile;
+    })
+  );
 
   return { ...component, files: contents };
 };
