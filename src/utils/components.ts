@@ -6,37 +6,8 @@ const CONTEXT7_API_BASE_URL = "https://context7.com/api";
 const DEFAULT_TYPE = "txt";
 const DEFAULT_MINIMUM_TOKENS = 500;
 
-type ComponentDirectory = {
-  application: string[];
-  coreComponents: string[];
-  marketing: string[];
-};
-
-type GithubApiResponse = Array<{ name: string }>;
-
-export async function extractComponents(): Promise<ComponentDirectory> {
-  const componentPaths = ["Application", "CoreComponents", "Marketing"];
-
-  try {
-    const results = await Promise.all(
-      componentPaths.map((path) =>
-        fetch(
-          `https://api.github.com/repos/TailGrids/tailgrids-vue/contents/src/components/${path}`
-        )
-          .then((res) => res.json())
-          .then((data: GithubApiResponse) => data.map((item) => item.name))
-      )
-    );
-
-    return {
-      application: results[0],
-      coreComponents: results[1],
-      marketing: results[2],
-    };
-  } catch (error) {
-    console.error("Error fetching component directories:", error);
-    return { application: [], coreComponents: [], marketing: [] };
-  }
+export async function extractComponents() {
+  
 }
 
 export const ComponentSchema = z.object({

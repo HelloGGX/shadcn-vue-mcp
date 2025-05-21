@@ -46,7 +46,13 @@ export class createUiTool extends BaseTool {
     content: Array<{ type: "text"; text: string }>;
   }> {
     const components = await extractComponents();
-    // // 使用AI模型来筛选适合用户需求的UI组件
+    // 'https://cdn.jsdelivr.net/gh/HelloGGX/shadcn-vue-mcp@main/package.json'
+
+    // const response = await fetch(
+    //   "https://cdn.jsdelivr.net/gh/TailGrids/tailgrids-vue@main/src/components/Application/Blogs/Blog1.vue"
+    // ).then((res) => res.text());
+
+    // 使用AI模型来筛选适合用户需求的UI组件
     const transformedMessages = transformMessages([
       {
         role: "assistant",
@@ -60,24 +66,24 @@ export class createUiTool extends BaseTool {
         },
       },
     ]);
-    const { text } = await generateText({
-      system: FILTER_COMPONENTS,
-      messages: transformedMessages,
-      model: deepseek(OPENROUTER_MODEL_ID || ""),
-      maxTokens: 2000,
-    });
-    const responseJson = parseMessageToJson(text);
+    // const { text } = await generateText({
+    //   system: FILTER_COMPONENTS,
+    //   messages: transformedMessages,
+    //   model: deepseek(OPENROUTER_MODEL_ID || ""),
+    //   maxTokens: 2000,
+    // });
+    // const responseJson = parseMessageToJson(text);
 
-    if (responseJson.component) {
-      responseJson.components = responseJson.component;
-      delete responseJson.component;
-    }
-    const filteredComponents = ComponentsSchema.parse(responseJson);
+    // if (responseJson.component) {
+    //   responseJson.components = responseJson.component;
+    //   delete responseJson.component;
+    // }
+    // const filteredComponents = ComponentsSchema.parse(responseJson);
 
-    const resultComponents = filteredComponents.components.filter(
-      createNecessityFilter("optional")
-    );
-    const filteredComponentsFiles = await Promise.all(resultComponents.map(fetchComponentFiles));
+    // const resultComponents = filteredComponents.components.filter(
+    //   createNecessityFilter("optional")
+    // );
+    // const filteredComponentsFiles = await Promise.all(resultComponents.map(fetchComponentFiles));
 
     // const { text: uiCode } = await generateText({
     //   system: CREATE_UI,
@@ -91,7 +97,7 @@ export class createUiTool extends BaseTool {
       content: [
         {
           type: "text",
-          text: `${JSON.stringify(filteredComponentsFiles)}`,
+          text: `${JSON.stringify(components)}`,
         },
       ],
     };

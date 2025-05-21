@@ -1,0 +1,298 @@
+{
+  "CoreComponents": [
+    {
+      "name": "Accordions",
+      "files": [
+        "Accordion1.vue",
+        "Accordion2.vue",
+        "Accordion3.vue",
+        "Accordion4.vue",
+        "Accordion5.vue"
+      ]
+    },
+    {
+      "name": "AccountDropdowns",
+      "files": [
+        "AccountDropdown1.vue",
+        "AccountDropdown2.vue",
+        "AccountDropdown3.vue",
+        "AccountDropdown4.vue"
+      ]
+    },
+    {
+      "name": "Alerts",
+      "files": [
+        "AttentionAlert1.vue",
+        "AttentionAlert2.vue",
+        "AttentionAlert3.vue",
+        "InformationAlert1.vue",
+        "SuccessAlert1.vue",
+        "SuccessAlert2.vue",
+        "SuccessAlert3.vue",
+        "SuccessAlert4.vue",
+        "WarningAlert1.vue",
+        "WarningAlert2.vue",
+        "WarningAlert3.vue"
+      ]
+    },
+    {
+      "name": "Avatars",
+      "files": [
+        "Avatar1.vue",
+        "Avatar10.vue",
+        "Avatar11.vue",
+        "Avatar12.vue",
+        "Avatar13.vue",
+        "Avatar2.vue",
+        "Avatar3.vue",
+        "Avatar4.vue",
+        "Avatar5.vue",
+        "Avatar6.vue",
+        "Avatar7.vue",
+        "Avatar8.vue",
+        "Avatar9.vue"
+      ]
+    },
+    {
+      "name": "Badges",
+      "files": [
+        "DangerBadge.vue",
+        "DarkBadge.vue",
+        "GrayBadge.vue",
+        "InfoBadge.vue",
+        "LightBadge.vue",
+        "PrimaryBadge.vue",
+        "SecondaryBadge.vue",
+        "SuccessBadge.vue",
+        "WarningBadge.vue"
+      ]
+    },
+    {
+      "name": "Breadcrumbs",
+      "files": [
+        "Breadcrumb1.vue",
+        "Breadcrumb10.vue",
+        "Breadcrumb11.vue",
+        "Breadcrumb12.vue",
+        "Breadcrumb2.vue",
+        "Breadcrumb3.vue",
+        "Breadcrumb4.vue",
+        "Breadcrumb5.vue",
+        "Breadcrumb6.vue",
+        "Breadcrumb7.vue",
+        "Breadcrumb8.vue",
+        "Breadcrumb9.vue"
+      ]
+    },
+    {
+      "name": "ButtonGroups",
+      "files": ["ButtonGroup1.vue", "ButtonGroup2.vue", "ButtonGroup3.vue"]
+    },
+    {
+      "name": "Buttons",
+      "files": [
+        "DarkFullRoundedButton.vue",
+        "DarkFullRoundedButtonWithIcon.vue",
+        "DarkOutlineButton.vue",
+        "DarkSemiRoundedButton.vue",
+        "DarkSemiRoundedButtonWithIcon.vue",
+        "DarkSquareButton.vue",
+        "DarkSquareButtonWithIcon.vue",
+        "PrimaryFullRoundedButton.vue",
+        "PrimaryFullRoundedButtonWithIcon.vue",
+        "PrimaryFullRoundedOutlineButtonWithIcon.vue",
+        "PrimaryOutlineButton.vue",
+        "PrimarySemiRoundedButton.vue",
+        "PrimarySemiRoundedButtonWithIcon.vue",
+        "PrimarySemiRoundedOutlineButtonWithIcon.vue",
+        "PrimarySquareButton.vue",
+        "PrimarySquareButtonWithIcon.vue",
+        "PrimarySquareOutlineButtonWithIcon.vue",
+        "SecondaryFullRoundedButton.vue",
+        "SecondaryFullRoundedButtonWithIcon.vue",
+        "SecondaryOutlineButton.vue",
+        "SecondarySemiRoundedButton.vue",
+        "SecondarySemiRoundedButtonWithIcon.vue",
+        "SecondarySquareButton.vue",
+        "SecondarySquareButtonWithIcon.vue",
+        "WhiteFullRoundedButton .vue",
+        "WhiteFullRoundedButtonWithIcon.vue",
+        "WhiteFullRoundedOutlineButtonWithIcon.vue",
+        "WhiteSemiRoundedButton.vue",
+        "WhiteSemiRoundedButtonWithIcon.vue",
+        "WhiteSemiRoundedOutlineButtonWithIcon.vue",
+        "WhiteSquareButton.vue",
+        "WhiteSquareButtonWithIcon.vue",
+        "WhiteSquareOutlineButtonWithIcon.vue"
+      ]
+    },
+    {
+      "name": "CheckBox",
+      "files": ["CheckBox1.vue", "CheckBox2.vue", "CheckBox3.vue", "CheckBox4.vue", "CheckBox5.vue"]
+    },
+    {
+      "name": "Clipboards",
+      "files": ["Clipboard1.vue", "Clipboard2.vue", "Clipboard3.vue", "Clipboard4.vue"]
+    },
+    {
+      "name": "DatePicker copy",
+      "files": ["DatePicker1.vue", "DatePicker2.vue", "DatePicker3.vue", "DatePicker4.vue"]
+    },
+    { "name": "DatePicker", "files": ["DatePicker1.vue", "DatePicker2.vue"] },
+    {
+      "name": "DropdownButtons",
+      "files": [
+        "DropdownButton1.vue",
+        "DropdownButton2.vue",
+        "DropdownButton3.vue",
+        "DropdownButton4.vue"
+      ]
+    },
+    {
+      "name": "FileUploads",
+      "files": [
+        "FileUpload1.vue",
+        "FileUpload2.vue",
+        "FileUpload3.vue",
+        "FileUpload4.vue",
+        "FileUpload5.vue"
+      ]
+    },
+    {
+      "name": "Galleries",
+      "files": ["Gallery1.vue", "Gallery2.vue", "Gallery3.vue", "Gallery4.vue", "Gallery5.vue"]
+    },
+    { "name": "InputRange", "files": ["InputRange1.vue", "InputRange2.vue", "InputRange3.vue"] },
+    { "name": "Inputs", "files": ["Input.vue"] },
+    {
+      "name": "List",
+      "files": [
+        "OrderList1.vue",
+        "OrderList2.vue",
+        "OrderList3.vue",
+        "UnOrderList1.vue",
+        "UnOrderList2.vue",
+        "UnOrderList3.vue",
+        "UnOrderList4.vue",
+        "UnOrderList5.vue",
+        "UnOrderList6.vue"
+      ]
+    },
+    { "name": "MegaMenus", "files": ["MegaMenu1.vue", "MegaMenu2.vue", "MegaMenu3.vue"] },
+    { "name": "Otp", "files": ["Otp1.vue", "Otp2.vue", "Otp3.vue", "Otp4.vue"] },
+    {
+      "name": "PageTitles",
+      "files": [
+        "PageTitle1.vue",
+        "PageTitle2.vue",
+        "PageTitle3.vue",
+        "PageTitle4.vue",
+        "PageTitle5.vue"
+      ]
+    },
+    {
+      "name": "Paginations",
+      "files": [
+        "Pagination1.vue",
+        "Pagination2.vue",
+        "Pagination3.vue",
+        "Pagination4.vue",
+        "Pagination5.vue",
+        "Pagination6.vue"
+      ]
+    },
+    {
+      "name": "ProgressBars",
+      "files": ["ProgressBar1.vue", "ProgressBar2.vue", "ProgressBar3.vue", "ProgressBar4.vue"]
+    },
+    { "name": "Ratings", "files": ["Rating1.vue", "Rating2.vue", "Rating3.vue"] },
+    { "name": "Selects", "files": ["Select1.vue", "Select2.vue", "Select3.vue"] },
+    { "name": "Skeletons", "files": ["Skeleton1.vue", "Skeleton2.vue", "Skeleton3.vue"] },
+    {
+      "name": "Spinners",
+      "files": ["Spinner1.vue", "Spinner2.vue", "Spinner3.vue", "Spinner4.vue"]
+    },
+    {
+      "name": "StickyBars",
+      "files": ["StickyBar1.vue", "StickyBar2.vue", "StickyBar3.vue", "StickyBar4.vue"]
+    },
+    {
+      "name": "Tabs",
+      "files": [
+        "Tab1.vue",
+        "Tab10.vue",
+        "Tab11.vue",
+        "Tab2.vue",
+        "Tab3.vue",
+        "Tab4.vue",
+        "Tab5.vue",
+        "Tab6.vue",
+        "Tab7.vue",
+        "Tab8.vue",
+        "Tab9.vue"
+      ]
+    },
+    { "name": "Tags", "files": ["Tag1.vue", "Tag2.vue", "Tag3.vue", "Tag4.vue"] },
+    { "name": "Textareas", "files": ["Textarea.vue"] },
+    { "name": "TimePicker", "files": ["TimePicker1.vue"] },
+    {
+      "name": "Toasts",
+      "files": [
+        "Toast1.vue",
+        "Toast2.vue",
+        "Toast3.vue",
+        "Toast4.vue",
+        "Toast5.vue",
+        "Toast6.vue",
+        "Toast7.vue",
+        "Toast8.vue"
+      ]
+    },
+    {
+      "name": "Toggle",
+      "files": [
+        "ToggleButton1.vue",
+        "ToggleButton10.vue",
+        "ToggleButton11.vue",
+        "ToggleButton12.vue",
+        "ToggleButton13.vue",
+        "ToggleButton2.vue",
+        "ToggleButton3.vue",
+        "ToggleButton4.vue",
+        "ToggleButton5.vue",
+        "ToggleButton6.vue",
+        "ToggleButton7.vue",
+        "ToggleButton8.vue",
+        "ToggleButton9.vue"
+      ]
+    },
+    { "name": "Tooltips", "files": ["Tooltip1.vue", "Tooltip2.vue", "Tooltip3.vue"] }
+  ],
+  "Application": [
+    { "name": "Blogs", "files": ["Blog1.vue"] },
+    { "name": "Cards", "files": ["Card1.vue"] },
+    { "name": "Contacts", "files": ["Contact1.vue"] },
+    { "name": "Cookies", "files": ["Cookies1.vue"] },
+    { "name": "Errors", "files": ["Error1.vue"] },
+    { "name": "Footers", "files": ["Footer1.vue"] },
+    { "name": "Modals", "files": ["Modal1.vue"] },
+    { "name": "Navbars", "files": ["Navbar1.vue"] },
+    { "name": "Signin", "files": ["Signin1.vue"] },
+    { "name": "TableGrids", "files": ["TableGrid1.vue"] },
+    { "name": "Tables", "files": ["Table1.vue"] }
+  ],
+  "Marketing": [
+    { "name": "About", "files": ["About1.vue"] },
+    { "name": "Brands", "files": ["Brand1.vue"] },
+    { "name": "CallToAction", "files": ["Cta1.vue"] },
+    { "name": "Hero", "files": ["Hero1.vue"] },
+    { "name": "Newsletters", "files": ["Newsletter1.vue"] },
+    { "name": "Portfolios", "files": ["Portfolio1.vue"] },
+    { "name": "Pricings", "files": ["Pricing1.vue"] },
+    { "name": "Services", "files": ["Services1.vue"] },
+    { "name": "Stats", "files": ["Stats1.vue"] },
+    { "name": "Teams", "files": ["Team1.vue"] },
+    { "name": "Testimonials", "files": ["Testimonial1.vue"] },
+    { "name": "Videos", "files": ["Video1.vue"] }
+  ]
+}
