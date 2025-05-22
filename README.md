@@ -165,6 +165,6 @@ We welcome all contributions! Help us improve @agent/shadcn-vue. Source code is 
 
 ## 📝 License
 
-MIT License
+Apache2.0 License
 
 ---
