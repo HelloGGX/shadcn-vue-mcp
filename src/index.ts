@@ -40,7 +40,7 @@ new readUsageDocTool().register(server);
 new readFullDocTool().register(server);
 new createUiTool().register(server);
 new refineCodeTool().register(server);
-new reviewUITool().register(server);
+// new reviewUITool().register(server);
 
 async function runServer() {
   const transport = new StdioServerTransport();
