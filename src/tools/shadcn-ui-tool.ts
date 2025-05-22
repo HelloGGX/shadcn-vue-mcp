@@ -147,7 +147,7 @@ export class createUiTool extends BaseTool {
           ...c,
           doc: await fetchLibraryDocumentation("/unovue/shadcn-vue", {
             topic: c.name,
-            tokens: 500,
+            tokens: 700,
           }),
         };
       })
