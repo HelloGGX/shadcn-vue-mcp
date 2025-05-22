@@ -7,7 +7,7 @@ import { z } from "zod";
 const BASE_URL = `https://cdn.jsdelivr.net/gh/unovue/shadcn-vue@dev/apps/www`;
 const CONTEXT7_API_BASE_URL = "https://context7.com/api";
 const DEFAULT_TYPE = "txt";
-const DEFAULT_MINIMUM_TOKENS = 500;
+const DEFAULT_MINIMUM_TOKENS = 1000;
 
 function extractVueCodeBlocks(markdownContent: string): string[] {
   // Parse the markdown into an AST

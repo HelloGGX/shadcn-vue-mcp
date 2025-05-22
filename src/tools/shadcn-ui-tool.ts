@@ -48,6 +48,7 @@ export class readUsageDocTool extends BaseTool {
     try {
       const doc = await fetchLibraryDocumentation("/unovue/shadcn-vue", {
         topic: name,
+        tokens: 1000,
       });
       return {
         content: [
@@ -146,6 +147,7 @@ export class createUiTool extends BaseTool {
           ...c,
           doc: await fetchLibraryDocumentation("/unovue/shadcn-vue", {
             topic: c.name,
+            tokens: 500,
           }),
         };
       })
