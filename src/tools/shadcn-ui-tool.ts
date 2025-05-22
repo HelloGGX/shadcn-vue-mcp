@@ -3,7 +3,6 @@ import { BaseTool } from "../utils/base-tool.js";
 import {
   ComponentsSchema,
   createNecessityFilter,
-  extractComponents,
   fetchLibraryDocumentation,
   readFullComponentDoc,
   transformMessages,
@@ -14,6 +13,7 @@ import { generateText } from "ai";
 import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 import dotenv from "dotenv";
 import { CallbackServer } from "../utils/callback-server.js";
+import components from "../Data/shadcn-vue.json" with { type: "json" };
 
 // Load environment variables from .env file if present
 dotenv.config();
@@ -103,7 +103,6 @@ export class createUiTool extends BaseTool {
   async execute({ description }: z.infer<typeof this.schema>): Promise<{
     content: Array<{ type: "text"; text: string }>;
   }> {
-    const components = await extractComponents();
     // 使用AI模型来筛选适合用户需求的UI组件
     const transformedMessages = transformMessages([
       {

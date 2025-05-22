@@ -8,6 +8,7 @@
     "rootDir": "src",
     "strict": true,
     "skipLibCheck": true,
+    "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true
   },
   "include": ["src/**/*.ts"],
