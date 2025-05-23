@@ -64,7 +64,7 @@ Node.js 版本需为 22 或以上。
 
 ### 通过 Smithery 安装
 
-1. **访问 **[https://openrouter.ai/models](https://openrouter.ai/models)** 注册账号，获取 OPENROUTER\_API\_KEY，并查看可用模型列表**
+1. **访问 **[https://openrouter.ai/models](https://openrouter.ai/models)** 注册账号，获取 OPENROUTER\_API\_KEY，并查看可用模型列表， 推荐使用openrouter中付费的大模型,效果更好，比如：deepcoder**
 
 2. **选择安装方式**
 
