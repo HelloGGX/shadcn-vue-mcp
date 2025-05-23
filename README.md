@@ -113,17 +113,17 @@ for Mac/Linux:
 You can also install shadcn-vue-mcp via URL.
 Step 1. copy the following URL and paste it into the URL field of the Smithery AI application:
 
-<img src="https://raw.githubusercontent.com/HelloGGX/shadcn-vue-mcp/main/docs/install_URL.png">
+<img src="https://raw.githubusercontent.com/HelloGGX/shadcn-vue-mcp/main/docs/install_URL.png" width="600">
 
 Step 2. Open vscode, open copilot and select Agent model
 
 Step 3: Select Add Server
 
-<img src="https://raw.githubusercontent.com/HelloGGX/shadcn-vue-mcp/main/docs/add_server.png">
+<img src="https://raw.githubusercontent.com/HelloGGX/shadcn-vue-mcp/main/docs/add_server.png" width="600">
 
 Step 4: choose HTTP
 
-<img src="https://raw.githubusercontent.com/HelloGGX/shadcn-vue-mcp/main/docs/choose_mcp_type.png">
+<img src="https://raw.githubusercontent.com/HelloGGX/shadcn-vue-mcp/main/docs/choose_mcp_type.png" width="600">
 
 Step 5: paste the URL
 

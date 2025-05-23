@@ -120,17 +120,17 @@ Mac/Linux 示例：
 
 步骤 1：复制以下 URL，粘贴至 Smithery AI 应用的 URL 输入框：
 
-<img src="https://raw.githubusercontent.com/HelloGGX/shadcn-vue-mcp/main/docs/install_URL.png">
+<img src="https://raw.githubusercontent.com/HelloGGX/shadcn-vue-mcp/main/docs/install_URL.png" width="600">
 
 步骤 2：打开 vscode，启用 copilot 并选择 Agent 模型
 
 步骤 3：选择 Add Server
 
-<img src="https://raw.githubusercontent.com/HelloGGX/shadcn-vue-mcp/main/docs/add_server.png">
+<img src="https://raw.githubusercontent.com/HelloGGX/shadcn-vue-mcp/main/docs/add_server.png" width="600">
 
 步骤 4：选择 HTTP
 
-<img src="https://raw.githubusercontent.com/HelloGGX/shadcn-vue-mcp/main/docs/choose_mcp_type.png">
+<img src="https://raw.githubusercontent.com/HelloGGX/shadcn-vue-mcp/main/docs/choose_mcp_type.png" width="600">
 
 步骤 5：粘贴 URL
 
