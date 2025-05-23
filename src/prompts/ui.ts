@@ -139,10 +139,6 @@ Building on the existing optimizations, Apply the following advanced aesthetic d
   - Establish clear visual hierarchy through size, color, and placement, using Tailwind's scaling utilities (e.g., \`text-2xl\`, \`font-bold\`) to differentiate headings, subheadings, and body text.
   - Use grid and flexbox layouts for balanced compositions (e.g., \`grid grid-cols-1 md:grid-cols-2\`, \`flex justify-center items-center\`).
 
-- **White Space and Balance**:
-  - Use generous margins and paddings to create breathing room (e.g., \`m-8\`, \`p-6\`).
-  - Balance elements through symmetrical or asymmetrical layouts for visual interest (e.g., \`space-y-4\`, \`gap-6\`).
-
 - **Subtle Animations and Micro-Interactions**:
   - Add micro-interactions for feedback and delight (e.g., \`hover:scale-105\`, \`transition-transform duration-200\`).
   - Use animations sparingly to enhance, not distract (e.g., \`animate-fade-in\`, \`animate-slide-up\`).

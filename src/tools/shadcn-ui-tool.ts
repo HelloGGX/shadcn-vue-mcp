@@ -181,14 +181,27 @@ export class createUiTool extends BaseTool {
       maxRetries: 2,
     });
 
+    // 处理字符串，去掉头尾的```vue 和```
+    const processedCode = this.removeVueCodeFence(uiCode);
+
     return {
       content: [
         {
           type: "text",
-          text: uiCode,
+          text: processedCode,
         },
       ],
     };
+  }
+
+  // 添加新函数：去掉字符串头尾的```vue 和```
+  private removeVueCodeFence(code: string): string {
+    // 检查字符串是否以```vue开头和以```结尾
+    if (code.startsWith("```vue") && code.endsWith("```")) {
+      // 去掉开头的```vue（包括可能的空格）和结尾的```
+      return code.substring(7, code.length - 3).trim();
+    }
+    return code; // 如果不符合条件，返回原字符串
   }
 }
 export class refineCodeTool extends BaseTool {
