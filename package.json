@@ -1,48 +1,64 @@
 {
-  "name": "@agentgavin/shadcn-vue",
+  "name": "@agent/shadcn-vue",
   "version": "1.0.0",
-  "type": "module",
   "description": "MCP (Model Context Protocol) server for front-end developer",
+  "scripts": {
+    "inspect": "npm run build && npx @modelcontextprotocol/inspector node -- dist/index.js",
+    "inspect-live": "npx @modelcontextprotocol/inspector npx -- @agent/shadcn-vue",
+    "build": "tsc && shx cp -r previewer dist/ && shx chmod +x dist/*.js",
+    "update": "npm run build && npm version patch && npm publish --access public",
+    "format": "prettier --write .",
+    "lint": "eslint \"**/*.{js,ts,tsx}\" --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HelloGGX/shadcn-vue-mcp"
+  },
+  "keywords": [
+    "modelcontextprotocol",
+    "mcp",
+    "context7",
+    "agent",
+    "shadcn-vue",
+    "tailwindcss"
+  ],
+  "author": "gavin",
+  "license": "Apache-2.0",
   "main": "dist/index.js",
+  "type": "module",
   "bin": {
-    "fe-master": "dist/index.js"
+    "shadcn-vue-mcp": "dist/index.js"
   },
   "files": [
     "dist"
   ],
-  "scripts": {
-    "inspect": "tsc && npx @modelcontextprotocol/inspector node -- dist/index.js",
-    "inspect-live": "npx @modelcontextprotocol/inspector npx -- @agentgavin/shadcn-vue",
-    "build": "tsc",
-    "start": "tsc && node dist/index.js",
-    "prepublishOnly": "npm run build",
-    "update": "npm run build && npm version patch && npm publish --access public"
+  "bugs": {
+    "url": "https://github.com/HelloGGX/shadcn-vue-mcp/issues"
   },
-  "keywords": [
-    "mcp",
-    "model-context-protocol",
-    "front-end",
-    "tools",
-    "frontend",
-    "developer",
-    "ai",
-    "tailwindcss"
-  ],
-  "author": "AgentGavin AI",
-  "license": "MIT",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.10.2",
     "@openrouter/ai-sdk-provider": "^0.4.5",
     "ai": "^4.3.10",
     "dotenv": "^16.5.0",
+    "express": "^4.21.2",
     "jsonrepair": "^3.12.0",
     "mdast-util-from-markdown": "^2.0.2",
+    "open": "^10.1.2",
     "unist-util-visit-parents": "^6.0.1",
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@types/express": "^5.0.1",
     "@types/node": "^22.14.0",
-    "typescript": "^5.7.3"
+    "@typescript-eslint/eslint-plugin": "^8.31.1",
+    "@typescript-eslint/parser": "^8.31.1",
+    "eslint": "^9.25.1",
+    "eslint-config-prettier": "^10.1.2",
+    "eslint-plugin-prettier": "^5.2.6",
+    "prettier": "^3.5.3",
+    "shx": "^0.4.0",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.31.1"
   },
   "engines": {
     "node": ">=18.0.0"

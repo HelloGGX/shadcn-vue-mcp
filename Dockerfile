@@ -33,3 +33,4 @@ RUN pnpm install --prod --frozen-lockfile
 
 # Start server via STDIO
 ENTRYPOINT ["node", "dist/index.js"]
+
