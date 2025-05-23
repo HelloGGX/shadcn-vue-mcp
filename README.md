@@ -68,30 +68,66 @@ Node.js version 22 or above.
 
 #### Method 1: CLI Quick Installation
 
-To install bazi-mcp for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@HelloGGX/shadcn-vue-mcp):
-
-```bash
-npx -y @smithery/cli@latest install @HelloGGX/shadcn-vue-mcp --client vscode
-```
-
+To install shadcn-vue-mcp for all clients automatically via [Smithery](https://smithery.ai/server/@HelloGGX/shadcn-vue-mcp):
+<img src="https://raw.githubusercontent.com/HelloGGX/shadcn-vue-mcp/main/docs/install.png">
 Supported clients: cursor, windsurf, cline, claude, vscode, vscode-insiders
+
+Note: Take vscode as an example: When you select Auto, run the Smithery CLI command in the terminal:
+```bash
+npx -y @smithery/cli@latest install @HelloGGX/shadcn-vue-mcp --client vscode --profile parental-gayal-aplQPT --key xxxxx
+```
+You may get an error: Failed to install @HelloGGX/shadcn-vue-mcp
+```bash
+Error: spawnSync code-insiders.cmd EINVAL
+```
+Solution: Downgrade the Node version to 18.20.1 and rerun
 
 #### Method 2: Manual Configuration
 
-Manually configure AI application (e.g. Claude Desktop).
+Manually configure AI application (e.g. Claude Desktop).你可以选择JSON选项，并选择对应的操作系统进行复制：
 
+for Mac/Linux:
 ```json
 {
   "mcpServers": {
-    "shadcn-vue": {
+    "shadcn-vue-mcp": {
       "command": "npx",
-      "args": ["-y", "@agent/shadcn-vue"],
-      "env": {
-        "OPENROUTER_MODEL_ID": "Your selected OpenRouter model id",
-        "OPENROUTER_API_KEY": "Your OpenRouter API key"
-      }
+      "args": [
+        "-y",
+        "@smithery/cli@latest",
+        "run",
+        "@HelloGGX/shadcn-vue-mcp",
+        "--key",
+        "your api key",
+        "--profile",
+        "parental-gayal-aplQPT"
+      ]
     }
   }
+}
+```
+
+#### Method 3 URL Quick Installation for copilot
+You can also install shadcn-vue-mcp via URL.
+Step 1. copy the following URL and paste it into the URL field of the Smithery AI application:
+<img src="https://raw.githubusercontent.com/HelloGGX/shadcn-vue-mcp/main/docs/install_URL.png">
+Step 2. Open vscode, open copilot and select Agent model
+Step 3: Select Add Server
+<img src="https://raw.githubusercontent.com/HelloGGX/shadcn-vue-mcp/main/docs/add_server.png">
+Step 4: choose HTTP
+<img src="https://raw.githubusercontent.com/HelloGGX/shadcn-vue-mcp/main/docs/choose_mcp_type.png">
+Step 5: paste the URL
+Step 6: config like this:
+
+```json
+{
+    "mcp": {
+		"servers": {
+			"shadcn-vue-mcp": {
+				"url": "https://server.smithery.ai/@HelloGGX/shadcn-vue-mcp/mcp?profile=parental-gayal-aplQPT&api_key=xxxxxxx"
+			},
+		}
+	}
 }
 ```
 
