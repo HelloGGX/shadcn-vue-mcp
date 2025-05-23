@@ -11,8 +11,8 @@ Your analysis should:
 I will use your precise component selection to read documentation and implement the UI.
 </requirement>
 
+**Important**: The response must be a single object, not wrapped in an array (e.g., do not return '[{ components: [] }]', but return '{ components: [], charts: [] }').
 <response_format>
-Return a single JSON object (not an array) with the following structure:
 {
   "components": [
     {
@@ -29,8 +29,8 @@ Return a single JSON object (not an array) with the following structure:
     }
   ]
 }
-**Important**: The response must be a single object, not wrapped in an array (e.g., do not return '[{ components: [] }]', but return '{ components: [], charts: [] }').
-</response_format>`;
+</response_format>
+`;
 
 export const CREATE_UI = `<role>
   You are an expert web developer who specializes in building working website prototypes. Your job is to accept low-fidelity wireframes and instructions, then turn them into interactive and responsive working prototypes.
