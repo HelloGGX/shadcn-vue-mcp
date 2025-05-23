@@ -62,7 +62,7 @@ Node.js version 22 or above.
 
 ### Installing via Smithery
 
-1. **Go to **https://openrouter.ai/models** to register an account, obtain OPENROUTER_API_KEY, and view available model lists，It is recommended to use the paid large model in openrouter, which has better effect, such as: deepcoder**
+1. **Go to **https://openrouter.ai/models** to register an account, obtain OPENROUTER_API_KEY, and view available model lists，It is recommended to use the paid large model in openrouter, which has better effect, such as: deepcoder、deepseek/deepseek-chat-v3**
 
 2. **Choose installation method**
 
