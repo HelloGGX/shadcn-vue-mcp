@@ -66,11 +66,13 @@ Node.js version 22 or above.
 
 2. **Choose installation method**
 
-#### Method 1: CLI Quick Installation
+### Method 1: CLI Quick Installation
 
 To install shadcn-vue-mcp for all clients automatically via [Smithery](https://smithery.ai/server/@HelloGGX/shadcn-vue-mcp):
-<img src="https://raw.githubusercontent.com/HelloGGX/shadcn-vue-mcp/main/docs/install.png">
-Supported clients: cursor, windsurf, cline, claude, vscode, vscode-insiders
+
+<img src="https://raw.githubusercontent.com/HelloGGX/shadcn-vue-mcp/main/docs/install.png" width="600" >
+
+- Supported clients: cursor, windsurf, cline, claude, vscode, vscode-insiders
 
 Note: Take vscode as an example: When you select Auto, run the Smithery CLI command in the terminal:
 ```bash
@@ -82,7 +84,7 @@ Error: spawnSync code-insiders.cmd EINVAL
 ```
 Solution: Downgrade the Node version to 18.20.1 and rerun
 
-#### Method 2: Manual Configuration
+### Method 2: Manual Configuration
 
 Manually configure AI application (e.g. Claude Desktop).你可以选择JSON选项，并选择对应的操作系统进行复制：
 
@@ -107,7 +109,7 @@ for Mac/Linux:
 }
 ```
 
-#### Method 3 URL Quick Installation for copilot
+### Method 3 URL Quick Installation for copilot
 You can also install shadcn-vue-mcp via URL.
 Step 1. copy the following URL and paste it into the URL field of the Smithery AI application:
 
