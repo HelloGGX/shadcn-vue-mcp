@@ -9,7 +9,6 @@ yarn-error.log
 .pnpm-debug.log
 
 # Build output
-dist/
 build/
 
 # Environment variables
