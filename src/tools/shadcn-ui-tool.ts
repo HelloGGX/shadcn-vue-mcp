@@ -7,9 +7,6 @@ import {
   readFullComponentDoc,
 } from "../utils/components.js";
 import { CREATE_UI, FILTER_COMPONENTS, REFINED_UI } from "../prompts/ui.js";
-import { parseMessageToJson } from "../utils/parser.js";
-import { generateText } from "ai";
-import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 import dotenv from "dotenv";
 import { CallbackServer } from "../utils/callback-server.js";
 import components from "../Data/shadcn-vue.json" with { type: "json" };
@@ -17,21 +14,6 @@ import { jsonrepair } from "jsonrepair";
 
 // Load environment variables from .env file if present
 dotenv.config();
-
-const OPENROUTER_MODEL_ID = process.env.OPENROUTER_MODEL_ID;
-const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
-
-// 创建一个获取OpenRouter客户端的函数，包含环境变量检查
-if (!OPENROUTER_MODEL_ID) {
-  throw new Error("OPENROUTER_MODEL_ID is not set");
-}
-if (!OPENROUTER_API_KEY) {
-  throw new Error("OPENROUTER_API_KEY is not set");
-}
-
-const openrouter = createOpenRouter({
-  apiKey: OPENROUTER_API_KEY,
-});
 
 export class readUsageDocTool extends BaseTool {
   name = "read-usage-doc";

@@ -2,26 +2,12 @@ import { z } from "zod";
 import { BaseTool } from "../utils/base-tool.js";
 import { ComponentsSchema, createNecessityFilter, fetchLibraryDocumentation, readFullComponentDoc, } from "../utils/components.js";
 import { CREATE_UI, FILTER_COMPONENTS, REFINED_UI } from "../prompts/ui.js";
-import { generateText } from "ai";
-import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 import dotenv from "dotenv";
 import { CallbackServer } from "../utils/callback-server.js";
 import components from "../Data/shadcn-vue.json" with { type: "json" };
 import { jsonrepair } from "jsonrepair";
 // Load environment variables from .env file if present
 dotenv.config();
-const OPENROUTER_MODEL_ID = process.env.OPENROUTER_MODEL_ID;
-const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
-// 创建一个获取OpenRouter客户端的函数，包含环境变量检查
-if (!OPENROUTER_MODEL_ID) {
-    throw new Error("OPENROUTER_MODEL_ID is not set");
-}
-if (!OPENROUTER_API_KEY) {
-    throw new Error("OPENROUTER_API_KEY is not set");
-}
-const openrouter = createOpenRouter({
-    apiKey: OPENROUTER_API_KEY,
-});
 export class readUsageDocTool extends BaseTool {
     constructor() {
         super(...arguments);
@@ -220,7 +206,6 @@ export class refineCodeTool extends BaseTool {
         this.description = `refine code with shadcn/ui components and tailwindcss,
   Use this tool when the user requests to refine/improve current UI component with /ui commands`;
         this.schema = z.object({
-            userMessage: z.string().describe("Full user's message about UI refinement"),
             absolutePathToRefiningFile: z
                 .string()
                 .describe("Absolute path to the file that needs to be refined"),
@@ -229,34 +214,18 @@ export class refineCodeTool extends BaseTool {
                 .describe("Extract the specific UI elements and aspects that need improvement based on user messages, code, and conversation history. Identify exactly which components (buttons, forms, modals, etc.) the user is referring to and what aspects (styling, layout, responsiveness, etc.) they want to enhance. Do not include generic improvements - focus only on what the user explicitly mentions or what can be reasonably inferred from the available context. If nothing specific is mentioned or you cannot determine what needs improvement, return an empty string."),
         });
     }
-    async execute({ userMessage, absolutePathToRefiningFile, context }) {
+    async execute({ absolutePathToRefiningFile, context }) {
         try {
             const fileContent = await this.getContentOfFile(absolutePathToRefiningFile);
-            const { text } = await generateText({
-                system: REFINED_UI,
-                messages: [
-                    {
-                        role: "user",
-                        content: [
-                            {
-                                type: "text",
-                                text: `<description>${userMessage}</description>
-                <refining-component>${fileContent}</refining-component>
-                ${context}
-                `,
-                            },
-                        ],
-                    },
-                ],
-                model: openrouter(OPENROUTER_MODEL_ID || ""),
-                maxTokens: 8192,
-                maxRetries: 2,
-            });
             return {
                 content: [
                     {
                         type: "text",
-                        text: text,
+                        text: JSON.stringify(`
+              ${REFINED_UI}
+              <description>${context}</description>
+              <refining-component>${fileContent}</refining-component>
+              `),
                     },
                 ],
             };
