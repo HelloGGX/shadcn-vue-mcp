@@ -1,5 +1,3 @@
-import { PromptMessage } from "@modelcontextprotocol/sdk/types.js";
-import { CoreMessage } from "ai";
 import { fromMarkdown } from "mdast-util-from-markdown";
 import { visitParents } from "unist-util-visit-parents";
 import { z } from "zod";
@@ -109,17 +107,6 @@ export function createNecessityFilter(necessity: string) {
   };
 }
 
-export function transformMessages(messages: PromptMessage[]): CoreMessage[] {
-  return messages.map((m) => ({
-    role: m.role,
-    content: [
-      {
-        type: m.content.type as "text",
-        text: m.content.text as string,
-      },
-    ],
-  }));
-}
 
 /**
  * Fetches documentation context for a specific library
