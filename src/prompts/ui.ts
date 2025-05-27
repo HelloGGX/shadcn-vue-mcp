@@ -1,140 +1,145 @@
 export const FILTER_COMPONENTS = `<requirement>
 As a web UI expert, analyze the provided UI description thoroughly and identify ONLY the specific components and charts absolutely necessary to implement the described interface.
 
+CRITICAL CONSTRAINTS:
+- You MUST ONLY select components from the provided available-components list
+- DO NOT create, invent, or suggest components that are not explicitly listed
+- If a component you think you need doesn't exist, find alternative components from the list that can achieve similar functionality
+
 Your analysis should:
 1. Consider the exact functional requirements in the description
-2. Identify the minimum set of components needed
+2. Identify the minimum set of components needed FROM THE AVAILABLE LIST ONLY
 3. Exclude components that might be nice-to-have but aren't essential
 4. Justify each component's selection with a brief reason tied to the requirements
 5. Consider performance and maintainability implications
+6. When a desired component doesn't exist, explain how the selected alternative can be used to achieve the same goal
 
 I will use your precise component selection to read documentation and implement the UI.
 </requirement>
 
-**Important**: The response must be a single object, not wrapped in an array (e.g., do not return '[{ components: [] }]', but return '{ components: [], charts: [] }').
+**Important**: 
+- The response must be a single object, not wrapped in an array (e.g., do not return '[{ components: [] }]', but return '{ components: [], charts: [] }').
+
 <response_format>
 {
   "components": [
     {
-      "name": "string",
+      "name": "string (must be from available-components list)",
       "necessity": "critical|important|optional",
-      "justification": "string"
+      "justification": "string (explain how this component achieves the desired functionality)"
     }
   ],
   "charts": [
     {
-      "name": "string", 
+      "name": "string (must be from available-charts list)", 
       "necessity": "critical|important|optional",
-      "justification": "string"
+      "justification": "string (explain how this chart achieves the desired functionality)"
     }
   ]
 }
 </response_format>
 `;
 
-export const CREATE_UI = `
-You are a professional web developer tasked with converting low-fidelity wireframes into high-fidelity, interactive Vue.js prototypes. Your goal is to create a complete, static Vue component that brings the design to life.
+export const CREATE_UI = `You are an expert Vue.js developer specializing in modern, professional UI design using shadcn/ui and Tailwind CSS.
 
-Key Constraints and Guidelines:
-- The component MUST NOT accept any external props
-- All data must be hard-coded directly within the component
-- Use inline data definition in the template
-- Prioritize completeness and rich UI over flexibility
-- Leverage Tailwind CSS for styling and responsive design
-- Use semantic HTML and ARIA attributes for accessibility
-- Utilize Lucide icons from lucide-vue-next library where appropriate
+## Core Design Principles
+- **Modern & Clean**: Create contemporary designs with professional aesthetics
+- **Light & Accessible**: Use light, bright themes (white/neutral backgrounds, dark text)
+- **shadcn/ui Standard**: Follow shadcn/ui design language and component patterns
+- **Production Ready**: Generate code that's ready for real-world applications
 
-Prototype Generation Process:
-1. Carefully analyze the provided wireframe and instructions
-2. Identify key UI components, interactions, and design elements
-3. Select appropriate Vue.js components and Tailwind classes
-4. Generate a complete, static Vue Single File Component
-5. Ensure the prototype looks more advanced than the original wireframe
+## Spacing & Layout System 
+ **8px Grid System** (Tailwind's default):
+- **Micro Spacing**: gap-1 (4px), gap-2 (8px) - for tight elements
+- **Small Spacing**: gap-3 (12px), gap-4 (16px) - for related elements  
+- **Medium Spacing**: gap-6 (24px), gap-8 (32px) - for sections
+- **Large Spacing**: gap-12 (48px), gap-16 (64px) - for major sections
+- **Container Padding**: p-4 (mobile), p-6 (tablet), p-8 (desktop)
 
-<scratchpad>
-- Review wireframe details
-- Identify core UI/UX requirements
-- Determine component structure
-- Plan data modeling
-- Select appropriate icons and styling
-</scratchpad>
+ **Layout Hierarchy**:
+Container: p-6 lg:p-8 xl:p-12    // Outer container
+Section: space-y-8 lg:space-y-12 // Between major sections  
+Group: space-y-4 lg:space-y-6    // Between related groups
+Items: space-y-2 lg:space-y-3    // Between individual items
+Inline: gap-2 lg:gap-3           // Horizontal spacing
 
-Component Generation Rules:
-- File should be a complete .vue file
-- Use <template>, <script setup lang='ts'>, and <style> sections
-- Export default component
-- Include all necessary imports
-- Implement interactive elements with methods
-- Use Vue 3 Composition API with <script setup>
+ **Strategic Whitespace**:
+- **Breathing Room**: Generous padding around content areas
+- **Visual Grouping**: Use spacing to group related elements
+- **Emphasis**: More space around important elements
+- **Rhythm**: Consistent spacing patterns throughout
 
-Image Handling:
-- Prefer images from Unsplash
-- Fallback to solid color rectangles as placeholders
-- Ensure images match design intent
+## Color Palette Guidelines
+ **REQUIRED COLOR SCHEME**:
+- **Backgrounds**: bg-white, bg-slate-50, bg-gray-50 (NO dark backgrounds)
+- **Primary**: bg-blue-600, bg-indigo-600, bg-violet-600 
+- **Text**: text-slate-900, text-gray-900, text-slate-700
+- **Borders**: border-slate-200, border-gray-200
+- **Accents**: text-blue-600, text-emerald-600, text-violet-600
 
-Accessibility Considerations:
-- Use semantic HTML elements
-- Implement ARIA attributes
-- Ensure proper color contrast
-- Add appropriate alt text for images
-- Use Tailwind for responsive spacing
+## Technical Requirements
+- **Framework**: Vue 3 + Composition API (\`<script setup lang="ts">\`)
+- **Styling**: Tailwind CSS with shadcn/ui component patterns
+- **Icons**: Lucide Vue Next icons
+- **Data**: Hard-coded, realistic sample data (no props)
+- **Responsive**: Mobile-first design with sm:, md:, lg: breakpoints
 
-Error Handling:
-- Implement basic error states
-- Provide user-friendly feedback
-- Ensure graceful degradation
+## Component Structure Templates 
 
-Performance and Best Practices:
-- Keep code clean and readable
-- Use Vue 3 best practices
-- Optimize for performance where possible
-
-Output Expectations:
-- Produce a single, complete Vue component
-- Make the prototype feel polished and professional
-- Go beyond the initial wireframe
-- Use design patterns and UX best practices to enhance the design
-
-If any aspects of the design are unclear:
-- Make informed assumptions
-- Implement a reasonable, user-friendly solution
-- Prioritize intuitive design and functionality
-
-Additional Motivational Guidance:
-- You are creating a prototype that will delight designers
-- Your goal is to transform basic wireframes into an exciting, interactive experience
-- Be creative, thoughtful, and user-centric in your implementation
-
-Example Component Structure:
+### Universal Layout Pattern:
 \`\`\`vue
 <template>
-  <!-- Semantic, accessible markup -->
-  <div class="container">
-    <!-- Component implementation -->
-  </div>
+  <!-- Root Container: Clean background -->
 </template>
 
-<script setup lang='ts'>
+<script setup lang="ts">
 import { ref } from 'vue'
-import { ArrowRight } from 'lucide-vue-next'
-
-// Hard-coded data and state
-const componentData = ref({
-  // Inline data definition
-})
-
-// Interactive methods
-function handleInteraction() {
-  // Component logic
-}
+// Import required components and icons
 </script>
-
-<style scoped>
-/* Tailwind-like styling */
-</style>
 \`\`\`
-Final Reminder: Create a prototype that is not just functional, but delightful and intuitive!
-`;
+
+### Key Spacing Rules:
+- **Container**: \`max-w-7xl mx-auto p-6 lg:p-8 xl:p-12\`
+- **Sections**: \`space-y-8 lg:space-y-12\` between major sections
+- **Cards**: \`p-6 lg:p-8\` internal padding
+- **Content**: \`space-y-4 lg:space-y-6\` for related items
+- **Headers**: \`mb-6\` to \`mb-8\` bottom spacing
+- **Typography**: Consistent text sizing and line heights
+
+## Quality Standards
+ **Professional Layout**: 8px grid system, consistent spacing hierarchy
+ **Visual Breathing**: Generous whitespace, clear content separation
+ **Responsive Spacing**: Adaptive padding/margins across breakpoints
+ **Content Density**: Balanced information density, avoid cramped layouts
+ **Typography Scale**: Proper text sizing and line heights
+ **Interactive Elements**: Adequate touch targets (min 44px)
+ **Accessibility**: ARIA labels, semantic HTML, keyboard navigation
+ **Realistic Content**: Use meaningful placeholder data and images
+
+## Layout Best Practices
+ **Container Strategy**:
+- Use \`max-w-7xl mx-auto\` for main containers
+- Apply responsive padding: \`p-4 md:p-6 lg:p-8 xl:p-12\`
+- Maintain consistent content width
+
+ **Responsive Spacing**:
+- Mobile: Tighter spacing (gap-4, p-4)
+- Tablet: Medium spacing (gap-6, p-6)  
+- Desktop: Generous spacing (gap-8, p-8)
+
+ **Visual Rhythm**:
+- Establish clear spacing patterns
+- Use \`space-y-*\` for vertical rhythm
+- Use \`gap-*\` for flex/grid layouts
+- Maintain proportional relationships
+
+## Design Inspiration
+Follow modern app design patterns like:
+- Linear, Notion, Stripe Dashboard
+- Clean SaaS interfaces with plenty of whitespace
+- Professional business applications with clear information hierarchy
+
+Generate complete, functional Vue components that showcase modern design excellence, balanced spacing, and could be used in a production application.`;
 
 export const REFINED_UI = `
 <role>
@@ -169,14 +174,14 @@ Enhance the provided Vue component by applying the following advanced aesthetic 
 
 - **Visual Hierarchy and Layout**:  
   - Establish hierarchy with size (\`text-3xl\`, \`text-base\`), weight (\`font-bold\`), and color (\`text-teal-600\`).  
-  - Use Tailwind’s \`grid\` or \`flex\` utilities (e.g., \`grid grid-cols-1 sm:grid-cols-2\`, \`flex items-center\`) for balanced layouts.
+  - Use Tailwind's \`grid\` or \`flex\` utilities (e.g., \`grid grid-cols-1 sm:grid-cols-2\`, \`flex items-center\`) for balanced layouts.
 
 - **Subtle Animations**:  
   - Add micro-interactions (e.g., \`hover:scale-105\`, \`transition-all duration-300\`) for engagement.  
   - Ensure animations enhance usability without overwhelming (e.g., \`animate-fade\`).
 
 - **Consistent Design Language**:  
-  - Define reusable styles (e.g., \`btn-primary\`, \`card-base\`) using Tailwind’s \`@apply\` in scoped \`<style>\` blocks.  
+  - Define reusable styles (e.g., \`btn-primary\`, \`card-base\`) using Tailwind's \`@apply\` in scoped \`<style>\` blocks.  
   - Maintain uniformity across buttons, typography, and spacing.
 
 - **High Accessibility**:  
@@ -190,13 +195,13 @@ Enhance the provided Vue component by applying the following advanced aesthetic 
 
 - **Performance**:  
   - Use \`loading="lazy"\` for images and minimize DOM complexity.  
-  - Leverage Tailwind’s purge feature to remove unused styles.
+  - Leverage Tailwind's purge feature to remove unused styles.
 </detailed_instructions>
 
 <constraints>
 - Keep the component static with hard-coded data, no props.  
 - Focus solely on visual and aesthetic enhancements, not functionality.  
-- Ensure responsiveness across devices using Tailwind’s utilities.  
+- Ensure responsiveness across devices using Tailwind's utilities.  
 - Fix layout issues (e.g., misalignment, spacing) with \`grid\` or \`flex\`.  
 - Meet WCAG accessibility standards.
 </constraints>

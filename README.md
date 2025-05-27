@@ -213,4 +213,33 @@ We welcome all contributions! Help us improve @agent/shadcn-vue. Source code is 
 
 Apache2.0 License
 
+## ✨ High-Quality UI Generation
+
+### Enhanced CREATE_UI Prompt Design
+
+We've redesigned our `CREATE_UI` prompt based on industry best practices to generate **professional, modern UI components** that avoid common issues like dark backgrounds and poor design quality.
+
+#### Key Improvements:
+
+🎨 **Modern Design Standards**
+- Clear color palette guidelines (light themes, professional aesthetics)
+- Explicit avoidance of dark backgrounds (bg-gray-800, bg-black)
+- shadcn/ui design language compliance
+
+🏗️ **Simplified & Focused**
+- Concise prompt structure for better AI comprehension
+- Clear technical requirements and quality standards
+- Professional design inspiration (Linear, Notion, Stripe)
+
+🎯 **Production-Ready Output**
+- Realistic sample data and content
+- Proper spacing, typography, and visual hierarchy
+- Accessibility and responsive design built-in
+
+#### Before vs After:
+- ❌ **Before**: Generic prompts leading to dark, unprofessional designs
+- ✅ **After**: Targeted prompts generating clean, modern, production-ready components
+
+The new prompt ensures every generated component follows modern design principles and professional standards.
+
 ---

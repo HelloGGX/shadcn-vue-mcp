@@ -1,13 +1,13 @@
 import { z } from "zod";
 import { BaseTool } from "../utils/base-tool.js";
-import { ComponentsSchema, createNecessityFilter, fetchLibraryDocumentation, readFullComponentDoc, transformMessages, } from "../utils/components.js";
+import { ComponentsSchema, createNecessityFilter, fetchLibraryDocumentation, readFullComponentDoc, } from "../utils/components.js";
 import { CREATE_UI, FILTER_COMPONENTS, REFINED_UI } from "../prompts/ui.js";
-import { parseMessageToJson } from "../utils/parser.js";
 import { generateText } from "ai";
 import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 import dotenv from "dotenv";
 import { CallbackServer } from "../utils/callback-server.js";
 import components from "../Data/shadcn-vue.json" with { type: "json" };
+import { jsonrepair } from "jsonrepair";
 // Load environment variables from .env file if present
 dotenv.config();
 const OPENROUTER_MODEL_ID = process.env.OPENROUTER_MODEL_ID;
@@ -81,50 +81,82 @@ export class readFullDocTool extends BaseTool {
         }
     }
 }
-export class createUiTool extends BaseTool {
+export class filterComponentsTool extends BaseTool {
     constructor() {
         super(...arguments);
-        this.name = "create-ui";
-        this.description = `create Web UI with shadcn/ui components and tailwindcss, Use this tool when mentions /ui`;
-        // 参数定义
+        this.name = "filter-components";
+        this.description = `filter components with shadcn/ui components and tailwindcss, Use this tool when mentions /filter`;
         this.schema = z.object({
             description: z.string().describe("description of the Web UI"),
         });
     }
     async execute({ description }) {
-        // 使用AI模型来筛选适合用户需求的UI组件
-        const transformedMessages = transformMessages([
-            {
-                role: "user",
-                content: {
+        // 将筛选任务和数据传给 IDE 的 AI 处理
+        const filteringPrompt = `
+    ${FILTER_COMPONENTS}
+    <description>${description}</description>
+    <available-components>
+    - Available shadcn/vue components:
+    ${components.components.map((comp) => `- ${comp}`).join("\n")}
+    - Available charts:
+    ${components.charts.map((chart) => `- ${chart}`).join("\n")}
+    </available-components>
+`;
+        return {
+            content: [
+                {
                     type: "text",
-                    text: `<description>${description}</description><available-components>${JSON.stringify(components)}</available-components>`,
+                    text: jsonrepair(filteringPrompt),
                 },
-            },
-        ]);
-        const { text } = await generateText({
-            system: FILTER_COMPONENTS,
-            messages: transformedMessages,
-            model: openrouter(OPENROUTER_MODEL_ID || ""),
-            maxTokens: 2000,
+            ],
+        };
+    }
+}
+export class createUiWithDocTool extends BaseTool {
+    constructor() {
+        super(...arguments);
+        this.name = "create-ui-with-doc";
+        this.description = `create Web UI with shadcn/ui components and tailwindcss, after filter-components`;
+        // 参数定义
+        this.schema = z.object({
+            filteredComponents: z.string().transform((str) => {
+                return ComponentsSchema.parse(JSON.parse(str));
+            }),
+            description: z.string().describe("description of the Web UI"),
         });
-        const responseJson = parseMessageToJson(text);
-        if (responseJson.component) {
-            responseJson.components = responseJson.component;
-            delete responseJson.component;
+    }
+    async execute({ filteredComponents, description }) {
+        // 验证组件是否存在于可用组件列表中
+        const availableComponents = new Set([...components.components, ...components.charts]);
+        // 过滤掉不存在的组件
+        const validComponents = filteredComponents.components.filter((component) => {
+            const isValid = availableComponents.has(component.name);
+            if (!isValid) {
+                console.warn(`Warning: Component "${component.name}" is not available in shadcn/vue. Skipping...`);
+            }
+            return isValid;
+        });
+        const validCharts = filteredComponents.charts.filter((chart) => {
+            const isValid = availableComponents.has(chart.name);
+            if (!isValid) {
+                console.warn(`Warning: Chart "${chart.name}" is not available in shadcn/vue. Skipping...`);
+            }
+            return isValid;
+        });
+        // 如果没有有效组件，提供默认建议
+        if (validComponents.length === 0 && validCharts.length === 0) {
+            console.warn("No valid components found. Using default components for basic layout.");
+            return {
+                content: [
+                    {
+                        type: "text",
+                        text: "No valid components found. Using default components for basic layout.",
+                    },
+                ],
+            };
         }
-        if (responseJson.chart) {
-            responseJson.charts = responseJson.chart;
-            delete responseJson.chart;
-        }
-        const filteredComponents = ComponentsSchema.parse(responseJson);
-        filteredComponents.components.forEach((c) => {
-            c.name = c.name.toLowerCase();
-        });
-        filteredComponents.charts.forEach((c) => {
-            c.name = c.name.toLowerCase();
-        });
-        const usageDocs = await Promise.all(filteredComponents.components.filter(createNecessityFilter("optional")).map(async (c) => {
+        // 获取组件文档
+        const usageDocs = await Promise.all(validComponents.filter(createNecessityFilter("optional")).map(async (c) => {
             return {
                 ...c,
                 doc: await fetchLibraryDocumentation("/unovue/shadcn-vue", {
@@ -133,51 +165,52 @@ export class createUiTool extends BaseTool {
                 }),
             };
         }));
-        const createUiResultMessages = transformMessages([
-            {
-                role: "user",
-                content: {
-                    type: "text",
-                    text: `<description>${description}</description>
-          <available-components>
-            ${usageDocs
-                        .map((d) => {
-                        return `<component name="${d.name}">
-                  <justification><![CDATA[${d.justification}]]></justification>
-                  <documentation><![CDATA[${d.doc}]]></documentation>
-                </component>`;
-                    })
-                        .join("\n")}
-          </available-components>`,
-                },
-            },
-        ]);
-        const { text: uiCode } = await generateText({
-            system: CREATE_UI,
-            messages: createUiResultMessages,
-            model: openrouter(OPENROUTER_MODEL_ID || ""),
-            maxTokens: 8192,
-            maxRetries: 2,
-        });
-        // 处理字符串，去掉头尾的```vue 和```
-        const processedCode = this.removeVueCodeFence(uiCode);
+        const promptForClientAI = `${CREATE_UI}
+  <description>
+  ${description}
+  </description>
+  <available-components>
+  ${usageDocs
+            .map((d) => {
+            return `<component name="${d.name}">
+    <justification><![CDATA[${d.justification}]]></justification>
+    <documentation><![CDATA[${d.doc}]]></documentation>
+  </component>`;
+        })
+            .join("\n")}
+  </available-components>
+  <instructions>
+  Based on the user description and available components above, create a complete Vue.js component that implements the requested UI. Follow all the guidelines in the system prompt above.
+  </instructions>`;
         return {
             content: [
                 {
                     type: "text",
-                    text: processedCode,
+                    text: JSON.stringify(promptForClientAI),
                 },
             ],
         };
     }
-    // 添加新函数：去掉字符串头尾的```vue 和```
-    removeVueCodeFence(code) {
-        // 检查字符串是否以```vue开头和以```结尾
-        if (code.startsWith("```vue") && code.endsWith("```")) {
-            // 去掉开头的```vue（包括可能的空格）和结尾的```
-            return code.substring(7, code.length - 3).trim();
-        }
-        return code; // 如果不符合条件，返回原字符串
+}
+export class createUiTool extends BaseTool {
+    constructor() {
+        super(...arguments);
+        this.name = "create-ui";
+        this.description = `create Web UI with shadcn/ui components and tailwindcss, Use this tool when mentions /ui`;
+        this.schema = z.object({});
+    }
+    async execute({}) {
+        return {
+            content: [
+                {
+                    type: "text",
+                    text: `Use the following MCP tools one after the other in this exact sequence:
+          1. filter-components
+          2. create-ui-with-doc
+          `,
+                },
+            ],
+        };
     }
 }
 export class refineCodeTool extends BaseTool {

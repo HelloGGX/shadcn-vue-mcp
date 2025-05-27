@@ -5,7 +5,6 @@ import {
   createNecessityFilter,
   fetchLibraryDocumentation,
   readFullComponentDoc,
-  transformMessages,
 } from "../utils/components.js";
 import { CREATE_UI, FILTER_COMPONENTS, REFINED_UI } from "../prompts/ui.js";
 import { parseMessageToJson } from "../utils/parser.js";
@@ -14,6 +13,7 @@ import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 import dotenv from "dotenv";
 import { CallbackServer } from "../utils/callback-server.js";
 import components from "../Data/shadcn-vue.json" with { type: "json" };
+import { jsonrepair } from "jsonrepair";
 
 // Load environment variables from .env file if present
 dotenv.config();
@@ -92,11 +92,10 @@ export class readFullDocTool extends BaseTool {
     }
   }
 }
-export class createUiTool extends BaseTool {
-  name = "create-ui";
-  description = `create Web UI with shadcn/ui components and tailwindcss, Use this tool when mentions /ui`;
+export class filterComponentsTool extends BaseTool {
+  name = "filter-components";
+  description = `filter components with shadcn/ui components and tailwindcss, Use this tool when mentions /filter`;
 
-  // 参数定义
   schema = z.object({
     description: z.string().describe("description of the Web UI"),
   });
@@ -104,45 +103,81 @@ export class createUiTool extends BaseTool {
   async execute({ description }: z.infer<typeof this.schema>): Promise<{
     content: Array<{ type: "text"; text: string }>;
   }> {
-    // 使用AI模型来筛选适合用户需求的UI组件
-    const transformedMessages = transformMessages([
-      {
-        role: "user",
-        content: {
+    // 将筛选任务和数据传给 IDE 的 AI 处理
+    const filteringPrompt = `
+    ${FILTER_COMPONENTS}
+    <description>${description}</description>
+    <available-components>
+    - Available shadcn/vue components:
+    ${components.components.map((comp) => `- ${comp}`).join("\n")}
+    - Available charts:
+    ${components.charts.map((chart) => `- ${chart}`).join("\n")}
+    </available-components>
+`;
+
+    return {
+      content: [
+        {
           type: "text",
-          text: `<description>${description}</description><available-components>${JSON.stringify(
-            components
-          )}</available-components>`,
+          text: jsonrepair(filteringPrompt),
         },
-      },
-    ]);
-    const { text } = await generateText({
-      system: FILTER_COMPONENTS,
-      messages: transformedMessages,
-      model: openrouter(OPENROUTER_MODEL_ID || ""),
-      maxTokens: 2000,
+      ],
+    };
+  }
+}
+export class createUiWithDocTool extends BaseTool {
+  name = "create-ui-with-doc";
+  description = `create Web UI with shadcn/ui components and tailwindcss, after filter-components`;
+
+  // 参数定义
+  schema = z.object({
+    filteredComponents: z.string().transform((str) => {
+      return ComponentsSchema.parse(JSON.parse(str));
+    }),
+    description: z.string().describe("description of the Web UI"),
+  });
+
+  async execute({ filteredComponents, description }: z.infer<typeof this.schema>): Promise<{
+    content: Array<{ type: "text"; text: string }>;
+  }> {
+    // 验证组件是否存在于可用组件列表中
+    const availableComponents = new Set([...components.components, ...components.charts]);
+
+    // 过滤掉不存在的组件
+    const validComponents = filteredComponents.components.filter((component) => {
+      const isValid = availableComponents.has(component.name);
+      if (!isValid) {
+        console.warn(
+          `Warning: Component "${component.name}" is not available in shadcn/vue. Skipping...`
+        );
+      }
+      return isValid;
     });
-    const responseJson = parseMessageToJson(text);
-    if (responseJson.component) {
-      responseJson.components = responseJson.component;
-      delete responseJson.component;
+
+    const validCharts = filteredComponents.charts.filter((chart) => {
+      const isValid = availableComponents.has(chart.name);
+      if (!isValid) {
+        console.warn(`Warning: Chart "${chart.name}" is not available in shadcn/vue. Skipping...`);
+      }
+      return isValid;
+    });
+
+    // 如果没有有效组件，提供默认建议
+    if (validComponents.length === 0 && validCharts.length === 0) {
+      console.warn("No valid components found. Using default components for basic layout.");
+      return {
+        content: [
+          {
+            type: "text",
+            text: "No valid components found. Using default components for basic layout.",
+          },
+        ],
+      };
     }
-    if (responseJson.chart) {
-      responseJson.charts = responseJson.chart;
-      delete responseJson.chart;
-    }
 
-    const filteredComponents = ComponentsSchema.parse(responseJson);
-
-    filteredComponents.components.forEach((c) => {
-      c.name = c.name.toLowerCase();
-    });
-    filteredComponents.charts.forEach((c) => {
-      c.name = c.name.toLowerCase();
-    });
-
+    // 获取组件文档
     const usageDocs = await Promise.all(
-      filteredComponents.components.filter(createNecessityFilter("optional")).map(async (c) => {
+      validComponents.filter(createNecessityFilter("optional")).map(async (c) => {
         return {
           ...c,
           doc: await fetchLibraryDocumentation("/unovue/shadcn-vue", {
@@ -152,56 +187,53 @@ export class createUiTool extends BaseTool {
         };
       })
     );
-
-    const createUiResultMessages = transformMessages([
-      {
-        role: "user",
-        content: {
-          type: "text",
-          text: `<description>${description}</description>
-          <available-components>
-            ${usageDocs
-              .map((d) => {
-                return `<component name="${d.name}">
-                  <justification><![CDATA[${d.justification}]]></justification>
-                  <documentation><![CDATA[${d.doc}]]></documentation>
-                </component>`;
-              })
-              .join("\n")}
-          </available-components>`,
-        },
-      },
-    ]);
-
-    const { text: uiCode } = await generateText({
-      system: CREATE_UI,
-      messages: createUiResultMessages,
-      model: openrouter(OPENROUTER_MODEL_ID || ""),
-      maxTokens: 8192,
-      maxRetries: 2,
-    });
-
-    // 处理字符串，去掉头尾的```vue 和```
-    const processedCode = this.removeVueCodeFence(uiCode);
-
+    const promptForClientAI = `${CREATE_UI}
+  <description>
+  ${description}
+  </description>
+  <available-components>
+  ${usageDocs
+    .map((d) => {
+      return `<component name="${d.name}">
+    <justification><![CDATA[${d.justification}]]></justification>
+    <documentation><![CDATA[${d.doc}]]></documentation>
+  </component>`;
+    })
+    .join("\n")}
+  </available-components>
+  <instructions>
+  Based on the user description and available components above, create a complete Vue.js component that implements the requested UI. Follow all the guidelines in the system prompt above.
+  </instructions>`;
     return {
       content: [
         {
           type: "text",
-          text: processedCode,
+          text: JSON.stringify(promptForClientAI),
         },
       ],
     };
   }
+}
+export class createUiTool extends BaseTool {
+  name = "create-ui";
+  description = `create Web UI with shadcn/ui components and tailwindcss, Use this tool when mentions /ui`;
 
-  // 添加新函数：去掉字符串头尾的```vue 和```
-  private removeVueCodeFence(code: string): string {
-    // 检查字符串是否以```vue开头和以```结尾
-    if (code.startsWith("```vue") && code.endsWith("```")) {
-      // 去掉开头的```vue（包括可能的空格）和结尾的```
-      return code.substring(7, code.length - 3).trim();
-    }
-    return code; // 如果不符合条件，返回原字符串
+  schema = z.object({});
+
+  async execute({}: z.infer<typeof this.schema>): Promise<{
+    content: Array<{ type: "text"; text: string }>;
+  }> {
+    return {
+      content: [
+        {
+          type: "text",
+          text: `Use the following MCP tools one after the other in this exact sequence:
+          1. filter-components
+          2. create-ui-with-doc
+          `,
+        },
+      ],
+    };
   }
 }
 export class refineCodeTool extends BaseTool {
@@ -210,7 +242,6 @@ export class refineCodeTool extends BaseTool {
   Use this tool when the user requests to refine/improve current UI component with /ui commands`;
 
   schema = z.object({
-    userMessage: z.string().describe("Full user's message about UI refinement"),
     absolutePathToRefiningFile: z
       .string()
       .describe("Absolute path to the file that needs to be refined"),
@@ -221,36 +252,19 @@ export class refineCodeTool extends BaseTool {
       ),
   });
 
-  async execute({ userMessage, absolutePathToRefiningFile, context }: z.infer<typeof this.schema>) {
+  async execute({ absolutePathToRefiningFile, context }: z.infer<typeof this.schema>) {
     try {
       const fileContent = await this.getContentOfFile(absolutePathToRefiningFile);
-
-      const { text } = await generateText({
-        system: REFINED_UI,
-        messages: [
-          {
-            role: "user",
-            content: [
-              {
-                type: "text",
-                text: `<description>${userMessage}</description>
-                <refining-component>${fileContent}</refining-component>
-                ${context}
-                `,
-              },
-            ],
-          },
-        ],
-        model: openrouter(OPENROUTER_MODEL_ID || ""),
-        maxTokens: 8192,
-        maxRetries: 2,
-      });
 
       return {
         content: [
           {
             type: "text" as const,
-            text: text,
+            text: JSON.stringify(`
+              ${REFINED_UI}
+              <description>${context}</description>
+              <refining-component>${fileContent}</refining-component>
+              `),
           },
         ],
       };

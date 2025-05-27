@@ -4,10 +4,11 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import {
   createUiTool,
+  createUiWithDocTool,
+  filterComponentsTool,
   readFullDocTool,
   readUsageDocTool,
   refineCodeTool,
-  reviewUITool,
 } from "./tools/shadcn-ui-tool.js";
 
 const VERSION = "0.0.0";
@@ -15,6 +16,7 @@ const server = new McpServer({
   name: "shadcn-ui",
   version: VERSION,
   capabilities: {
+    prompts: {},
     resources: {
       subscribe: true,
       listChanged: true,
@@ -38,8 +40,11 @@ server.resource("tailwindcss-docs", "tailwindcss://docs", async (uri) => {
 // Register tools
 new readUsageDocTool().register(server);
 new readFullDocTool().register(server);
+new filterComponentsTool().register(server);
+new createUiWithDocTool().register(server);
 new createUiTool().register(server);
 new refineCodeTool().register(server);
+
 // new reviewUITool().register(server);
 
 async function runServer() {
