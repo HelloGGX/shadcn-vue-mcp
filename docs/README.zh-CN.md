@@ -62,12 +62,6 @@ Node.js 版本需为 22 或以上。
 
 ## 快速开始
 
-### 通过 Smithery 安装
-
-1. **访问 **[https://openrouter.ai/models](https://openrouter.ai/models)** 注册账号，获取 OPENROUTER\_API\_KEY，并查看可用模型列表， 推荐使用openrouter中付费的大模型,效果更好，比如：deepcoder、deepseek/deepseek-chat-v3**
-
-2. **选择安装方式**
-
 ### 方法一：CLI 快速安装
 
 通过 [Smithery](https://smithery.ai/server/@HelloGGX/shadcn-vue-mcp) 自动为所有客户端安装 shadcn-vue-mcp：
@@ -196,9 +190,6 @@ Mac/Linux 示例：
 
 #### 参数
 
-* userMessage: `String`
-
-  > 待优化代码描述。例如：“/refine optimize this code to have mobile responsive layout”
 * absolutePathToRefiningFile: `String`
 
   > 需优化文件的绝对路径

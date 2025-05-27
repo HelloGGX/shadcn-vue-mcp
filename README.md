@@ -60,12 +60,6 @@ Node.js version 22 or above.
 
 ## Getting Started
 
-### Installing via Smithery
-
-1. **Go to **https://openrouter.ai/models** to register an account, obtain OPENROUTER_API_KEY, and view available model lists，It is recommended to use the paid large model in openrouter, which has better effect, such as: deepcoder、deepseek/deepseek-chat-v3**
-
-2. **Choose installation method**
-
 ### Method 1: CLI Quick Installation
 
 To install shadcn-vue-mcp for all clients automatically via [Smithery](https://smithery.ai/server/@HelloGGX/shadcn-vue-mcp):
@@ -186,8 +180,6 @@ Config file locations:
 
 #### Arguments
 
-- userMessage: `String`
-  > Code to be optimized. Example: "/refine optimize this code to have mobile responsive layout"
 - absolutePathToRefiningFile: `String`
   > Absolute path to the file that needs refinement.
 - context: `String`
@@ -212,34 +204,4 @@ We welcome all contributions! Help us improve @agent/shadcn-vue. Source code is 
 ## 📝 License
 
 Apache2.0 License
-
-## ✨ High-Quality UI Generation
-
-### Enhanced CREATE_UI Prompt Design
-
-We've redesigned our `CREATE_UI` prompt based on industry best practices to generate **professional, modern UI components** that avoid common issues like dark backgrounds and poor design quality.
-
-#### Key Improvements:
-
-🎨 **Modern Design Standards**
-- Clear color palette guidelines (light themes, professional aesthetics)
-- Explicit avoidance of dark backgrounds (bg-gray-800, bg-black)
-- shadcn/ui design language compliance
-
-🏗️ **Simplified & Focused**
-- Concise prompt structure for better AI comprehension
-- Clear technical requirements and quality standards
-- Professional design inspiration (Linear, Notion, Stripe)
-
-🎯 **Production-Ready Output**
-- Realistic sample data and content
-- Proper spacing, typography, and visual hierarchy
-- Accessibility and responsive design built-in
-
-#### Before vs After:
-- ❌ **Before**: Generic prompts leading to dark, unprofessional designs
-- ✅ **After**: Targeted prompts generating clean, modern, production-ready components
-
-The new prompt ensures every generated component follows modern design principles and professional standards.
-
 ---
