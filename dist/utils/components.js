@@ -88,17 +88,6 @@ export function createNecessityFilter(necessity) {
         return (score[component.necessity] ?? 0) >= (score[necessity] ?? 0);
     };
 }
-export function transformMessages(messages) {
-    return messages.map((m) => ({
-        role: m.role,
-        content: [
-            {
-                type: m.content.type,
-                text: m.content.text,
-            },
-        ],
-    }));
-}
 /**
  * Fetches documentation context for a specific library
  * @param libraryId The library ID to fetch documentation for
