@@ -2,4 +2,12 @@
 
 startCommand:
   type: stdio
-  
+  configSchema:
+    # JSON Schema defining the configuration options for the MCP.
+    type: object
+    description: Empty configuration
+  commandFunction:
+    # A JS function that produces the CLI command based on the given config to start the MCP on stdio.
+    |-
+    (config) => ({ command: 'node', args: ['dist/index.js'] })
+  exampleConfig: {}
