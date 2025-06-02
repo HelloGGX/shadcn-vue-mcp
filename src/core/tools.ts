@@ -1,7 +1,10 @@
 import { FastMCP } from "fastmcp";
 import { z } from "zod";
 import * as services from "./services/index.js";
-import { FILTER_COMPONENTS_PROMPT } from "./prompts/componentPrompts.js";
+import {
+  FILTER_COMPONENTS_PROMPT,
+  CREATE_UI,
+} from "./prompts/componentPrompts.js";
 
 /**
  * Register all tools with the MCP server
@@ -176,11 +179,27 @@ export function registerTools(server: FastMCP) {
           };
         }
 
+        // 获取组件文档
         const usageDocs = await Promise.all(
-          validComponents.filter(
-            services.ComponentServices.createNecessityFilter("optional")
-          )
+          validComponents
+            .filter(
+              services.ComponentServices.createNecessityFilter("optional")
+            )
+            .map(async (c) => {
+              return {
+                ...c,
+                doc: await services.ComponentServices.fetchLibraryDocumentation(
+                  "/unovue/shadcn-vue",
+                  {
+                    topic: c.name,
+                    tokens: 1000,
+                  }
+                ),
+              };
+            })
         );
+
+        const promptForClientAI = `${CREATE_UI}\n<message>${params.message}</message>`;
       } catch (error) {
         console.error("Error executing tool:", error);
         throw error;
