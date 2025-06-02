@@ -104133,8 +104133,9 @@ Your analysis should:
 I will use your precise component selection to read documentation and implement the UI.
 </requirement>
 
-**Important**: 
+<constraints>
 - The response must be a single object, not wrapped in an array (e.g., do not return '[{ components: [] }]', but return '{ components: [], charts: [] }').
+</constraints>
 
 <response_format>
 {
@@ -104558,16 +104559,15 @@ function registerTools(server) {
           const description = doc.match(/description: (.*)/)?.[1];
           return `- ${name}: ${description}`;
         }
-        const filteringPrompt = `
-            ${FILTER_COMPONENTS_PROMPT}
-            <description>${params.description}</description>
-            <available-components>
-            ${SHADCN_VUE_COMPONENTS.map((comp) => getInfo("components", comp)).join(`
+        const components = await Promise.all(SHADCN_VUE_COMPONENTS.map((comp) => getInfo("components", comp)));
+        const charts = await Promise.all(SHADCN_VUE_CHARTS.map((chart) => getInfo("charts", chart)));
+        const filteringPrompt = `${FILTER_COMPONENTS_PROMPT}<description>${params.description}</description>
+<available-components>
+${components.join(`
 `)}
-            ${SHADCN_VUE_CHARTS.map((chart) => getInfo("charts", chart)).join(`
+${charts.join(`
 `)}
-            </available-components>
-        `;
+</available-components>`;
         return {
           content: [
             {

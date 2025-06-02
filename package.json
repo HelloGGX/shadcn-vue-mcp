@@ -6,6 +6,7 @@
   "description": "Model Context Protocol (MCP) Server",
   "private": true,
   "scripts": {
+    "inspect": "npm run build && npx @modelcontextprotocol/inspector node -- build/index.js",
     "start": "npx bun run src/index.ts",
     "build": "npx bun build src/index.ts --outdir build --target node",
     "build:http": "npx bun build src/server/http-server.ts --outdir build --target node",

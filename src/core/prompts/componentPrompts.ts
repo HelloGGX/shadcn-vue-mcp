@@ -21,8 +21,9 @@ Your analysis should:
 I will use your precise component selection to read documentation and implement the UI.
 </requirement>
 
-**Important**: 
+<constraints>
 - The response must be a single object, not wrapped in an array (e.g., do not return '[{ components: [] }]', but return '{ components: [], charts: [] }').
+</constraints>
 
 <response_format>
 {
