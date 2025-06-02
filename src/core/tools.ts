@@ -47,11 +47,14 @@ export function registerTools(server: FastMCP) {
     description:
       "read full doc of a component, Use this tool when mentions /doc.",
     parameters: z.object({
+      // components | charts
+      type: z.enum(["components", "charts"]),
       name: z.string().describe("name of the component, lowercase, kebab-case"),
     }),
     execute: async (params) => {
       try {
         const doc = await services.DocServices.readFullComponentDoc({
+          type: params.type,
           name: params.name,
         });
         return {
@@ -107,5 +110,5 @@ export function registerTools(server: FastMCP) {
     },
   });
 
-  
+
 }

@@ -54,9 +54,9 @@ export class DocServices {
     }
   }
 
-  static async readFullComponentDoc({ name }: { name: string }) {
+  static async readFullComponentDoc({ name, type }: { name: string, type: string }) {
     const res = await fetch(
-      `${DocServices.BASE_URL}/src/content/docs/components/${name}.md`
+      `${DocServices.BASE_URL}/src/content/docs/${type}/${name}.md`
     );
     const content = await res.text();
     // 检查内容是否包含 404 错误信息
