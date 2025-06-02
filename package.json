@@ -1,65 +1,31 @@
 {
-  "name": "@agent/shadcn-vue",
-  "version": "1.0.0",
-  "description": "MCP (Model Context Protocol) server for front-end developer",
-  "scripts": {
-    "inspect": "npm run build && npx @modelcontextprotocol/inspector node -- dist/index.js",
-    "inspect-live": "npx @modelcontextprotocol/inspector npx -- @agent/shadcn-vue",
-    "build": "tsc && shx cp -r previewer dist/ && shx chmod +x dist/*.js",
-    "update": "npm run build && npm version patch && npm publish --access public",
-    "format": "prettier --write .",
-    "lint": "eslint \"**/*.{js,ts,tsx}\" --fix"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/HelloGGX/shadcn-vue-mcp"
-  },
-  "keywords": [
-    "modelcontextprotocol",
-    "mcp",
-    "context7",
-    "agent",
-    "shadcn-vue",
-    "tailwindcss"
-  ],
-  "author": "gavin",
-  "license": "Apache-2.0",
-  "main": "dist/index.js",
+  "name": "mcp-server",
+  "module": "src/index.ts",
   "type": "module",
-  "bin": {
-    "shadcn-vue-mcp": "dist/index.js"
-  },
-  "files": [
-    "dist"
-  ],
-  "bugs": {
-    "url": "https://github.com/HelloGGX/shadcn-vue-mcp/issues"
-  },
-  "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.10.2",
-    "@smithery/sdk": "^1.3.3",
-    "dotenv": "^16.5.0",
-    "express": "^4.21.2",
-    "jsonrepair": "^3.12.0",
-    "mdast-util-from-markdown": "^2.0.2",
-    "open": "^10.1.2",
-    "unist-util-visit-parents": "^6.0.1",
-    "zod": "^3.24.2"
+  "version": "1.0.0",
+  "description": "Model Context Protocol (MCP) Server",
+  "private": true,
+  "scripts": {
+    "start": "npx bun run src/index.ts",
+    "build": "npx bun build src/index.ts --outdir build --target node",
+    "build:http": "npx bun build src/server/http-server.ts --outdir build --target node",
+    "dev": "npx bun --watch src/index.ts",
+    "start:http": "npx bun run src/server/http-server.ts",
+    "dev:http": "npx bun --watch src/server/http-server.ts"
   },
   "devDependencies": {
-    "@types/express": "^5.0.1",
-    "@types/node": "^22.14.0",
-    "@typescript-eslint/eslint-plugin": "^8.31.1",
-    "@typescript-eslint/parser": "^8.31.1",
-    "eslint": "^9.25.1",
-    "eslint-config-prettier": "^10.1.2",
-    "eslint-plugin-prettier": "^5.2.6",
-    "prettier": "^3.5.3",
-    "shx": "^0.4.0",
-    "typescript": "^5.7.3",
-    "typescript-eslint": "^8.31.1"
+    "@types/bun": "latest",
+    "@types/cors": "^2.8.17",
+    "@types/node": "^20.11.0"
   },
-  "engines": {
-    "node": ">=18.0.0"
+  "peerDependencies": {
+    "typescript": "^5.8.2",
+    "@valibot/to-json-schema": "^1.0.0",
+    "effect": "^3.14.4"
+  },
+  "dependencies": {
+    "fastmcp": "^1.21.0",
+    "cors": "^2.8.5",
+    "zod": "^3.24.2"
   }
 }
