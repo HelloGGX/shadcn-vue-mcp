@@ -3984,14 +3984,19 @@ var init_external = __esm(() => {
 });
 
 // node_modules/.pnpm/zod@3.25.46/node_modules/zod/dist/esm/v3/index.js
+var v3_default;
 var init_v3 = __esm(() => {
   init_external();
   init_external();
+  v3_default = exports_external;
 });
 
 // node_modules/.pnpm/zod@3.25.46/node_modules/zod/dist/esm/index.js
+var esm_default;
 var init_esm = __esm(() => {
   init_v3();
+  init_v3();
+  esm_default = v3_default;
 });
 
 // node_modules/.pnpm/bytes@3.1.2/node_modules/bytes/index.js
@@ -99539,10 +99544,10 @@ __export(exports_esm2, {
   getRefs: () => getRefs,
   getDefaultOptions: () => getDefaultOptions,
   defaultOptions: () => defaultOptions,
-  default: () => esm_default,
+  default: () => esm_default2,
   addErrorMessage: () => addErrorMessage
 });
-var esm_default;
+var esm_default2;
 var init_esm3 = __esm(() => {
   init_Options();
   init_Refs();
@@ -99572,7 +99577,7 @@ var init_esm3 = __esm(() => {
   init_selectParser();
   init_zodToJsonSchema();
   init_zodToJsonSchema();
-  esm_default = zodToJsonSchema;
+  esm_default2 = zodToJsonSchema;
 });
 
 // node_modules/.pnpm/xsschema@0.2.0-beta.3_@vali_02db52701f0477e51c8889d9ce815347/node_modules/xsschema/dist/zod-DvRxrLZA.js
@@ -103741,57 +103746,847 @@ function registerResources(server) {
 // src/core/tools.ts
 init_esm();
 
-// src/core/services/greeting-service.ts
-class GreetingService {
-  static generateGreeting(name) {
-    return `Hello, ${name}! Welcome to the MCP Server.`;
+// src/core/services/componentServices.ts
+init_esm();
+var SHADCN_VUE_COMPONENTS = [
+  "accordion",
+  "alert-dialog",
+  "alert",
+  "aspect-ratio",
+  "auto-form",
+  "avatar",
+  "badge",
+  "breadcrumb",
+  "button",
+  "calendar",
+  "card",
+  "carousel",
+  "checkbox",
+  "collapsible",
+  "combobox",
+  "command",
+  "context-menu",
+  "data-table",
+  "date-picker",
+  "dialog",
+  "drawer",
+  "dropdown-menu",
+  "form",
+  "hover-card",
+  "input",
+  "label",
+  "menubar",
+  "navigation-menu",
+  "number-field",
+  "pagination",
+  "pin-input",
+  "popover",
+  "progress",
+  "radio-group",
+  "range-calendar",
+  "resizable",
+  "scroll-area",
+  "select",
+  "separator",
+  "sheet",
+  "sidebar",
+  "skeleton",
+  "slider",
+  "sonner",
+  "stepper",
+  "switch",
+  "table",
+  "tabs",
+  "tags-input",
+  "textarea",
+  "toast",
+  "toggle-group",
+  "toggle",
+  "tooltip",
+  "typography"
+];
+var SHADCN_VUE_CHARTS = ["area", "bar", "donut", "line"];
+var SHADCN_VUE_DEMO_LISTS = [
+  "AccordionDemo.vue",
+  "AlertDemo.vue",
+  "AlertDestructiveDemo.vue",
+  "AlertDialogDemo.vue",
+  "AreaChartCustomTooltip.vue",
+  "AreaChartDemo.vue",
+  "AreaChartSparkline.vue",
+  "AspectRatioDemo.vue",
+  "AutoFormApi.vue",
+  "AutoFormArray.vue",
+  "AutoFormBasic.vue",
+  "AutoFormConfirmPassword.vue",
+  "AutoFormControlled.vue",
+  "AutoFormDependencies.vue",
+  "AutoFormInputWithoutLabel.vue",
+  "AutoFormSubObject.vue",
+  "AvatarDemo.vue",
+  "BadgeDemo.vue",
+  "BadgeDestructiveDemo.vue",
+  "BadgeOutlineDemo.vue",
+  "BadgeSecondaryDemo.vue",
+  "BarChartCustomTooltip.vue",
+  "BarChartDemo.vue",
+  "BarChartRounded.vue",
+  "BarChartStacked.vue",
+  "BreadcrumbDemo.vue",
+  "BreadcrumbDropdown.vue",
+  "BreadcrumbEllipsisDemo.vue",
+  "BreadcrumbLinkDemo.vue",
+  "BreadcrumbResponsive.vue",
+  "BreadcrumbSeparatorDemo.vue",
+  "ButtonAsChildDemo.vue",
+  "ButtonDemo.vue",
+  "ButtonDestructiveDemo.vue",
+  "ButtonGhostDemo.vue",
+  "ButtonIconDemo.vue",
+  "ButtonLinkDemo.vue",
+  "ButtonLoadingDemo.vue",
+  "ButtonOutlineDemo.vue",
+  "ButtonSecondaryDemo.vue",
+  "ButtonWithIconDemo.vue",
+  "CalendarDemo.vue",
+  "CalendarForm.vue",
+  "CalendarWithSelect.vue",
+  "CardChat.vue",
+  "CardDemo.vue",
+  "CardFormDemo.vue",
+  "CardStats.vue",
+  "CardWithForm.vue",
+  "Cards",
+  "CarouselApi.vue",
+  "CarouselDemo.vue",
+  "CarouselOrientation.vue",
+  "CarouselPlugin.vue",
+  "CarouselSize.vue",
+  "CarouselSpacing.vue",
+  "CarouselThumbnails.vue",
+  "CheckboxDemo.vue",
+  "CheckboxDisabled.vue",
+  "CheckboxFormMultiple.vue",
+  "CheckboxFormSingle.vue",
+  "CheckboxWithText.vue",
+  "CollapsibleDemo.vue",
+  "ComboboxDemo.vue",
+  "ComboboxDropdownMenu.vue",
+  "ComboboxForm.vue",
+  "ComboboxPopover.vue",
+  "ComboboxResponsive.vue",
+  "ComboboxTrigger.vue",
+  "CommandDemo.vue",
+  "CommandDialogDemo.vue",
+  "CommandDropdownMenu.vue",
+  "CommandForm.vue",
+  "CommandPopover.vue",
+  "CommandResponsive.vue",
+  "ContextMenuDemo.vue",
+  "CustomChartTooltip.vue",
+  "DataTableColumnPinningDemo.vue",
+  "DataTableDemo.vue",
+  "DataTableDemoColumn.vue",
+  "DataTableReactiveDemo.vue",
+  "DatePickerDemo.vue",
+  "DatePickerForm.vue",
+  "DatePickerWithIndependentMonths.vue",
+  "DatePickerWithPresets.vue",
+  "DatePickerWithRange.vue",
+  "DialogCustomCloseButton.vue",
+  "DialogDemo.vue",
+  "DialogForm.vue",
+  "DialogScrollBodyDemo.vue",
+  "DialogScrollOverlayDemo.vue",
+  "DonutChartColor.vue",
+  "DonutChartCustomTooltip.vue",
+  "DonutChartDemo.vue",
+  "DonutChartPie.vue",
+  "DrawerDemo.vue",
+  "DrawerDialog.vue",
+  "DropdownMenuCheckboxes.vue",
+  "DropdownMenuDemo.vue",
+  "DropdownMenuRadioGroup.vue",
+  "HoverCardDemo.vue",
+  "InputDemo.vue",
+  "InputDisabled.vue",
+  "InputFile.vue",
+  "InputForm.vue",
+  "InputFormAutoAnimate.vue",
+  "InputWithButton.vue",
+  "InputWithIcon.vue",
+  "InputWithLabel.vue",
+  "LabelDemo.vue",
+  "LineChartCustomTooltip.vue",
+  "LineChartDemo.vue",
+  "LineChartSparkline.vue",
+  "MenubarDemo.vue",
+  "NavigationMenuDemo.vue",
+  "NumberFieldCurrency.vue",
+  "NumberFieldDecimal.vue",
+  "NumberFieldDemo.vue",
+  "NumberFieldDisabled.vue",
+  "NumberFieldForm.vue",
+  "NumberFieldPercentage.vue",
+  "PaginationDemo.vue",
+  "PinInputControlled.vue",
+  "PinInputDemo.vue",
+  "PinInputDisabled.vue",
+  "PinInputFormDemo.vue",
+  "PinInputSeparatorDemo.vue",
+  "PopoverDemo.vue",
+  "ProgressDemo.vue",
+  "RadioGroupDemo.vue",
+  "RadioGroupForm.vue",
+  "RangeCalendarDemo.vue",
+  "ResizableDemo.vue",
+  "ResizableHandleDemo.vue",
+  "ResizableVerticalDemo.vue",
+  "ScrollAreaDemo.vue",
+  "ScrollAreaHorizontalDemo.vue",
+  "SelectDemo.vue",
+  "SelectForm.vue",
+  "SelectScrollable.vue",
+  "SeparatorDemo.vue",
+  "SheetDemo.vue",
+  "SheetSideDemo.vue",
+  "SkeletonCard.vue",
+  "SkeletonDemo.vue",
+  "SliderDemo.vue",
+  "SliderForm.vue",
+  "SonnerDemo.vue",
+  "SonnerWithDialog.vue",
+  "StepperDemo.vue",
+  "StepperForm.vue",
+  "StepperHorizental.vue",
+  "StepperVertical.vue",
+  "SwitchDemo.vue",
+  "SwitchForm.vue",
+  "TableDemo.vue",
+  "TabsDemo.vue",
+  "TabsVerticalDemo.vue",
+  "TagsInputComboboxDemo.vue",
+  "TagsInputDemo.vue",
+  "TagsInputFormDemo.vue",
+  "TextareaDemo.vue",
+  "TextareaDisabled.vue",
+  "TextareaForm.vue",
+  "TextareaWithButton.vue",
+  "TextareaWithLabel.vue",
+  "TextareaWithText.vue",
+  "ToastDemo.vue",
+  "ToastDestructive.vue",
+  "ToastSimple.vue",
+  "ToastWithAction.vue",
+  "ToastWithTitle.vue",
+  "ToggleDemo.vue",
+  "ToggleDisabledDemo.vue",
+  "ToggleGroupDemo.vue",
+  "ToggleGroupDisabledDemo.vue",
+  "ToggleGroupLargeDemo.vue",
+  "ToggleGroupOutlineDemo.vue",
+  "ToggleGroupSingleDemo.vue",
+  "ToggleGroupSmallDemo.vue",
+  "ToggleItalicDemo.vue",
+  "ToggleItalicWithTextDemo.vue",
+  "ToggleLargeDemo.vue",
+  "ToggleSmallDemo.vue",
+  "TooltipDemo.vue",
+  "TypographyBlockquote.vue",
+  "TypographyDemo.vue",
+  "TypographyH1.vue",
+  "TypographyH2.vue",
+  "TypographyH3.vue",
+  "TypographyH4.vue",
+  "TypographyInlineCode.vue",
+  "TypographyLarge.vue",
+  "TypographyLead.vue",
+  "TypographyList.vue",
+  "TypographyMuted.vue",
+  "TypographyP.vue",
+  "TypographySmall.vue",
+  "TypographyTable.vue"
+];
+
+class ComponentServices {
+  static BASE_URL = `https://cdn.jsdelivr.net/gh/unovue/shadcn-vue@dev/apps/www`;
+  static CONTEXT7_API_BASE_URL = "https://context7.com/api";
+  static DEFAULT_TYPE = "txt";
+  static DEFAULT_MINIMUM_TOKENS = 1000;
+  constructor() {}
+  static async fetchLibraryDocumentation(libraryId, options = {
+    tokens: ComponentServices.DEFAULT_MINIMUM_TOKENS,
+    topic: "general",
+    folders: "docs"
+  }) {
+    try {
+      if (libraryId.startsWith("/")) {
+        libraryId = libraryId.slice(1);
+      }
+      const url3 = new URL(`${ComponentServices.CONTEXT7_API_BASE_URL}/v1/${libraryId}`);
+      if (options.tokens)
+        url3.searchParams.set("tokens", options.tokens.toString());
+      if (options.topic)
+        url3.searchParams.set("topic", options.topic);
+      if (options.folders)
+        url3.searchParams.set("folders", options.folders);
+      url3.searchParams.set("type", ComponentServices.DEFAULT_TYPE);
+      const response = await fetch(url3, {
+        headers: {
+          "X-Context7-Source": "mcp-server"
+        }
+      });
+      if (!response.ok) {
+        console.error(`Failed to fetch documentation: ${response.status}`);
+        return null;
+      }
+      const text = await response.text();
+      if (!text || text === "No content available" || text === "No context data available") {
+        return null;
+      }
+      return text;
+    } catch (error4) {
+      console.error("Error fetching library documentation:", error4);
+      return null;
+    }
   }
-  static generateFarewell(name) {
-    return `Goodbye, ${name}! Thank you for using the MCP Server.`;
+  static async readFullComponentDoc({
+    name,
+    type: type3
+  }) {
+    const res = await fetch(`${ComponentServices.BASE_URL}/src/content/docs/${type3}/${name}.md`);
+    const content = await res.text();
+    if (content.includes('<div class="error-code">404</div>')) {
+      return "No documentation found for this component";
+    }
+    return content;
+  }
+  static async fetchUsageDemo(name) {
+    const demoName = ComponentServices.convertKebabToPascalCase(name);
+    const demoList = SHADCN_VUE_DEMO_LISTS.filter((demo) => demo.startsWith(demoName));
+    if (demoList.length === 0) {
+      return "No demo found for this component";
+    }
+    const demos = await Promise.all(demoList.map(async (demo) => {
+      return {
+        name: demo.replace(".vue", ""),
+        code: await fetch(`${ComponentServices.BASE_URL}/src/registry/default/examples/${demo}`).then((res) => res.text())
+      };
+    }));
+    return demos;
+  }
+  static createNecessityFilter(necessity) {
+    return (component) => {
+      const score = {
+        critical: 3,
+        important: 2,
+        optional: 1
+      };
+      return (score[component.necessity] ?? 0) >= (score[necessity] ?? 0);
+    };
+  }
+  static replaceComponentPreviewsWithCode(doc, demos) {
+    if (!Array.isArray(demos) || demos.length === 0) {
+      return doc;
+    }
+    const componentPreviewRegex = /<ComponentPreview\s+name="([^"]+)"\s*\/>/g;
+    return doc.replace(componentPreviewRegex, (match43, demoName) => {
+      const demo = demos.find((d) => d.name === demoName);
+      if (demo && demo.code) {
+        return `\`\`\`vue
+${demo.code}
+\`\`\``;
+      }
+      return match43;
+    });
+  }
+  static convertKebabToPascalCase(name) {
+    return name.split("-").map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join("");
   }
 }
-// src/core/tools.ts
-function registerTools(server) {
-  server.addTool({
-    name: "hello_world",
-    description: "A simple hello world tool",
-    parameters: exports_external.object({
-      name: exports_external.string().describe("Name to greet")
-    }),
-    execute: async (params) => {
-      const greeting = GreetingService.generateGreeting(params.name);
-      return greeting;
+var ComponentSchema = esm_default.object({
+  name: esm_default.string(),
+  necessity: esm_default.enum(["critical", "important", "optional"]),
+  justification: esm_default.string()
+});
+var ComponentsSchema = esm_default.object({
+  components: esm_default.array(ComponentSchema),
+  charts: esm_default.array(ComponentSchema)
+});
+// src/core/prompts/componentPrompts.ts
+var FILTER_COMPONENTS_PROMPT = `<requirement>
+As a web UI expert, analyze the provided UI description thoroughly and identify ONLY the specific components and charts absolutely necessary to implement the described interface.
+
+CRITICAL CONSTRAINTS:
+- You MUST ONLY select components from the provided available-components list
+- DO NOT create, invent, or suggest components that are not explicitly listed
+- If a component you think you need doesn't exist, find alternative components from the list that can achieve similar functionality
+
+Your analysis should:
+1. Consider the exact functional requirements in the description
+2. Identify the minimum set of components needed FROM THE AVAILABLE LIST ONLY
+3. Exclude components that might be nice-to-have but aren't essential
+4. Justify each component's selection with a brief reason tied to the requirements
+5. Consider performance and maintainability implications
+6. When a desired component doesn't exist, explain how the selected alternative can be used to achieve the same goal
+
+I will use your precise component selection to read documentation and implement the UI.
+</requirement>
+
+**Important**: 
+- The response must be a single object, not wrapped in an array (e.g., do not return '[{ components: [] }]', but return '{ components: [], charts: [] }').
+
+<response_format>
+{
+  "components": [
+    {
+      "name": "string (must be from available-components list)",
+      "necessity": "critical|important|optional",
+      "justification": "string (explain how this component achieves the desired functionality)"
+    }
+  ],
+  "charts": [
+    {
+      "name": "string (must be from available-charts list)", 
+      "necessity": "critical|important|optional",
+      "justification": "string (explain how this chart achieves the desired functionality)"
+    }
+  ]
+}
+</response_format>
+`;
+var COMPONENT_ANALYSIS_PROMPT = `
+You are a Vue.js and shadcn/vue expert. Analyze the provided component documentation and provide comprehensive guidance.
+
+Your analysis should include:
+
+1. **Component Overview**
+   - Purpose and primary use cases
+   - Key features and capabilities
+   - When to use vs alternatives
+
+2. **Props & API**
+   - Required and optional props
+   - Prop types and default values
+   - Event handlers and slots
+
+3. **Usage Examples**
+   - Basic implementation
+   - Advanced configurations
+   - Common patterns and best practices
+
+4. **Integration Guidelines**
+   - Dependencies and requirements
+   - Styling and theming considerations
+   - Accessibility features
+
+5. **Common Pitfalls**
+   - Frequent mistakes to avoid
+   - Performance considerations
+   - Troubleshooting tips
+
+Format your response in clear sections with code examples where appropriate.
+`;
+var COMPONENT_IMPLEMENTATION_PROMPT = `
+You are a Vue.js expert helping implement shadcn/vue components. Based on the provided documentation and requirements:
+
+1. **Generate Implementation Code**
+   - Complete Vue component with proper imports
+   - Correct prop usage and configuration
+   - Proper event handling and reactivity
+
+2. **Include Best Practices**
+   - TypeScript types where applicable
+   - Accessibility attributes
+   - Responsive design considerations
+   - Error handling
+
+3. **Provide Usage Instructions**
+   - Installation steps if needed
+   - Import statements
+   - Basic usage example
+   - Customization options
+
+4. **Add Comments**
+   - Explain complex logic
+   - Document prop purposes
+   - Note important considerations
+
+Ensure the code is production-ready and follows Vue 3 Composition API best practices.
+`;
+var COMPONENT_TROUBLESHOOTING_PROMPT = `
+You are a shadcn/vue troubleshooting expert. Help diagnose and solve component-related issues.
+
+When analyzing problems:
+
+1. **Issue Identification**
+   - Categorize the problem type (styling, functionality, integration, etc.)
+   - Identify potential root causes
+   - Check for common configuration mistakes
+
+2. **Solution Strategies**
+   - Provide step-by-step debugging approach
+   - Suggest multiple solution paths
+   - Include code fixes with explanations
+
+3. **Prevention Tips**
+   - Best practices to avoid similar issues
+   - Configuration recommendations
+   - Testing strategies
+
+4. **Additional Resources**
+   - Relevant documentation links
+   - Community solutions
+   - Related troubleshooting guides
+
+Focus on practical, actionable solutions with clear explanations.
+`;
+var COMPONENT_COMPARISON_PROMPT = `
+You are a shadcn/vue component expert. Compare and contrast different components to help users make informed decisions.
+
+Your comparison should include:
+
+1. **Functional Differences**
+   - Core capabilities of each component
+   - Unique features and limitations
+   - Use case scenarios
+
+2. **Implementation Complexity**
+   - Setup and configuration requirements
+   - Learning curve considerations
+   - Maintenance overhead
+
+3. **Performance Characteristics**
+   - Bundle size impact
+   - Runtime performance
+   - Rendering efficiency
+
+4. **Design Considerations**
+   - Visual appearance and customization
+   - Responsive behavior
+   - Accessibility features
+
+5. **Recommendations**
+   - When to choose each option
+   - Migration considerations
+   - Future-proofing advice
+
+Provide clear, objective analysis to guide decision-making.
+`;
+function registerComponentPrompts(server) {
+  server.addPrompt({
+    name: "component-analysis",
+    description: "Comprehensive analysis of shadcn/vue component documentation and usage guidance",
+    arguments: [
+      {
+        name: "componentName",
+        description: "Name of the component to analyze (kebab-case)",
+        required: true
+      },
+      {
+        name: "focusArea",
+        description: "Specific area to focus on: 'overview', 'props', 'examples', 'integration', 'troubleshooting'",
+        required: false
+      }
+    ],
+    load: async ({ componentName, focusArea = "overview" }) => {
+      let prompt = `${COMPONENT_ANALYSIS_PROMPT}
+
+Component to analyze: ${componentName}`;
+      if (focusArea !== "overview") {
+        prompt += `
+Focus specifically on: ${focusArea}`;
+      }
+      prompt += `
+
+Please provide detailed analysis based on the component documentation.`;
+      return prompt;
     }
   });
-  server.addTool({
-    name: "goodbye",
-    description: "A simple goodbye tool",
-    parameters: exports_external.object({
-      name: exports_external.string().describe("Name to bid farewell to")
-    }),
-    execute: async (params) => {
-      const farewell = GreetingService.generateFarewell(params.name);
-      return farewell;
+  server.addPrompt({
+    name: "component-implementation",
+    description: "Generate production-ready implementation code for shadcn/vue components",
+    arguments: [
+      {
+        name: "componentName",
+        description: "Name of the component to implement (kebab-case)",
+        required: true
+      },
+      {
+        name: "useCase",
+        description: "Specific use case or requirements for the implementation",
+        required: true
+      },
+      {
+        name: "complexity",
+        description: "Implementation complexity: 'basic', 'intermediate', 'advanced'",
+        required: false
+      }
+    ],
+    load: async ({ componentName, useCase, complexity = "basic" }) => {
+      return `${COMPONENT_IMPLEMENTATION_PROMPT}
+
+Component: ${componentName}
+Use Case: ${useCase}
+Complexity Level: ${complexity}
+
+Please generate complete, production-ready implementation code with proper documentation.`;
+    }
+  });
+  server.addPrompt({
+    name: "component-troubleshooting",
+    description: "Help diagnose and solve shadcn/vue component issues",
+    arguments: [
+      {
+        name: "componentName",
+        description: "Name of the component having issues (kebab-case)",
+        required: true
+      },
+      {
+        name: "issue",
+        description: "Description of the problem or error",
+        required: true
+      },
+      {
+        name: "context",
+        description: "Additional context like error messages, code snippets, or environment details",
+        required: false
+      }
+    ],
+    load: async ({ componentName, issue, context: context15 = "" }) => {
+      return `${COMPONENT_TROUBLESHOOTING_PROMPT}
+
+Component: ${componentName}
+Issue: ${issue}
+${context15 ? `Additional Context: ${context15}` : ""}
+
+Please provide comprehensive troubleshooting guidance and solutions.`;
+    }
+  });
+  server.addPrompt({
+    name: "component-comparison",
+    description: "Compare different shadcn/vue components to help with selection decisions",
+    arguments: [
+      {
+        name: "components",
+        description: "Comma-separated list of components to compare (kebab-case)",
+        required: true
+      },
+      {
+        name: "criteria",
+        description: "Specific comparison criteria or use case context",
+        required: false
+      }
+    ],
+    load: async ({ components, criteria = "" }) => {
+      if (!components) {
+        throw new Error("Components parameter is required");
+      }
+      const componentList = components.split(",").map((c) => c.trim());
+      return `${COMPONENT_COMPARISON_PROMPT}
+
+Components to compare: ${componentList.join(", ")}
+${criteria ? `Comparison criteria: ${criteria}` : ""}
+
+Please provide a detailed comparison to help with component selection.`;
+    }
+  });
+  server.addPrompt({
+    name: "component-best-practices",
+    description: "Provide best practices and guidelines for using shadcn/vue components effectively",
+    arguments: [
+      {
+        name: "componentName",
+        description: "Name of the component (kebab-case), or 'general' for overall best practices",
+        required: true
+      },
+      {
+        name: "context",
+        description: "Specific context like project type, team size, or performance requirements",
+        required: false
+      }
+    ],
+    load: async ({ componentName, context: context15 = "" }) => {
+      return `You are a shadcn/vue expert providing best practices guidance.
+
+Component: ${componentName}
+${context15 ? `Context: ${context15}` : ""}
+
+Please provide comprehensive best practices covering:
+
+1. **Setup and Configuration**
+   - Proper installation and setup
+   - Configuration recommendations
+   - Environment considerations
+
+2. **Implementation Patterns**
+   - Recommended usage patterns
+   - Code organization strategies
+   - Reusability considerations
+
+3. **Performance Optimization**
+   - Bundle size optimization
+   - Runtime performance tips
+   - Lazy loading strategies
+
+4. **Accessibility and UX**
+   - Accessibility best practices
+   - User experience guidelines
+   - Responsive design considerations
+
+5. **Maintenance and Testing**
+   - Testing strategies
+   - Documentation practices
+   - Version management
+
+6. **Team Collaboration**
+   - Code review guidelines
+   - Naming conventions
+   - Shared component libraries
+
+Focus on practical, actionable advice that can be immediately applied.`;
+    }
+  });
+  server.addPrompt({
+    name: "component-migration",
+    description: "Guide for migrating between different component versions or alternatives",
+    arguments: [
+      {
+        name: "fromComponent",
+        description: "Current component or library being migrated from",
+        required: true
+      },
+      {
+        name: "toComponent",
+        description: "Target shadcn/vue component to migrate to",
+        required: true
+      },
+      {
+        name: "codebase",
+        description: "Description of current codebase or specific migration challenges",
+        required: false
+      }
+    ],
+    load: async ({ fromComponent, toComponent, codebase = "" }) => {
+      return `You are a migration expert helping transition to shadcn/vue components.
+
+Migration: ${fromComponent} → ${toComponent}
+${codebase ? `Codebase context: ${codebase}` : ""}
+
+Please provide a comprehensive migration guide including:
+
+1. **Migration Overview**
+   - Key differences between old and new components
+   - Breaking changes and compatibility issues
+   - Migration complexity assessment
+
+2. **Step-by-Step Migration Plan**
+   - Pre-migration preparation
+   - Incremental migration strategy
+   - Testing and validation steps
+
+3. **Code Transformation**
+   - Before and after code examples
+   - Prop mapping and API changes
+   - Event handler updates
+
+4. **Common Migration Issues**
+   - Potential problems and solutions
+   - Performance considerations
+   - Styling and theming changes
+
+5. **Validation and Testing**
+   - Testing strategies for migrated components
+   - Regression testing approaches
+   - User acceptance criteria
+
+6. **Rollback Strategy**
+   - Backup and rollback procedures
+   - Risk mitigation approaches
+   - Monitoring and alerting
+
+Provide practical, actionable guidance for a smooth migration process.`;
     }
   });
 }
 
-// src/core/prompts.ts
-function registerPrompts(server) {
-  server.addPrompt({
-    name: "greeting",
-    description: "A simple greeting prompt",
-    arguments: [
-      {
-        name: "name",
-        description: "Name to greet",
-        required: true
+// src/core/tools.ts
+function registerTools(server) {
+  server.addTool({
+    name: "component-usage-doc",
+    description: "read usage doc of a component， Use this tool when mentions /doc.",
+    parameters: exports_external.object({
+      type: exports_external.enum(["components", "charts"]),
+      name: exports_external.enum(SHADCN_VUE_COMPONENTS).describe("name of the component from shadcn/vue, lowercase, kebab-case")
+    }),
+    execute: async (params) => {
+      try {
+        const doc = await ComponentServices.readFullComponentDoc({
+          type: params.type,
+          name: params.name
+        });
+        const demos = await ComponentServices.fetchUsageDemo(params.name);
+        const demosArray = Array.isArray(demos) ? demos : [];
+        const processedDoc = ComponentServices.replaceComponentPreviewsWithCode(doc, demosArray);
+        return {
+          content: [
+            {
+              type: "text",
+              text: processedDoc || "No documentation found for this component"
+            }
+          ]
+        };
+      } catch (error4) {
+        console.error("Error executing tool:", error4);
+        throw error4;
       }
-    ],
-    load: async ({ name }) => {
-      return `Hello, ${name}! How can I help you today?`;
     }
   });
+  server.addTool({
+    name: "components-filter",
+    description: "filter components with shadcn/ui components and tailwindcss, Use this tool when mentions /filter",
+    parameters: exports_external.object({
+      description: exports_external.string().describe("description of the Web UI")
+    }),
+    execute: async (params) => {
+      try {
+        async function getInfo(type3, name) {
+          const doc = await ComponentServices.readFullComponentDoc({
+            type: type3,
+            name
+          });
+          const description = doc.match(/description: (.*)/)?.[1];
+          return `- ${name}: ${description}`;
+        }
+        const filteringPrompt = `
+            ${FILTER_COMPONENTS_PROMPT}
+            <description>${params.description}</description>
+            <available-components>
+            ${SHADCN_VUE_COMPONENTS.map((comp) => getInfo("components", comp)).join(`
+`)}
+            ${SHADCN_VUE_CHARTS.map((chart) => getInfo("charts", chart)).join(`
+`)}
+            </available-components>
+        `;
+        return {
+          content: [
+            {
+              type: "text",
+              text: filteringPrompt
+            }
+          ]
+        };
+      } catch (error4) {
+        console.error("Error executing tool:", error4);
+        throw error4;
+      }
+    }
+  });
+}
+
+// src/core/prompts/index.ts
+function registerPrompts(server) {
+  registerComponentPrompts(server);
 }
 
 // src/server/server.ts
