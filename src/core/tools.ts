@@ -134,7 +134,7 @@ After calling this tool, you must edit or add files to integrate the snippet int
     parameters: z.object({
       filteredComponents: z.string().transform((str) => {
         return services.ComponentsSchema.parse(JSON.parse(str));
-      }),
+      }).describe("filtered components from components-filter tool"),
       message: z.string().describe("Full users message"),
     }),
     execute: async (params) => {
