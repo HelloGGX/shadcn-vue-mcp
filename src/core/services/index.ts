@@ -1,2 +1,2 @@
 // Export all services
-export * from './docServices.js';
+export * from './componentServices.js';

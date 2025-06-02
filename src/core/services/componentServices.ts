@@ -1,4 +1,6 @@
-export class DocServices {
+import z from "zod";
+
+export class ComponentServices {
   private static readonly BASE_URL = `https://cdn.jsdelivr.net/gh/unovue/shadcn-vue@dev/apps/www`;
   private static readonly CONTEXT7_API_BASE_URL = "https://context7.com/api";
   private static readonly DEFAULT_TYPE = "txt";
@@ -13,7 +15,7 @@ export class DocServices {
       topic?: string;
       folders?: string;
     } = {
-      tokens: DocServices.DEFAULT_MINIMUM_TOKENS,
+      tokens: ComponentServices.DEFAULT_MINIMUM_TOKENS,
       topic: "general",
       folders: "docs",
     }
@@ -23,13 +25,13 @@ export class DocServices {
         libraryId = libraryId.slice(1);
       }
       const url = new URL(
-        `${DocServices.CONTEXT7_API_BASE_URL}/v1/${libraryId}`
+        `${ComponentServices.CONTEXT7_API_BASE_URL}/v1/${libraryId}`
       );
       if (options.tokens)
         url.searchParams.set("tokens", options.tokens.toString());
       if (options.topic) url.searchParams.set("topic", options.topic);
       if (options.folders) url.searchParams.set("folders", options.folders);
-      url.searchParams.set("type", DocServices.DEFAULT_TYPE);
+      url.searchParams.set("type", ComponentServices.DEFAULT_TYPE);
       const response = await fetch(url, {
         headers: {
           "X-Context7-Source": "mcp-server",
@@ -54,9 +56,15 @@ export class DocServices {
     }
   }
 
-  static async readFullComponentDoc({ name, type }: { name: string, type: string }) {
+  static async readFullComponentDoc({
+    name,
+    type,
+  }: {
+    name: string;
+    type: string;
+  }) {
     const res = await fetch(
-      `${DocServices.BASE_URL}/src/content/docs/${type}/${name}.md`
+      `${ComponentServices.BASE_URL}/src/content/docs/${type}/${name}.md`
     );
     const content = await res.text();
     // 检查内容是否包含 404 错误信息
@@ -65,6 +73,27 @@ export class DocServices {
     }
     return content;
   }
+  static createNecessityFilter(necessity: string) {
+    return (component: { necessity: string }) => {
+      const score: Record<string, number> = {
+        critical: 3,
+        important: 2,
+        optional: 1,
+      };
+      return (score[component.necessity] ?? 0) >= (score[necessity] ?? 0);
+    };
+  }
 }
 
-export default DocServices;
+export const ComponentSchema = z.object({
+  name: z.string(),
+  necessity: z.enum(["critical", "important", "optional"]),
+  justification: z.string(),
+});
+
+export const ComponentsSchema = z.object({
+  components: z.array(ComponentSchema),
+  charts: z.array(ComponentSchema),
+});
+
+export default ComponentServices;
