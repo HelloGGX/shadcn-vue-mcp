@@ -103748,268 +103748,231 @@ init_esm();
 
 // src/core/services/componentServices.ts
 init_esm();
-var SHADCN_VUE_COMPONENTS = [
-  "accordion",
-  "alert-dialog",
-  "alert",
-  "aspect-ratio",
-  "auto-form",
-  "avatar",
-  "badge",
-  "breadcrumb",
-  "button",
-  "calendar",
-  "card",
-  "carousel",
-  "checkbox",
-  "collapsible",
-  "combobox",
-  "command",
-  "context-menu",
-  "data-table",
-  "date-picker",
-  "dialog",
-  "drawer",
-  "dropdown-menu",
-  "form",
-  "hover-card",
-  "input",
-  "label",
-  "menubar",
-  "navigation-menu",
-  "number-field",
-  "pagination",
-  "pin-input",
-  "popover",
-  "progress",
-  "radio-group",
-  "range-calendar",
-  "resizable",
-  "scroll-area",
-  "select",
-  "separator",
-  "sheet",
-  "sidebar",
-  "skeleton",
-  "slider",
-  "sonner",
-  "stepper",
-  "switch",
-  "table",
-  "tabs",
-  "tags-input",
-  "textarea",
-  "toast",
-  "toggle-group",
-  "toggle",
-  "tooltip",
-  "typography"
-];
-var SHADCN_VUE_CHARTS = ["area", "bar", "donut", "line"];
-var SHADCN_VUE_DEMO_LISTS = [
-  "AccordionDemo.vue",
-  "AlertDemo.vue",
-  "AlertDestructiveDemo.vue",
-  "AlertDialogDemo.vue",
-  "AreaChartCustomTooltip.vue",
-  "AreaChartDemo.vue",
-  "AreaChartSparkline.vue",
-  "AspectRatioDemo.vue",
-  "AutoFormApi.vue",
-  "AutoFormArray.vue",
-  "AutoFormBasic.vue",
-  "AutoFormConfirmPassword.vue",
-  "AutoFormControlled.vue",
-  "AutoFormDependencies.vue",
-  "AutoFormInputWithoutLabel.vue",
-  "AutoFormSubObject.vue",
-  "AvatarDemo.vue",
-  "BadgeDemo.vue",
-  "BadgeDestructiveDemo.vue",
-  "BadgeOutlineDemo.vue",
-  "BadgeSecondaryDemo.vue",
-  "BarChartCustomTooltip.vue",
-  "BarChartDemo.vue",
-  "BarChartRounded.vue",
-  "BarChartStacked.vue",
-  "BreadcrumbDemo.vue",
-  "BreadcrumbDropdown.vue",
-  "BreadcrumbEllipsisDemo.vue",
-  "BreadcrumbLinkDemo.vue",
-  "BreadcrumbResponsive.vue",
-  "BreadcrumbSeparatorDemo.vue",
-  "ButtonAsChildDemo.vue",
-  "ButtonDemo.vue",
-  "ButtonDestructiveDemo.vue",
-  "ButtonGhostDemo.vue",
-  "ButtonIconDemo.vue",
-  "ButtonLinkDemo.vue",
-  "ButtonLoadingDemo.vue",
-  "ButtonOutlineDemo.vue",
-  "ButtonSecondaryDemo.vue",
-  "ButtonWithIconDemo.vue",
-  "CalendarDemo.vue",
-  "CalendarForm.vue",
-  "CalendarWithSelect.vue",
-  "CardChat.vue",
-  "CardDemo.vue",
-  "CardFormDemo.vue",
-  "CardStats.vue",
-  "CardWithForm.vue",
-  "Cards",
-  "CarouselApi.vue",
-  "CarouselDemo.vue",
-  "CarouselOrientation.vue",
-  "CarouselPlugin.vue",
-  "CarouselSize.vue",
-  "CarouselSpacing.vue",
-  "CarouselThumbnails.vue",
-  "CheckboxDemo.vue",
-  "CheckboxDisabled.vue",
-  "CheckboxFormMultiple.vue",
-  "CheckboxFormSingle.vue",
-  "CheckboxWithText.vue",
-  "CollapsibleDemo.vue",
-  "ComboboxDemo.vue",
-  "ComboboxDropdownMenu.vue",
-  "ComboboxForm.vue",
-  "ComboboxPopover.vue",
-  "ComboboxResponsive.vue",
-  "ComboboxTrigger.vue",
-  "CommandDemo.vue",
-  "CommandDialogDemo.vue",
-  "CommandDropdownMenu.vue",
-  "CommandForm.vue",
-  "CommandPopover.vue",
-  "CommandResponsive.vue",
-  "ContextMenuDemo.vue",
-  "CustomChartTooltip.vue",
-  "DataTableColumnPinningDemo.vue",
-  "DataTableDemo.vue",
-  "DataTableDemoColumn.vue",
-  "DataTableReactiveDemo.vue",
-  "DatePickerDemo.vue",
-  "DatePickerForm.vue",
-  "DatePickerWithIndependentMonths.vue",
-  "DatePickerWithPresets.vue",
-  "DatePickerWithRange.vue",
-  "DialogCustomCloseButton.vue",
-  "DialogDemo.vue",
-  "DialogForm.vue",
-  "DialogScrollBodyDemo.vue",
-  "DialogScrollOverlayDemo.vue",
-  "DonutChartColor.vue",
-  "DonutChartCustomTooltip.vue",
-  "DonutChartDemo.vue",
-  "DonutChartPie.vue",
-  "DrawerDemo.vue",
-  "DrawerDialog.vue",
-  "DropdownMenuCheckboxes.vue",
-  "DropdownMenuDemo.vue",
-  "DropdownMenuRadioGroup.vue",
-  "HoverCardDemo.vue",
-  "InputDemo.vue",
-  "InputDisabled.vue",
-  "InputFile.vue",
-  "InputForm.vue",
-  "InputFormAutoAnimate.vue",
-  "InputWithButton.vue",
-  "InputWithIcon.vue",
-  "InputWithLabel.vue",
-  "LabelDemo.vue",
-  "LineChartCustomTooltip.vue",
-  "LineChartDemo.vue",
-  "LineChartSparkline.vue",
-  "MenubarDemo.vue",
-  "NavigationMenuDemo.vue",
-  "NumberFieldCurrency.vue",
-  "NumberFieldDecimal.vue",
-  "NumberFieldDemo.vue",
-  "NumberFieldDisabled.vue",
-  "NumberFieldForm.vue",
-  "NumberFieldPercentage.vue",
-  "PaginationDemo.vue",
-  "PinInputControlled.vue",
-  "PinInputDemo.vue",
-  "PinInputDisabled.vue",
-  "PinInputFormDemo.vue",
-  "PinInputSeparatorDemo.vue",
-  "PopoverDemo.vue",
-  "ProgressDemo.vue",
-  "RadioGroupDemo.vue",
-  "RadioGroupForm.vue",
-  "RangeCalendarDemo.vue",
-  "ResizableDemo.vue",
-  "ResizableHandleDemo.vue",
-  "ResizableVerticalDemo.vue",
-  "ScrollAreaDemo.vue",
-  "ScrollAreaHorizontalDemo.vue",
-  "SelectDemo.vue",
-  "SelectForm.vue",
-  "SelectScrollable.vue",
-  "SeparatorDemo.vue",
-  "SheetDemo.vue",
-  "SheetSideDemo.vue",
-  "SkeletonCard.vue",
-  "SkeletonDemo.vue",
-  "SliderDemo.vue",
-  "SliderForm.vue",
-  "SonnerDemo.vue",
-  "SonnerWithDialog.vue",
-  "StepperDemo.vue",
-  "StepperForm.vue",
-  "StepperHorizental.vue",
-  "StepperVertical.vue",
-  "SwitchDemo.vue",
-  "SwitchForm.vue",
-  "TableDemo.vue",
-  "TabsDemo.vue",
-  "TabsVerticalDemo.vue",
-  "TagsInputComboboxDemo.vue",
-  "TagsInputDemo.vue",
-  "TagsInputFormDemo.vue",
-  "TextareaDemo.vue",
-  "TextareaDisabled.vue",
-  "TextareaForm.vue",
-  "TextareaWithButton.vue",
-  "TextareaWithLabel.vue",
-  "TextareaWithText.vue",
-  "ToastDemo.vue",
-  "ToastDestructive.vue",
-  "ToastSimple.vue",
-  "ToastWithAction.vue",
-  "ToastWithTitle.vue",
-  "ToggleDemo.vue",
-  "ToggleDisabledDemo.vue",
-  "ToggleGroupDemo.vue",
-  "ToggleGroupDisabledDemo.vue",
-  "ToggleGroupLargeDemo.vue",
-  "ToggleGroupOutlineDemo.vue",
-  "ToggleGroupSingleDemo.vue",
-  "ToggleGroupSmallDemo.vue",
-  "ToggleItalicDemo.vue",
-  "ToggleItalicWithTextDemo.vue",
-  "ToggleLargeDemo.vue",
-  "ToggleSmallDemo.vue",
-  "TooltipDemo.vue",
-  "TypographyBlockquote.vue",
-  "TypographyDemo.vue",
-  "TypographyH1.vue",
-  "TypographyH2.vue",
-  "TypographyH3.vue",
-  "TypographyH4.vue",
-  "TypographyInlineCode.vue",
-  "TypographyLarge.vue",
-  "TypographyLead.vue",
-  "TypographyList.vue",
-  "TypographyMuted.vue",
-  "TypographyP.vue",
-  "TypographySmall.vue",
-  "TypographyTable.vue"
-];
+var SHADCN_VUE_COMPONENTS = {
+  accordion: ["AccordionDemo"],
+  "alert-dialog": ["AlertDialogDemo", "AlertDemo", "AlertDestructiveDemo"],
+  alert: ["AlertDemo", "AlertDestructiveDemo"],
+  "aspect-ratio": ["AspectRatioDemo"],
+  "auto-form": [
+    "AutoFormApi",
+    "AutoFormArray",
+    "AutoFormBasic",
+    "AutoFormConfirmPassword",
+    "AutoFormControlled",
+    "AutoFormDependencies",
+    "AutoFormInputWithoutLabel",
+    "AutoFormSubObject"
+  ],
+  avatar: ["AvatarDemo"],
+  badge: [
+    "BadgeDemo",
+    "BadgeDestructiveDemo",
+    "BadgeOutlineDemo",
+    "BadgeSecondaryDemo"
+  ],
+  breadcrumb: [
+    "BreadcrumbDemo",
+    "BreadcrumbDropdown",
+    "BreadcrumbEllipsisDemo",
+    "BreadcrumbLinkDemo",
+    "BreadcrumbResponsive",
+    "BreadcrumbSeparatorDemo"
+  ],
+  button: [
+    "ButtonAsChildDemo",
+    "ButtonDemo",
+    "ButtonDestructiveDemo",
+    "ButtonGhostDemo",
+    "ButtonIconDemo",
+    "ButtonLinkDemo",
+    "ButtonLoadingDemo",
+    "ButtonOutlineDemo",
+    "ButtonSecondaryDemo",
+    "ButtonWithIconDemo"
+  ],
+  calendar: ["CalendarDemo", "CalendarForm", "CalendarWithSelect"],
+  card: ["CardChat", "CardDemo", "CardFormDemo", "CardStats", "CardWithForm"],
+  carousel: [
+    "CarouselApi",
+    "CarouselDemo",
+    "CarouselOrientation",
+    "CarouselPlugin",
+    "CarouselSize",
+    "CarouselSpacing",
+    "CarouselThumbnails"
+  ],
+  checkbox: [
+    "CheckboxDemo",
+    "CheckboxDisabled",
+    "CheckboxFormMultiple",
+    "CheckboxFormSingle",
+    "CheckboxWithText"
+  ],
+  collapsible: ["CollapsibleDemo"],
+  combobox: [
+    "ComboboxDemo",
+    "ComboboxDropdownMenu",
+    "ComboboxForm",
+    "ComboboxPopover",
+    "ComboboxResponsive",
+    "ComboboxTrigger"
+  ],
+  command: [
+    "CommandDemo",
+    "CommandDialogDemo",
+    "CommandDropdownMenu",
+    "CommandForm",
+    "CommandPopover",
+    "CommandResponsive"
+  ],
+  "context-menu": ["ContextMenuDemo"],
+  "data-table": [
+    "DataTableColumnPinningDemo",
+    "DataTableDemo",
+    "DataTableDemoColumn",
+    "DataTableReactiveDemo"
+  ],
+  "date-picker": [
+    "DatePickerDemo",
+    "DatePickerForm",
+    "DatePickerWithIndependentMonths",
+    "DatePickerWithPresets",
+    "DatePickerWithRange"
+  ],
+  dialog: [
+    "DialogCustomCloseButton",
+    "DialogDemo",
+    "DialogForm",
+    "DialogScrollBodyDemo",
+    "DialogScrollOverlayDemo"
+  ],
+  drawer: ["DrawerDemo", "DrawerDialog"],
+  "dropdown-menu": [
+    "DropdownMenuCheckboxes",
+    "DropdownMenuDemo",
+    "DropdownMenuRadioGroup"
+  ],
+  "hover-card": ["HoverCardDemo"],
+  input: [
+    "InputDemo",
+    "InputDisabled",
+    "InputFile",
+    "InputForm",
+    "InputFormAutoAnimate",
+    "InputWithButton",
+    "InputWithIcon",
+    "InputWithLabel"
+  ],
+  label: ["LabelDemo"],
+  menubar: ["MenubarDemo"],
+  "navigation-menu": ["NavigationMenuDemo"],
+  "number-field": [
+    "NumberFieldCurrency",
+    "NumberFieldDecimal",
+    "NumberFieldDemo",
+    "NumberFieldDisabled",
+    "NumberFieldForm",
+    "NumberFieldPercentage"
+  ],
+  pagination: ["PaginationDemo"],
+  "pin-input": [
+    "PinInputControlled",
+    "PinInputDemo",
+    "PinInputDisabled",
+    "PinInputFormDemo",
+    "PinInputSeparatorDemo"
+  ],
+  popover: ["PopoverDemo"],
+  progress: ["ProgressDemo"],
+  "radio-group": ["RadioGroupDemo", "RadioGroupForm"],
+  "range-calendar": ["RangeCalendarDemo"],
+  resizable: ["ResizableDemo", "ResizableHandleDemo", "ResizableVerticalDemo"],
+  "scroll-area": ["ScrollAreaDemo", "ScrollAreaHorizontalDemo"],
+  select: ["SelectDemo", "SelectForm", "SelectScrollable"],
+  separator: ["SeparatorDemo"],
+  sheet: ["SheetDemo", "SheetSideDemo"],
+  sidebar: [],
+  skeleton: ["SkeletonCard", "SkeletonDemo"],
+  slider: ["SliderDemo", "SliderForm"],
+  sonner: ["SonnerDemo", "SonnerWithDialog"],
+  stepper: [
+    "StepperDemo",
+    "StepperForm",
+    "StepperHorizental",
+    "StepperVertical"
+  ],
+  switch: ["SwitchDemo", "SwitchForm"],
+  table: ["TableDemo"],
+  tabs: ["TabsDemo", "TabsVerticalDemo"],
+  "tags-input": ["TagsInputComboboxDemo", "TagsInputDemo", "TagsInputFormDemo"],
+  textarea: [
+    "TextareaDemo",
+    "TextareaDisabled",
+    "TextareaForm",
+    "TextareaWithButton",
+    "TextareaWithLabel",
+    "TextareaWithText"
+  ],
+  toast: [
+    "ToastDemo",
+    "ToastDestructive",
+    "ToastSimple",
+    "ToastWithAction",
+    "ToastWithTitle"
+  ],
+  toggle: [
+    "ToggleDemo",
+    "ToggleDisabledDemo",
+    "ToggleItalicDemo",
+    "ToggleItalicWithTextDemo",
+    "ToggleLargeDemo",
+    "ToggleSmallDemo"
+  ],
+  "toggle-group": [
+    "ToggleGroupDemo",
+    "ToggleGroupDisabledDemo",
+    "ToggleGroupLargeDemo",
+    "ToggleGroupOutlineDemo",
+    "ToggleGroupSingleDemo",
+    "ToggleGroupSmallDemo"
+  ],
+  tooltip: ["TooltipDemo"],
+  typography: [
+    "TypographyBlockquote",
+    "TypographyDemo",
+    "TypographyH1",
+    "TypographyH2",
+    "TypographyH3",
+    "TypographyH4",
+    "TypographyInlineCode",
+    "TypographyLarge",
+    "TypographyLead",
+    "TypographyList",
+    "TypographyMuted",
+    "TypographyP",
+    "TypographySmall",
+    "TypographyTable"
+  ]
+};
+var SHADCN_VUE_CHART_COMPONENTS = {
+  area: ["AreaChartCustomTooltip", "AreaChartDemo", "AreaChartSparkline"],
+  bar: [
+    "BarChartCustomTooltip",
+    "BarChartDemo",
+    "BarChartRounded",
+    "BarChartStacked"
+  ],
+  donut: [
+    "DonutChartColor",
+    "DonutChartCustomTooltip",
+    "DonutChartDemo",
+    "DonutChartPie"
+  ],
+  line: ["LineChartCustomTooltip", "LineChartDemo", "LineChartSparkline"]
+};
 
 class ComponentServices {
-  static BASE_URL = `https://cdn.jsdelivr.net/gh/unovue/shadcn-vue@dev/apps/www`;
+  static BASE_URL = `https://cdn.jsdelivr.net/gh/unovue/shadcn-vue@dev/apps`;
   static CONTEXT7_API_BASE_URL = "https://context7.com/api";
   static DEFAULT_TYPE = "txt";
   static DEFAULT_MINIMUM_TOKENS = 1000;
@@ -104054,7 +104017,7 @@ class ComponentServices {
     name,
     type: type3
   }) {
-    const res = await fetch(`${ComponentServices.BASE_URL}/src/content/docs/${type3}/${name}.md`);
+    const res = await fetch(`${ComponentServices.BASE_URL}/www/src/content/docs/${type3}/${name}.md`);
     const content = await res.text();
     if (content.includes('<div class="error-code">404</div>')) {
       return "No documentation found for this component";
@@ -104062,15 +104025,21 @@ class ComponentServices {
     return content;
   }
   static async fetchUsageDemo(name) {
-    const demoName = ComponentServices.convertKebabToPascalCase(name);
-    const demoList = SHADCN_VUE_DEMO_LISTS.filter((demo) => demo.startsWith(demoName));
-    if (demoList.length === 0) {
+    let demoList;
+    if (name in SHADCN_VUE_COMPONENTS) {
+      demoList = SHADCN_VUE_COMPONENTS[name];
+    } else if (name in SHADCN_VUE_CHART_COMPONENTS) {
+      demoList = SHADCN_VUE_CHART_COMPONENTS[name];
+    } else {
+      return "No demo found for this component";
+    }
+    if (!demoList || demoList.length === 0) {
       return "No demo found for this component";
     }
     const demos = await Promise.all(demoList.map(async (demo) => {
       return {
-        name: demo.replace(".vue", ""),
-        code: await fetch(`${ComponentServices.BASE_URL}/src/registry/default/examples/${demo}`).then((res) => res.text())
+        name: demo,
+        code: await fetch(`${ComponentServices.BASE_URL}/www/src/registry/default/examples/${demo}.vue`).then((res) => res.text())
       };
     }));
     return demos;
@@ -104100,8 +104069,16 @@ ${demo.code}
       return match43;
     });
   }
-  static convertKebabToPascalCase(name) {
-    return name.split("-").map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join("");
+  static isValidComponent(name) {
+    return name in SHADCN_VUE_COMPONENTS || name in SHADCN_VUE_CHART_COMPONENTS;
+  }
+  static getComponentDemos(name) {
+    if (name in SHADCN_VUE_COMPONENTS) {
+      return SHADCN_VUE_COMPONENTS[name];
+    } else if (name in SHADCN_VUE_CHART_COMPONENTS) {
+      return SHADCN_VUE_CHART_COMPONENTS[name];
+    }
+    return [];
   }
 }
 var ComponentSchema = esm_default.object({
@@ -104156,6 +104133,145 @@ I will use your precise component selection to read documentation and implement 
 }
 </response_format>
 `;
+var CREATE_UI = `You are an expert Vue.js developer specializing in shadcn-vue and Tailwind CSS component creation.
+
+## CORE PRINCIPLES
+- **Copy-Paste Ready**: Generate production-ready components that can be directly used
+- **shadcn-vue Standards**: Follow official shadcn-vue patterns and conventions  
+- **Modern Design**: Create clean, professional interfaces with excellent UX
+- **Accessibility First**: Ensure WCAG compliance and keyboard navigation
+- **Performance Optimized**: Use efficient Vue 3 Composition API patterns
+
+## TECHNICAL STACK
+- **Framework**: Vue 3 + Composition API + TypeScript
+- **Components**: shadcn-vue (based on Radix Vue/Reka UI primitives)
+- **Styling**: Tailwind CSS utility-first approach
+- **Icons**: Lucide Vue Next for consistent iconography
+- **Type Safety**: Full TypeScript support with proper interfaces
+
+## SOPHISTICATED COLOR SCHEME
+Use an elegant black, white, and gray palette that conveys professionalism and modernity:
+
+### Primary Colors
+- **Pure White**: \`bg-white text-black\` for clean backgrounds
+- **Deep Black**: \`bg-black text-white\` for strong contrast and headers
+- **Charcoal**: \`bg-gray-900 text-white\` for sophisticated dark sections
+
+### Gray Spectrum (Choose appropriate shades)
+- **Light Grays**: \`bg-gray-50 bg-gray-100 bg-gray-200\` for subtle backgrounds
+- **Medium Grays**: \`bg-gray-300 bg-gray-400 bg-gray-500\` for borders and dividers  
+- **Dark Grays**: \`bg-gray-600 bg-gray-700 bg-gray-800\` for secondary elements
+
+### Text Hierarchy
+- **Primary Text**: \`text-black text-gray-900\` for main content
+- **Secondary Text**: \`text-gray-600 text-gray-700\` for supporting content
+- **Muted Text**: \`text-gray-400 text-gray-500\` for captions and labels
+
+### Interactive States
+- **Hover**: Subtle shifts like \`hover:bg-gray-50 hover:bg-gray-800\`
+- **Focus**: Clean focus rings \`focus:ring-gray-400 focus:ring-offset-2\`
+- **Active**: Slightly darker variants \`active:bg-gray-100 active:bg-gray-700\`
+
+## COMPONENT STRUCTURE
+\`\`\`vue
+<template>
+  <!-- Use semantic HTML with proper ARIA attributes -->
+  <div class="space-y-6">
+    <!-- Component content with consistent spacing -->
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import type { ComponentPublicInstance } from 'vue'
+// shadcn-vue component imports
+// Lucide icons imports  
+// Type definitions
+
+// Props with defaults
+interface Props {
+  // Define clear, typed props
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  // Sensible defaults
+})
+
+// Reactive state with proper types
+// Computed properties for derived state
+// Methods with clear naming
+</script>
+\`\`\`
+
+## LAYOUT PATTERNS
+
+### Responsive Design
+- **Mobile First**: Start with mobile, enhance with sm:, md:, lg:, xl:
+- **Adaptive Spacing**: Use consistent spacing that scales well
+- **Flexible Grids**: Implement responsive grid layouts as needed
+
+### Component Composition
+- **Atomic Design**: Build from small, reusable pieces
+- **Compound Components**: Related components that work together
+- **Slot Patterns**: Use Vue slots for flexible content insertion
+
+## DESIGN PRINCIPLES
+
+### Visual Hierarchy
+- Use contrast and typography to establish clear information hierarchy
+- Employ whitespace strategically to create breathing room
+- Balance dense and sparse areas for optimal readability
+
+### Minimalist Approach
+- Favor clean lines and simple geometric shapes
+- Use subtle shadows and borders for depth without clutter
+- Maintain consistent spacing and alignment throughout
+
+### Professional Aesthetics
+- Prioritize readability and usability over decoration
+- Use typography weights and sizes to convey importance
+- Create visual rhythm through consistent patterns
+
+## ACCESSIBILITY REQUIREMENTS
+- **Semantic HTML**: Use proper heading hierarchy, landmarks
+- **ARIA Labels**: Include aria-label, aria-describedby where needed
+- **Keyboard Navigation**: Ensure tab order and keyboard interactions
+- **Focus Management**: Visible focus indicators and logical flow
+- **Screen Reader**: Proper announcements and descriptions
+- **Color Contrast**: Ensure sufficient contrast ratios for gray text combinations
+
+## ANIMATION & TRANSITIONS
+- **Subtle Motion**: Use Tailwind transition utilities sparingly
+- **Enter/Leave**: \`transition-all duration-200 ease-in-out\`
+- **Hover States**: Gentle background and text color transitions
+- **Focus States**: Clear, accessible focus indicators
+
+## CODE QUALITY STANDARDS
+- **TypeScript**: Full type safety with interfaces and generics
+- **Composables**: Extract reusable logic into composables
+- **Error Boundaries**: Handle loading, error, and empty states
+- **Performance**: Use v-memo, shallowRef where appropriate
+- **Consistency**: Follow Vue.js and shadcn-vue naming conventions
+
+## OUTPUT FORMAT
+Generate complete, functional Vue components that:
+1. **Work immediately** when copy-pasted into a shadcn-vue project
+2. **Include all imports** and dependencies clearly listed
+3. **Use realistic data** that demonstrates the component's purpose
+4. **Follow responsive design** patterns for all screen sizes
+5. **Implement proper accessibility** features and ARIA attributes
+6. **Include TypeScript types** for all props and emitted events
+7. **Showcase sophisticated black/white/gray color combinations**
+
+## DESIGN INSPIRATION
+Draw inspiration from:
+- High-end design agencies and portfolios
+- Minimalist architectural websites  
+- Premium SaaS applications with refined aesthetics
+- Modern typography-focused interfaces
+- Monochromatic design systems
+
+Create components that feel premium, accessible, and timeless through masterful use of the black, white, and gray color spectrum.`;
 var COMPONENT_ANALYSIS_PROMPT = `
 You are a Vue.js and shadcn/vue expert. Analyze the provided component documentation and provide comprehensive guidance.
 
@@ -104518,7 +104634,9 @@ function registerTools(server) {
     description: "read usage doc of a component， Use this tool when mentions /doc.",
     parameters: exports_external.object({
       type: exports_external.enum(["components", "charts"]),
-      name: exports_external.enum(SHADCN_VUE_COMPONENTS).describe("name of the component from shadcn/vue, lowercase, kebab-case")
+      name: exports_external.string().describe("name of the component from shadcn/vue, lowercase, kebab-case").refine((name) => ComponentServices.isValidComponent(name), {
+        message: "Component must be a valid shadcn/vue component"
+      })
     }),
     execute: async (params) => {
       try {
@@ -104559,8 +104677,10 @@ function registerTools(server) {
           const description = doc.match(/description: (.*)/)?.[1];
           return `- ${name}: ${description}`;
         }
-        const components = await Promise.all(SHADCN_VUE_COMPONENTS.map((comp) => getInfo("components", comp)));
-        const charts = await Promise.all(SHADCN_VUE_CHARTS.map((chart) => getInfo("charts", chart)));
+        const allComponents = Object.keys(SHADCN_VUE_COMPONENTS);
+        const chartComponents = Object.keys(SHADCN_VUE_CHART_COMPONENTS);
+        const components = await Promise.all(allComponents.map((comp) => getInfo("components", comp)));
+        const charts = await Promise.all(chartComponents.map((chart) => getInfo("charts", chart)));
         const filteringPrompt = `${FILTER_COMPONENTS_PROMPT}<description>${params.description}</description>
 <available-components>
 ${components.join(`
@@ -104573,6 +104693,69 @@ ${charts.join(`
             {
               type: "text",
               text: filteringPrompt
+            }
+          ]
+        };
+      } catch (error4) {
+        console.error("Error executing tool:", error4);
+        throw error4;
+      }
+    }
+  });
+  server.addTool({
+    name: "component-builder",
+    description: `"Use this tool when the user requests a new UI component—e.g., mentions /ui, or asks for a button, input, dialog, table, form, banner, card, or other Vue component.
+  This tool ONLY returns the text snippet for that UI component with shadcn/ui components and tailwindcss.
+  After calling this tool, you must edit or add files to integrate the snippet into the codebase."`,
+    parameters: exports_external.object({
+      filteredComponents: exports_external.string().transform((str) => {
+        return ComponentsSchema.parse(JSON.parse(str));
+      }).describe("filtered components from components-filter tool"),
+      message: exports_external.string().describe("Full users message")
+    }),
+    execute: async (params) => {
+      try {
+        const validComponents = params.filteredComponents.components.filter((component) => {
+          const isValid3 = ComponentServices.isValidComponent(component.name);
+          if (!isValid3) {
+            console.warn(`Warning: Component "${component.name}" is not available in shadcn/vue. Skipping...`);
+          }
+          return isValid3;
+        });
+        const validCharts = params.filteredComponents.charts.filter((chart) => {
+          const isValid3 = ComponentServices.isValidComponent(chart.name);
+          if (!isValid3) {
+            console.warn(`Warning: Chart "${chart.name}" is not available in shadcn/vue. Skipping...`);
+          }
+          return isValid3;
+        });
+        if (validComponents.length === 0 && validCharts.length === 0) {
+          console.warn("No valid components found. Using default components for basic layout.");
+          return {
+            content: [
+              {
+                type: "text",
+                text: "No valid components found. Using default components for basic layout."
+              }
+            ]
+          };
+        }
+        const usageDocs = await Promise.all(validComponents.filter(ComponentServices.createNecessityFilter("optional")).map(async (c) => {
+          return {
+            ...c,
+            doc: await ComponentServices.fetchLibraryDocumentation("/unovue/shadcn-vue", {
+              topic: c.name,
+              tokens: 1000
+            })
+          };
+        }));
+        const promptForClientAI = `${CREATE_UI}
+<message>${params.message}</message>`;
+        return {
+          content: [
+            {
+              type: "text",
+              text: promptForClientAI
             }
           ]
         };

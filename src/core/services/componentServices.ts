@@ -1,268 +1,238 @@
 import z from "zod";
 
-// Shadcn/Vue 组件列表 - 基于官方文档
-export const SHADCN_VUE_COMPONENTS = [
-  "accordion",
-  "alert-dialog",
-  "alert",
-  "aspect-ratio",
-  "auto-form",
-  "avatar",
-  "badge",
-  "breadcrumb",
-  "button",
-  "calendar",
-  "card",
-  "carousel",
-  "checkbox",
-  "collapsible",
-  "combobox",
-  "command",
-  "context-menu",
-  "data-table",
-  "date-picker",
-  "dialog",
-  "drawer",
-  "dropdown-menu",
-  "form",
-  "hover-card",
-  "input",
-  "label",
-  "menubar",
-  "navigation-menu",
-  "number-field",
-  "pagination",
-  "pin-input",
-  "popover",
-  "progress",
-  "radio-group",
-  "range-calendar",
-  "resizable",
-  "scroll-area",
-  "select",
-  "separator",
-  "sheet",
-  "sidebar",
-  "skeleton",
-  "slider",
-  "sonner",
-  "stepper",
-  "switch",
-  "table",
-  "tabs",
-  "tags-input",
-  "textarea",
-  "toast",
-  "toggle-group",
-  "toggle",
-  "tooltip",
-  "typography",
-] as const;
-export const SHADCN_VUE_CHARTS = ["area", "bar", "donut", "line"] as const;
-export const SHADCN_VUE_DEMO_LISTS = [
-  "AccordionDemo.vue",
-  "AlertDemo.vue",
-  "AlertDestructiveDemo.vue",
-  "AlertDialogDemo.vue",
-  "AreaChartCustomTooltip.vue",
-  "AreaChartDemo.vue",
-  "AreaChartSparkline.vue",
-  "AspectRatioDemo.vue",
-  "AutoFormApi.vue",
-  "AutoFormArray.vue",
-  "AutoFormBasic.vue",
-  "AutoFormConfirmPassword.vue",
-  "AutoFormControlled.vue",
-  "AutoFormDependencies.vue",
-  "AutoFormInputWithoutLabel.vue",
-  "AutoFormSubObject.vue",
-  "AvatarDemo.vue",
-  "BadgeDemo.vue",
-  "BadgeDestructiveDemo.vue",
-  "BadgeOutlineDemo.vue",
-  "BadgeSecondaryDemo.vue",
-  "BarChartCustomTooltip.vue",
-  "BarChartDemo.vue",
-  "BarChartRounded.vue",
-  "BarChartStacked.vue",
-  "BreadcrumbDemo.vue",
-  "BreadcrumbDropdown.vue",
-  "BreadcrumbEllipsisDemo.vue",
-  "BreadcrumbLinkDemo.vue",
-  "BreadcrumbResponsive.vue",
-  "BreadcrumbSeparatorDemo.vue",
-  "ButtonAsChildDemo.vue",
-  "ButtonDemo.vue",
-  "ButtonDestructiveDemo.vue",
-  "ButtonGhostDemo.vue",
-  "ButtonIconDemo.vue",
-  "ButtonLinkDemo.vue",
-  "ButtonLoadingDemo.vue",
-  "ButtonOutlineDemo.vue",
-  "ButtonSecondaryDemo.vue",
-  "ButtonWithIconDemo.vue",
-  "CalendarDemo.vue",
-  "CalendarForm.vue",
-  "CalendarWithSelect.vue",
-  "CardChat.vue",
-  "CardDemo.vue",
-  "CardFormDemo.vue",
-  "CardStats.vue",
-  "CardWithForm.vue",
-  "Cards",
-  "CarouselApi.vue",
-  "CarouselDemo.vue",
-  "CarouselOrientation.vue",
-  "CarouselPlugin.vue",
-  "CarouselSize.vue",
-  "CarouselSpacing.vue",
-  "CarouselThumbnails.vue",
-  "CheckboxDemo.vue",
-  "CheckboxDisabled.vue",
-  "CheckboxFormMultiple.vue",
-  "CheckboxFormSingle.vue",
-  "CheckboxWithText.vue",
-  "CollapsibleDemo.vue",
-  "ComboboxDemo.vue",
-  "ComboboxDropdownMenu.vue",
-  "ComboboxForm.vue",
-  "ComboboxPopover.vue",
-  "ComboboxResponsive.vue",
-  "ComboboxTrigger.vue",
-  "CommandDemo.vue",
-  "CommandDialogDemo.vue",
-  "CommandDropdownMenu.vue",
-  "CommandForm.vue",
-  "CommandPopover.vue",
-  "CommandResponsive.vue",
-  "ContextMenuDemo.vue",
-  "CustomChartTooltip.vue",
-  "DataTableColumnPinningDemo.vue",
-  "DataTableDemo.vue",
-  "DataTableDemoColumn.vue",
-  "DataTableReactiveDemo.vue",
-  "DatePickerDemo.vue",
-  "DatePickerForm.vue",
-  "DatePickerWithIndependentMonths.vue",
-  "DatePickerWithPresets.vue",
-  "DatePickerWithRange.vue",
-  "DialogCustomCloseButton.vue",
-  "DialogDemo.vue",
-  "DialogForm.vue",
-  "DialogScrollBodyDemo.vue",
-  "DialogScrollOverlayDemo.vue",
-  "DonutChartColor.vue",
-  "DonutChartCustomTooltip.vue",
-  "DonutChartDemo.vue",
-  "DonutChartPie.vue",
-  "DrawerDemo.vue",
-  "DrawerDialog.vue",
-  "DropdownMenuCheckboxes.vue",
-  "DropdownMenuDemo.vue",
-  "DropdownMenuRadioGroup.vue",
-  "HoverCardDemo.vue",
-  "InputDemo.vue",
-  "InputDisabled.vue",
-  "InputFile.vue",
-  "InputForm.vue",
-  "InputFormAutoAnimate.vue",
-  "InputWithButton.vue",
-  "InputWithIcon.vue",
-  "InputWithLabel.vue",
-  "LabelDemo.vue",
-  "LineChartCustomTooltip.vue",
-  "LineChartDemo.vue",
-  "LineChartSparkline.vue",
-  "MenubarDemo.vue",
-  "NavigationMenuDemo.vue",
-  "NumberFieldCurrency.vue",
-  "NumberFieldDecimal.vue",
-  "NumberFieldDemo.vue",
-  "NumberFieldDisabled.vue",
-  "NumberFieldForm.vue",
-  "NumberFieldPercentage.vue",
-  "PaginationDemo.vue",
-  "PinInputControlled.vue",
-  "PinInputDemo.vue",
-  "PinInputDisabled.vue",
-  "PinInputFormDemo.vue",
-  "PinInputSeparatorDemo.vue",
-  "PopoverDemo.vue",
-  "ProgressDemo.vue",
-  "RadioGroupDemo.vue",
-  "RadioGroupForm.vue",
-  "RangeCalendarDemo.vue",
-  "ResizableDemo.vue",
-  "ResizableHandleDemo.vue",
-  "ResizableVerticalDemo.vue",
-  "ScrollAreaDemo.vue",
-  "ScrollAreaHorizontalDemo.vue",
-  "SelectDemo.vue",
-  "SelectForm.vue",
-  "SelectScrollable.vue",
-  "SeparatorDemo.vue",
-  "SheetDemo.vue",
-  "SheetSideDemo.vue",
-  "SkeletonCard.vue",
-  "SkeletonDemo.vue",
-  "SliderDemo.vue",
-  "SliderForm.vue",
-  "SonnerDemo.vue",
-  "SonnerWithDialog.vue",
-  "StepperDemo.vue",
-  "StepperForm.vue",
-  "StepperHorizental.vue",
-  "StepperVertical.vue",
-  "SwitchDemo.vue",
-  "SwitchForm.vue",
-  "TableDemo.vue",
-  "TabsDemo.vue",
-  "TabsVerticalDemo.vue",
-  "TagsInputComboboxDemo.vue",
-  "TagsInputDemo.vue",
-  "TagsInputFormDemo.vue",
-  "TextareaDemo.vue",
-  "TextareaDisabled.vue",
-  "TextareaForm.vue",
-  "TextareaWithButton.vue",
-  "TextareaWithLabel.vue",
-  "TextareaWithText.vue",
-  "ToastDemo.vue",
-  "ToastDestructive.vue",
-  "ToastSimple.vue",
-  "ToastWithAction.vue",
-  "ToastWithTitle.vue",
-  "ToggleDemo.vue",
-  "ToggleDisabledDemo.vue",
-  "ToggleGroupDemo.vue",
-  "ToggleGroupDisabledDemo.vue",
-  "ToggleGroupLargeDemo.vue",
-  "ToggleGroupOutlineDemo.vue",
-  "ToggleGroupSingleDemo.vue",
-  "ToggleGroupSmallDemo.vue",
-  "ToggleItalicDemo.vue",
-  "ToggleItalicWithTextDemo.vue",
-  "ToggleLargeDemo.vue",
-  "ToggleSmallDemo.vue",
-  "TooltipDemo.vue",
-  "TypographyBlockquote.vue",
-  "TypographyDemo.vue",
-  "TypographyH1.vue",
-  "TypographyH2.vue",
-  "TypographyH3.vue",
-  "TypographyH4.vue",
-  "TypographyInlineCode.vue",
-  "TypographyLarge.vue",
-  "TypographyLead.vue",
-  "TypographyList.vue",
-  "TypographyMuted.vue",
-  "TypographyP.vue",
-  "TypographySmall.vue",
-  "TypographyTable.vue",
-] as const;
+// Shadcn/Vue 组件和对应的 demo 列表
+export const SHADCN_VUE_COMPONENTS = {
+  accordion: ["AccordionDemo"],
+  "alert-dialog": ["AlertDialogDemo", "AlertDemo", "AlertDestructiveDemo"],
+  alert: ["AlertDemo", "AlertDestructiveDemo"],
+
+  "aspect-ratio": ["AspectRatioDemo"],
+  "auto-form": [
+    "AutoFormApi",
+    "AutoFormArray",
+    "AutoFormBasic",
+    "AutoFormConfirmPassword",
+    "AutoFormControlled",
+    "AutoFormDependencies",
+    "AutoFormInputWithoutLabel",
+    "AutoFormSubObject",
+  ],
+  avatar: ["AvatarDemo"],
+  badge: [
+    "BadgeDemo",
+    "BadgeDestructiveDemo",
+    "BadgeOutlineDemo",
+    "BadgeSecondaryDemo",
+  ],
+
+  breadcrumb: [
+    "BreadcrumbDemo",
+    "BreadcrumbDropdown",
+    "BreadcrumbEllipsisDemo",
+    "BreadcrumbLinkDemo",
+    "BreadcrumbResponsive",
+    "BreadcrumbSeparatorDemo",
+  ],
+  button: [
+    "ButtonAsChildDemo",
+    "ButtonDemo",
+    "ButtonDestructiveDemo",
+    "ButtonGhostDemo",
+    "ButtonIconDemo",
+    "ButtonLinkDemo",
+    "ButtonLoadingDemo",
+    "ButtonOutlineDemo",
+    "ButtonSecondaryDemo",
+    "ButtonWithIconDemo",
+  ],
+  calendar: ["CalendarDemo", "CalendarForm", "CalendarWithSelect"],
+  card: ["CardChat", "CardDemo", "CardFormDemo", "CardStats", "CardWithForm"],
+  carousel: [
+    "CarouselApi",
+    "CarouselDemo",
+    "CarouselOrientation",
+    "CarouselPlugin",
+    "CarouselSize",
+    "CarouselSpacing",
+    "CarouselThumbnails",
+  ],
+  checkbox: [
+    "CheckboxDemo",
+    "CheckboxDisabled",
+    "CheckboxFormMultiple",
+    "CheckboxFormSingle",
+    "CheckboxWithText",
+  ],
+  collapsible: ["CollapsibleDemo"],
+  combobox: [
+    "ComboboxDemo",
+    "ComboboxDropdownMenu",
+    "ComboboxForm",
+    "ComboboxPopover",
+    "ComboboxResponsive",
+    "ComboboxTrigger",
+  ],
+  command: [
+    "CommandDemo",
+    "CommandDialogDemo",
+    "CommandDropdownMenu",
+    "CommandForm",
+    "CommandPopover",
+    "CommandResponsive",
+  ],
+  "context-menu": ["ContextMenuDemo"],
+  "data-table": [
+    "DataTableColumnPinningDemo",
+    "DataTableDemo",
+    "DataTableDemoColumn",
+    "DataTableReactiveDemo",
+  ],
+  "date-picker": [
+    "DatePickerDemo",
+    "DatePickerForm",
+    "DatePickerWithIndependentMonths",
+    "DatePickerWithPresets",
+    "DatePickerWithRange",
+  ],
+  dialog: [
+    "DialogCustomCloseButton",
+    "DialogDemo",
+    "DialogForm",
+    "DialogScrollBodyDemo",
+    "DialogScrollOverlayDemo",
+  ],
+  drawer: ["DrawerDemo", "DrawerDialog"],
+  "dropdown-menu": [
+    "DropdownMenuCheckboxes",
+    "DropdownMenuDemo",
+    "DropdownMenuRadioGroup",
+  ],
+  "hover-card": ["HoverCardDemo"],
+  input: [
+    "InputDemo",
+    "InputDisabled",
+    "InputFile",
+    "InputForm",
+    "InputFormAutoAnimate",
+    "InputWithButton",
+    "InputWithIcon",
+    "InputWithLabel",
+  ],
+  label: ["LabelDemo"],
+  menubar: ["MenubarDemo"],
+  "navigation-menu": ["NavigationMenuDemo"],
+  "number-field": [
+    "NumberFieldCurrency",
+    "NumberFieldDecimal",
+    "NumberFieldDemo",
+    "NumberFieldDisabled",
+    "NumberFieldForm",
+    "NumberFieldPercentage",
+  ],
+  pagination: ["PaginationDemo"],
+  "pin-input": [
+    "PinInputControlled",
+    "PinInputDemo",
+    "PinInputDisabled",
+    "PinInputFormDemo",
+    "PinInputSeparatorDemo",
+  ],
+  popover: ["PopoverDemo"],
+  progress: ["ProgressDemo"],
+  "radio-group": ["RadioGroupDemo", "RadioGroupForm"],
+  "range-calendar": ["RangeCalendarDemo"],
+  resizable: ["ResizableDemo", "ResizableHandleDemo", "ResizableVerticalDemo"],
+  "scroll-area": ["ScrollAreaDemo", "ScrollAreaHorizontalDemo"],
+  select: ["SelectDemo", "SelectForm", "SelectScrollable"],
+  separator: ["SeparatorDemo"],
+  sheet: ["SheetDemo", "SheetSideDemo"],
+  sidebar: [], // 添加 sidebar 组件，暂无 demo
+  skeleton: ["SkeletonCard", "SkeletonDemo"],
+  slider: ["SliderDemo", "SliderForm"],
+  sonner: ["SonnerDemo", "SonnerWithDialog"],
+  stepper: [
+    "StepperDemo",
+    "StepperForm",
+    "StepperHorizental",
+    "StepperVertical",
+  ],
+  switch: ["SwitchDemo", "SwitchForm"],
+  table: ["TableDemo"],
+  tabs: ["TabsDemo", "TabsVerticalDemo"],
+  "tags-input": ["TagsInputComboboxDemo", "TagsInputDemo", "TagsInputFormDemo"],
+  textarea: [
+    "TextareaDemo",
+    "TextareaDisabled",
+    "TextareaForm",
+    "TextareaWithButton",
+    "TextareaWithLabel",
+    "TextareaWithText",
+  ],
+  toast: [
+    "ToastDemo",
+    "ToastDestructive",
+    "ToastSimple",
+    "ToastWithAction",
+    "ToastWithTitle",
+  ],
+  toggle: [
+    "ToggleDemo",
+    "ToggleDisabledDemo",
+    "ToggleItalicDemo",
+    "ToggleItalicWithTextDemo",
+    "ToggleLargeDemo",
+    "ToggleSmallDemo",
+  ],
+  "toggle-group": [
+    "ToggleGroupDemo",
+    "ToggleGroupDisabledDemo",
+    "ToggleGroupLargeDemo",
+    "ToggleGroupOutlineDemo",
+    "ToggleGroupSingleDemo",
+    "ToggleGroupSmallDemo",
+  ],
+  tooltip: ["TooltipDemo"],
+  typography: [
+    "TypographyBlockquote",
+    "TypographyDemo",
+    "TypographyH1",
+    "TypographyH2",
+    "TypographyH3",
+    "TypographyH4",
+    "TypographyInlineCode",
+    "TypographyLarge",
+    "TypographyLead",
+    "TypographyList",
+    "TypographyMuted",
+    "TypographyP",
+    "TypographySmall",
+    "TypographyTable",
+  ],
+} as const;
+
+export const SHADCN_VUE_CHART_COMPONENTS = {
+  area: ["AreaChartCustomTooltip", "AreaChartDemo", "AreaChartSparkline"],
+  bar: [
+    "BarChartCustomTooltip",
+    "BarChartDemo",
+    "BarChartRounded",
+    "BarChartStacked",
+  ],
+  donut: [
+    "DonutChartColor",
+    "DonutChartCustomTooltip",
+    "DonutChartDemo",
+    "DonutChartPie",
+  ],
+  line: ["LineChartCustomTooltip", "LineChartDemo", "LineChartSparkline"],
+} as const;
+
+// 导出组件名称类型
+export type ShadcnVueComponent = keyof typeof SHADCN_VUE_COMPONENTS;
+export type ShadcnVueChartComponent = keyof typeof SHADCN_VUE_CHART_COMPONENTS;
 
 export class ComponentServices {
-  private static readonly BASE_URL = `https://cdn.jsdelivr.net/gh/unovue/shadcn-vue@dev/apps/www`;
+  private static readonly BASE_URL = `https://cdn.jsdelivr.net/gh/unovue/shadcn-vue@dev/apps`;
   private static readonly CONTEXT7_API_BASE_URL = "https://context7.com/api";
   private static readonly DEFAULT_TYPE = "txt";
   private static readonly DEFAULT_MINIMUM_TOKENS = 1000;
@@ -324,7 +294,7 @@ export class ComponentServices {
     type: string;
   }) {
     const res = await fetch(
-      `${ComponentServices.BASE_URL}/src/content/docs/${type}/${name}.md`
+      `${ComponentServices.BASE_URL}/www/src/content/docs/${type}/${name}.md`
     );
     const content = await res.text();
     // 检查内容是否包含 404 错误信息
@@ -333,29 +303,37 @@ export class ComponentServices {
     }
     return content;
   }
-  static async fetchUsageDemo(name: typeof SHADCN_VUE_COMPONENTS[number]) {
-    // 获取组件的 demo 文件名
-    // name的名称alert","aspect-ratio","auto-form","avatar",将其改为Alert, AspectRatio, AutoForm, Avatar
-    const demoName = ComponentServices.convertKebabToPascalCase(name);
-    const demoList = SHADCN_VUE_DEMO_LISTS.filter((demo) => demo.startsWith(demoName));
+
+  static async fetchUsageDemo(name: ShadcnVueComponent | ShadcnVueChartComponent) {
+    // 从相应的结构中获取 demo 列表
+    let demoList: readonly string[];
     
-    if (demoList.length === 0) {
+    if (name in SHADCN_VUE_COMPONENTS) {
+      demoList = SHADCN_VUE_COMPONENTS[name as ShadcnVueComponent];
+    } else if (name in SHADCN_VUE_CHART_COMPONENTS) {
+      demoList = SHADCN_VUE_CHART_COMPONENTS[name as ShadcnVueChartComponent];
+    } else {
       return "No demo found for this component";
     }
+    
+    if (!demoList || demoList.length === 0) {
+      return "No demo found for this component";
+    }
+
     // 使用Promise.all 并发请求, 返回格式为 {name: demoName, code: content}
     const demos = await Promise.all(
       demoList.map(async (demo) => {
         return {
-          // 去掉.vue
-          name: demo.replace(".vue", ""),
+          name: demo,
           code: await fetch(
-            `${ComponentServices.BASE_URL}/src/registry/default/examples/${demo}`
+            `${ComponentServices.BASE_URL}/www/src/registry/default/examples/${demo}.vue`
           ).then((res) => res.text()),
         };
       })
     );
     return demos;
   }
+
   static createNecessityFilter(necessity: string) {
     return (component: { necessity: string }) => {
       const score: Record<string, number> = {
@@ -373,17 +351,20 @@ export class ComponentServices {
    * @param demos demo 数组，包含 {name, code} 格式
    * @returns 处理后的文档内容
    */
-  static replaceComponentPreviewsWithCode(doc: string, demos: Array<{name: string, code: string}>): string {
+  static replaceComponentPreviewsWithCode(
+    doc: string,
+    demos: Array<{ name: string; code: string }>
+  ): string {
     if (!Array.isArray(demos) || demos.length === 0) {
       return doc;
     }
     // 正则匹配 <ComponentPreview name="demoName" /> 格式：
     // <ComponentPreview name="ComboboxPopover" />
     const componentPreviewRegex = /<ComponentPreview\s+name="([^"]+)"\s*\/>/g;
-    
+
     return doc.replace(componentPreviewRegex, (match, demoName) => {
       // 在demos数组中查找匹配的demo
-      const demo = demos.find(d => d.name === demoName);
+      const demo = demos.find((d) => d.name === demoName);
       if (demo && demo.code) {
         // 将demo代码包装在代码块中
         return `\`\`\`vue\n${demo.code}\n\`\`\``;
@@ -394,14 +375,22 @@ export class ComponentServices {
   }
 
   /**
-   * 将 kebab-case 格式的组件名转换为 PascalCase 格式
-   * 例如: "alert" -> "Alert", "aspect-ratio" -> "AspectRatio"
+   * 检查组件是否存在
    */
-  static convertKebabToPascalCase(name: string): string {
-    return name
-      .split("-")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join("");
+  static isValidComponent(name: string): name is ShadcnVueComponent | ShadcnVueChartComponent {
+    return name in SHADCN_VUE_COMPONENTS || name in SHADCN_VUE_CHART_COMPONENTS;
+  }
+
+  /**
+   * 获取指定组件的所有 demo 名称
+   */
+  static getComponentDemos(name: ShadcnVueComponent | ShadcnVueChartComponent): readonly string[] {
+    if (name in SHADCN_VUE_COMPONENTS) {
+      return SHADCN_VUE_COMPONENTS[name as ShadcnVueComponent];
+    } else if (name in SHADCN_VUE_CHART_COMPONENTS) {
+      return SHADCN_VUE_CHART_COMPONENTS[name as ShadcnVueChartComponent];
+    }
+    return [];
   }
 }
 

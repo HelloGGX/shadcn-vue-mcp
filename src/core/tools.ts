@@ -21,10 +21,13 @@ export function registerTools(server: FastMCP) {
       // components | charts
       type: z.enum(["components", "charts"]),
       name: z
-        .enum(services.SHADCN_VUE_COMPONENTS)
+        .string()
         .describe(
           "name of the component from shadcn/vue, lowercase, kebab-case"
-        ),
+        )
+        .refine((name) => services.ComponentServices.isValidComponent(name), {
+          message: "Component must be a valid shadcn/vue component",
+        }),
     }),
     execute: async (params) => {
       try {
@@ -81,15 +84,18 @@ export function registerTools(server: FastMCP) {
           return `- ${name}: ${description}`;
         }
 
-        // SHADCN_VUE_COMPONENTS 和 SHADCN_VUE_CHARTS 是数组类型, 使用promise.all
+        // 从新的 SHADCN_VUE_COMPONENTS 结构中获取所有组件和图表
+        const allComponents = Object.keys(services.SHADCN_VUE_COMPONENTS);
+        const chartComponents = Object.keys(
+          services.SHADCN_VUE_CHART_COMPONENTS
+        ); // 从新的图表组件结构获取
+
         const components = await Promise.all(
-          services.SHADCN_VUE_COMPONENTS.map((comp) =>
-            getInfo("components", comp)
-          )
+          allComponents.map((comp) => getInfo("components", comp))
         );
 
         const charts = await Promise.all(
-          services.SHADCN_VUE_CHARTS.map((chart) => getInfo("charts", chart))
+          chartComponents.map((chart) => getInfo("charts", chart))
         );
 
         // 将筛选任务和数据传给 IDE 的 AI 处理
@@ -131,17 +137,12 @@ export function registerTools(server: FastMCP) {
     }),
     execute: async (params) => {
       try {
-        // 验证组件是否存在于可用组件列表中
-        const availableComponents = new Set([
-          ...services.SHADCN_VUE_COMPONENTS,
-          ...services.SHADCN_VUE_CHARTS,
-        ]);
 
         // 过滤掉不存在的组件
         const validComponents = params.filteredComponents.components.filter(
           (component) => {
-            const isValid = availableComponents.has(
-              component.name as (typeof services.SHADCN_VUE_COMPONENTS)[number]
+            const isValid = services.ComponentServices.isValidComponent(
+              component.name
             );
             if (!isValid) {
               console.warn(
@@ -153,8 +154,8 @@ export function registerTools(server: FastMCP) {
         );
 
         const validCharts = params.filteredComponents.charts.filter((chart) => {
-          const isValid = availableComponents.has(
-            chart.name as (typeof services.SHADCN_VUE_CHARTS)[number]
+          const isValid = services.ComponentServices.isValidComponent(
+            chart.name
           );
           if (!isValid) {
             console.warn(
@@ -200,6 +201,15 @@ export function registerTools(server: FastMCP) {
         );
 
         const promptForClientAI = `${CREATE_UI}\n<message>${params.message}</message>`;
+
+        return {
+          content: [
+            {
+              type: "text",
+              text: promptForClientAI,
+            },
+          ],
+        };
       } catch (error) {
         console.error("Error executing tool:", error);
         throw error;
