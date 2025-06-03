@@ -1,4 +1,5 @@
 import z from "zod";
+import axios, { AxiosError } from "axios";
 
 // Shadcn/Vue 组件和对应的 demo 列表
 export const SHADCN_VUE_COMPONENTS = {
@@ -233,11 +234,50 @@ export type ShadcnVueChartComponent = keyof typeof SHADCN_VUE_CHART_COMPONENTS;
 
 export class ComponentServices {
   private static readonly BASE_URL = `https://cdn.jsdelivr.net/gh/unovue/shadcn-vue@dev/apps`;
+  private static readonly FALLBACK_BASE_URL = `https://raw.githubusercontent.com/unovue/shadcn-vue/dev/apps`;
   private static readonly CONTEXT7_API_BASE_URL = "https://context7.com/api";
   private static readonly DEFAULT_TYPE = "txt";
   private static readonly DEFAULT_MINIMUM_TOKENS = 1000;
 
   constructor() {}
+
+  /**
+   * 使用重试机制获取内容，失败时自动切换到备用 URL
+   */
+  private static async fetchWithFallback(path: string): Promise<string> {
+    const urls = [
+      `${ComponentServices.BASE_URL}${path}`,
+      `${ComponentServices.FALLBACK_BASE_URL}${path}`
+    ];
+
+    for (let i = 0; i < urls.length; i++) {
+      try {
+        const response = await axios.get(urls[i], {
+          timeout: 10000, // 10秒超时
+          validateStatus: (status) => status >= 200 && status < 300
+        });
+        
+        // 检查内容是否包含 404 错误信息
+        if (response.data.includes('<div class="error-code">404</div>')) {
+          throw new Error('404 Not Found');
+        }
+        
+        return response.data;
+      } catch (error) {
+        console.warn(`Failed to fetch from ${urls[i]}:`, error instanceof AxiosError ? error.message : error);
+        
+        // 如果是最后一个 URL，抛出错误
+        if (i === urls.length - 1) {
+          throw error;
+        }
+        
+        // 继续尝试下一个 URL
+        continue;
+      }
+    }
+    
+    throw new Error('All URLs failed');
+  }
 
   static async fetchLibraryDocumentation(
     libraryId: string,
@@ -293,15 +333,17 @@ export class ComponentServices {
     name: string;
     type: string;
   }) {
-    const res = await fetch(
-      `${ComponentServices.BASE_URL}/www/src/content/docs/${type}/${name}.md`
-    );
-    const content = await res.text();
-    // 检查内容是否包含 404 错误信息
-    if (content.includes('<div class="error-code">404</div>')) {
+    
+    try {
+      
+      const content = await ComponentServices.fetchWithFallback(
+        name === "typography" ? `/www/src/content/docs/${name}.md` : `/www/src/content/docs/${type}/${name}.md`
+      );
+      return content;
+    } catch (error) {
+      console.error(`Failed to fetch component documentation for ${name}:`, error);
       return "No documentation found for this component";
     }
-    return content;
   }
 
   static async fetchUsageDemo(name: ShadcnVueComponent | ShadcnVueChartComponent) {
@@ -323,12 +365,21 @@ export class ComponentServices {
     // 使用Promise.all 并发请求, 返回格式为 {name: demoName, code: content}
     const demos = await Promise.all(
       demoList.map(async (demo) => {
-        return {
-          name: demo,
-          code: await fetch(
-            `${ComponentServices.BASE_URL}/www/src/registry/default/examples/${demo}.vue`
-          ).then((res) => res.text()),
-        };
+        try {
+          const code = await ComponentServices.fetchWithFallback(
+            `/www/src/registry/default/examples/${demo}.vue`
+          );
+          return {
+            name: demo,
+            code: code,
+          };
+        } catch (error) {
+          console.error(`Failed to fetch demo ${demo}:`, error);
+          return {
+            name: demo,
+            code: `// Failed to load demo: ${demo}`,
+          };
+        }
       })
     );
     return demos;

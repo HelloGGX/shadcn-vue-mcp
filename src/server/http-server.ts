@@ -10,15 +10,15 @@ async function main() {
     
     // Start the server with SSE transport
     server.start({
-      transportType: "sse",
-      sse: {
-        port: PORT,
-        endpoint: "/sse",
-      },
+      transportType: "stdio",
+      // sse: {
+      //   port: PORT,
+      //   endpoint: "/sse",
+      // },
     });
     
     console.error(`MCP Server running at http://localhost:${PORT}`);
-    console.error(`SSE endpoint: http://localhost:${PORT}/sse`);
+    // console.error(`SSE endpoint: http://localhost:${PORT}/sse`);
   } catch (error) {
     console.error("Failed to start server:", error);
     process.exit(1);
