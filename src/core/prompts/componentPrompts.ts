@@ -2,7 +2,8 @@ import { FastMCP } from "fastmcp";
 
 
 
-export const FILTER_COMPONENTS_PROMPT = `<requirement>
+export const FILTER_COMPONENTS_PROMPT = `
+<requirement>
 As a web UI expert, analyze the provided UI description thoroughly and identify ONLY the specific components and charts absolutely necessary to implement the described interface.
 
 CRITICAL CONSTRAINTS:
@@ -43,6 +44,66 @@ I will use your precise component selection to read documentation and implement 
   ]
 }
 </response_format>
+<available-components>
+- accordion: A vertically stacked set of interactive headings that each reveal a section of content.
+- alert-dialog: A modal dialog that interrupts the user with important content and expects a response.
+- alert: Displays a callout for user attention.
+- aspect-ratio: Displays content within a desired ratio.
+- auto-form: Automatically generate a form from Zod schema.
+- avatar: An image element with a fallback for representing the user.
+- badge: Displays a badge or a component that looks like a badge.
+- breadcrumb: Displays the path to the current resource using a hierarchy of links.
+- button: Displays a button or a component that looks like a button.
+- calendar: A date field component that allows users to enter and edit date.
+- card: Displays a card with header, content, and footer.
+- carousel: A carousel with motion and swipe built using Embla.
+- checkbox: A control that allows the user to toggle between checked and not checked.
+- collapsible: An interactive component which expands/collapses a panel.
+- combobox: Autocomplete input and command palette with a list of suggestions.
+- command: Fast, composable, unstyled command menu.
+- context-menu: Displays a menu to the user — such as a set of actions or functions — triggered by a button.
+- data-table: Powerful table and datagrids built using TanStack Table.
+- date-picker: A date picker component with range and presets.
+- dialog: A window overlaid on either the primary window or another dialog window, rendering the content underneath inert.
+- drawer: A drawer component for vue.
+- dropdown-menu: Displays a menu to the user — such as a set of actions or functions — triggered by a button.
+- hover-card: For sighted users to preview content available behind a link.
+- input: Displays a form input field or a component that looks like an input field.
+- label: Renders an accessible label associated with controls.
+- menubar: A visually persistent menu common in desktop applications that provides quick access to a consistent set of commands.
+- navigation-menu: A collection of links for navigating websites.
+- number-field: A number field allows a user to enter a number and increment or decrement the value using stepper buttons.
+- pagination: Displays data in paged format and provides navigation between pages.
+- pin-input: Allows users to input a sequence of one-character alphanumeric inputs.
+- popover: Displays rich content in a portal, triggered by a button.
+- progress: Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.
+- radio-group: A set of checkable buttons—known as radio buttons—where no more than one of the buttons can be checked at a time.
+- range-calendar: A calendar component that allows users to select a range of dates.
+- resizable: Accessible resizable panel groups and layouts with keyboard support.
+- scroll-area: Augments native scroll functionality for custom, cross-browser styling.
+- select: Displays a list of options for the user to pick from—triggered by a button.
+- separator: Visually or semantically separates content.
+- sheet: Extends the Dialog component to display content that complements the main content of the screen.
+- sidebar: A composable, themeable and customizable sidebar component.
+- skeleton: Use to show a placeholder while content is loading.
+- slider: An input where the user selects a value from within a given range.
+- sonner: An opinionated toast component for Vue.
+- stepper: A set of steps that are used to indicate progress through a multi-step process.
+- switch: A control that allows the user to toggle between checked and not checked.
+- table: A responsive table component.
+- tabs: A set of layered sections of content—known as tab panels—that are displayed one at a time.
+- tags-input: Tag inputs render tags inside an input, followed by an actual text input.
+- textarea: Displays a form textarea or a component that looks like a textarea.
+- toast: A succinct message that is displayed temporarily.
+- toggle: A two-state button that can be either on or off.
+- toggle-group: A set of two-state buttons that can be toggled on or off.
+- tooltip: A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.
+- typography: Styles for headings, paragraphs, lists...etc
+- area: An area chart visually represents data over time, displaying trends and patterns through filled-in areas under a line graph.
+- bar: A line chart visually represents data using rectangular bars of varying lengths to compare quantities across different categories or groups.
+- donut: A line chart visually represents data in a circular form, similar to a pie chart but with a central void, emphasizing proportions within categories.
+- line: A line chart  visually displays data points connected by straight lines, illustrating trends or relationships over a continuous axis.
+</available-components>
 `;
 
 export const CREATE_UI = `You are an expert Vue.js developer specializing in shadcn-vue and Tailwind CSS component creation.

@@ -69,41 +69,14 @@ export function registerTools(server: FastMCP) {
     description:
       "filter components with shadcn/ui components and tailwindcss, Use this tool when mentions /filter",
     parameters: z.object({
-      description: z.string().describe("description of the Web UI"),
+      message: z.string().describe("description of the Web UI"),
     }),
     execute: async (params) => {
       try {
-        // 使用readFullComponentDoc获取每个组件的文档
-        async function getInfo(type: string, name: string) {
-          const doc = await services.ComponentServices.readFullComponentDoc({
-            type: type,
-            name: name,
-          });
-          // 获取每个文档中的description的内容
-          const description = doc.match(/description: (.*)/)?.[1];
-          return `- ${name}: ${description}`;
-        }
-
-        // 从新的 SHADCN_VUE_COMPONENTS 结构中获取所有组件和图表
-        const allComponents = Object.keys(services.SHADCN_VUE_COMPONENTS);
-        const chartComponents = Object.keys(
-          services.SHADCN_VUE_CHART_COMPONENTS
-        ); // 从新的图表组件结构获取
-
-        const components = await Promise.all(
-          allComponents.map((comp) => getInfo("components", comp))
-        );
-
-        const charts = await Promise.all(
-          chartComponents.map((chart) => getInfo("charts", chart))
-        );
-
         // 将筛选任务和数据传给 IDE 的 AI 处理
-        const filteringPrompt = `${FILTER_COMPONENTS_PROMPT}<description>${
-          params.description
-        }</description>\n<available-components>\n${components.join(
-          "\n"
-        )}\n${charts.join("\n")}\n</available-components>`;
+        const filteringPrompt = `${FILTER_COMPONENTS_PROMPT}
+        <user-message>${params.message}</user-message>
+        `;
 
         return {
           content: [
