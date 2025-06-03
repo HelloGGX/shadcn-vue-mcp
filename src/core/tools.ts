@@ -74,9 +74,7 @@ export function registerTools(server: FastMCP) {
     execute: async (params) => {
       try {
         // 将筛选任务和数据传给 IDE 的 AI 处理
-        const filteringPrompt = `${FILTER_COMPONENTS_PROMPT}
-        <user-message>${params.message}</user-message>
-        `;
+        const filteringPrompt = `${FILTER_COMPONENTS_PROMPT}\n<user-message>${params.message}</user-message>`;
 
         return {
           content: [
