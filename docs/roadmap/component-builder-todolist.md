@@ -7,7 +7,7 @@
 
 ## 📋 Phase 1: 基础架构优化 & 核心DX奠基
 ### 组件数据管理
-- [ ] 扩展shadcn-vue组件元数据收集（支持的props、slots、events、variants、依赖关系）
+- [x] 扩展shadcn-vue组件元数据收集（支持的props、slots、events、variants、依赖关系）
 - [ ] 创建组件分类与标签体系（功能、场景、原子性等）
 - [ ] 实现组件依赖关系图谱分析与可视化雏形
 - [ ] 添加组件复杂度与维护性初步评估机制
