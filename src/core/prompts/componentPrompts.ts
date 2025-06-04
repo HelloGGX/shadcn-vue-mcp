@@ -3,48 +3,24 @@ import { FastMCP } from "fastmcp";
 
 
 export const FILTER_COMPONENTS_PROMPT = `
-<requirement>
-As a web UI expert, analyze the provided UI description thoroughly and identify ONLY the specific components and charts absolutely necessary to implement the described interface.
+CRITICAL: You must respond with a valid JSON object in the exact format specified below. Do not include any other text or explanations outside the JSON.
 
-CRITICAL CONSTRAINTS:
+As a web UI expert, analyze the provided UI description and identify ONLY the specific components and charts absolutely necessary to implement the described interface.
+
+STRICT REQUIREMENTS:
 - You MUST ONLY select components from the provided available-components list
 - DO NOT create, invent, or suggest components that are not explicitly listed
-- If a component you think you need doesn't exist, find alternative components from the list that can achieve similar functionality
+- If a component you think you need doesn't exist, find alternative components from the list
+- Your response MUST be a valid JSON object with the exact structure shown below
 
-Your analysis should:
+ANALYSIS PROCESS:
 1. Consider the exact functional requirements in the description
 2. Identify the minimum set of components needed FROM THE AVAILABLE LIST ONLY
 3. Exclude components that might be nice-to-have but aren't essential
 4. Justify each component's selection with a brief reason tied to the requirements
 5. Consider performance and maintainability implications
-6. When a desired component doesn't exist, explain how the selected alternative can be used to achieve the same goal
 
-I will use your precise component selection to read documentation and implement the UI.
-</requirement>
-
-<constraints>
-- The response must be a single object, not wrapped in an array (e.g., do not return '[{ components: [] }]', but return '{ components: [], charts: [] }').
-</constraints>
-
-<response_format>
-{
-  "components": [
-    {
-      "name": "string (must be from available-components list)",
-      "necessity": "critical|important|optional",
-      "justification": "string (explain how this component achieves the desired functionality)"
-    }
-  ],
-  "charts": [
-    {
-      "name": "string (must be from available-charts list)", 
-      "necessity": "critical|important|optional",
-      "justification": "string (explain how this chart achieves the desired functionality)"
-    }
-  ]
-}
-</response_format>
-<available-components>
+AVAILABLE COMPONENTS:
 - accordion: A vertically stacked set of interactive headings that each reveal a section of content.
 - alert-dialog: A modal dialog that interrupts the user with important content and expects a response.
 - alert: Displays a callout for user attention.
@@ -103,7 +79,31 @@ I will use your precise component selection to read documentation and implement 
 - bar: A line chart visually represents data using rectangular bars of varying lengths to compare quantities across different categories or groups.
 - donut: A line chart visually represents data in a circular form, similar to a pie chart but with a central void, emphasizing proportions within categories.
 - line: A line chart  visually displays data points connected by straight lines, illustrating trends or relationships over a continuous axis.
-</available-components>
+
+REQUIRED OUTPUT FORMAT - RESPOND WITH ONLY THIS JSON STRUCTURE:
+{
+  "components": [
+    {
+      "name": "string (must be from available-components list)",
+      "necessity": "critical|important|optional",
+      "justification": "string (explain how this component achieves the desired functionality)"
+    }
+  ],
+  "charts": [
+    {
+      "name": "string (must be from available-charts list)", 
+      "necessity": "critical|important|optional",
+      "justification": "string (explain how this chart achieves the desired functionality)"
+    }
+  ]
+}
+
+FIELD SPECIFICATIONS:
+- "name": Must be exactly one of the component names from the available-components list above
+- "necessity": Must be exactly one of: "critical", "important", "optional"
+- "justification": Brief explanation (1-2 sentences) of why this component is needed
+
+IMPORTANT: Your entire response must be a valid JSON object. Do not include any text before or after the JSON.
 `;
 
 export const CREATE_UI = `You are an expert Vue.js developer specializing in shadcn-vue and Tailwind CSS component creation.

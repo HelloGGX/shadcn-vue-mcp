@@ -91,100 +91,99 @@ export function registerTools(server: FastMCP) {
     },
   });
 
-  // // createComponentTool  tool
-  // server.addTool({
-  //   name: "component-builder",
-  //   description: `"Use this tool when the user requests a new UI component—e.g., mentions /ui, or asks for a button, input, dialog, table, form, banner, card, or other Vue component.
-  // This tool ONLY returns the text snippet for that UI component with shadcn/ui components and tailwindcss.
-  // After calling this tool, you must edit or add files to integrate the snippet into the codebase."`,
-  //   parameters: z.object({
-  //     filteredComponents: z
-  //       .string()
-  //       .transform((str) => {
-  //         return services.ComponentsSchema.parse(JSON.parse(str));
-  //       })
-  //       .describe("filtered components from components-filter tool"),
-  //     message: z.string().describe("Full users message"),
-  //   }),
-  //   execute: async (params) => {
-  //     try {
+  // createComponentTool  tool
+  server.addTool({
+    name: "component-builder",
+    description: `"Use this tool when the user requests a new UI component—e.g., mentions /ui, or asks for a button, input, dialog, table, form, banner, card, or other Vue component.
+  This tool ONLY returns the text snippet for that UI component with shadcn/ui components and tailwindcss.
+  After calling this tool, you must edit or add files to integrate the snippet into the codebase."`,
+    parameters: z.object({
+      filteredComponents: z
+        .string()
+        .transform((str) => {
+          return services.ComponentsSchema.parse(JSON.parse(str));
+        })
+        .describe("filtered components from components-filter tool"),
+      message: z.string().describe("Full users message"),
+    }),
+    execute: async (params) => {
+      try {
+        // 过滤掉不存在的组件
+        const validComponents = params.filteredComponents.components.filter(
+          (component) => {
+            const isValid = services.ComponentServices.isValidComponent(
+              component.name
+            );
+            if (!isValid) {
+              console.warn(
+                `Warning: Component "${component.name}" is not available in shadcn/vue. Skipping...`
+              );
+            }
+            return isValid;
+          }
+        );
 
-  //       // 过滤掉不存在的组件
-  //       const validComponents = params.filteredComponents.components.filter(
-  //         (component) => {
-  //           const isValid = services.ComponentServices.isValidComponent(
-  //             component.name
-  //           );
-  //           if (!isValid) {
-  //             console.warn(
-  //               `Warning: Component "${component.name}" is not available in shadcn/vue. Skipping...`
-  //             );
-  //           }
-  //           return isValid;
-  //         }
-  //       );
+        const validCharts = params.filteredComponents.charts.filter((chart) => {
+          const isValid = services.ComponentServices.isValidComponent(
+            chart.name
+          );
+          if (!isValid) {
+            console.warn(
+              `Warning: Chart "${chart.name}" is not available in shadcn/vue. Skipping...`
+            );
+          }
+          return isValid;
+        });
 
-  //       const validCharts = params.filteredComponents.charts.filter((chart) => {
-  //         const isValid = services.ComponentServices.isValidComponent(
-  //           chart.name
-  //         );
-  //         if (!isValid) {
-  //           console.warn(
-  //             `Warning: Chart "${chart.name}" is not available in shadcn/vue. Skipping...`
-  //           );
-  //         }
-  //         return isValid;
-  //       });
+        // 如果没有有效组件，提供默认建议
+        if (validComponents.length === 0 && validCharts.length === 0) {
+          console.warn(
+            "No valid components found. Using default components for basic layout."
+          );
+          return {
+            content: [
+              {
+                type: "text",
+                text: "No valid components found. Using default components for basic layout.",
+              },
+            ],
+          };
+        }
 
-  //       // 如果没有有效组件，提供默认建议
-  //       if (validComponents.length === 0 && validCharts.length === 0) {
-  //         console.warn(
-  //           "No valid components found. Using default components for basic layout."
-  //         );
-  //         return {
-  //           content: [
-  //             {
-  //               type: "text",
-  //               text: "No valid components found. Using default components for basic layout.",
-  //             },
-  //           ],
-  //         };
-  //       }
+        // 获取组件文档
+        const usageDocs = await Promise.all(
+          [...validComponents, ...validCharts]
+            .filter(
+              services.ComponentServices.createNecessityFilter("optional")
+            )
+            .map(async (c) => {
+              return {
+                ...c,
+                doc: await services.ComponentServices.fetchLibraryDocumentation(
+                  "/unovue/shadcn-vue",
+                  {
+                    topic: c.name,
+                    tokens: 1000,
+                  }
+                ),
+              };
+            })
+        );
 
-  //       // 获取组件文档
-  //       const usageDocs = await Promise.all(
-  //         validComponents
-  //           .filter(
-  //             services.ComponentServices.createNecessityFilter("optional")
-  //           )
-  //           .map(async (c) => {
-  //             return {
-  //               ...c,
-  //               doc: await services.ComponentServices.fetchLibraryDocumentation(
-  //                 "/unovue/shadcn-vue",
-  //                 {
-  //                   topic: c.name,
-  //                   tokens: 1000,
-  //                 }
-  //               ),
-  //             };
-  //           })
-  //       );
+        const promptForClientAI = `${CREATE_UI}\n<message>${params.message}</message>`;
 
-  //       const promptForClientAI = `${CREATE_UI}\n<message>${params.message}</message>`;
-
-  //       return {
-  //         content: [
-  //           {
-  //             type: "text",
-  //             text: promptForClientAI,
-  //           },
-  //         ],
-  //       };
-  //     } catch (error) {
-  //       console.error("Error executing tool:", error);
-  //       throw error;
-  //     }
-  //   },
-  // });
+        return {
+          content: [
+            {
+              type: "text",
+              text: promptForClientAI,
+            },
+          ],
+        };
+      } catch (error) {
+        console.error("Error executing tool:", error);
+        throw error;
+      }
+    },
+  });
 }
