@@ -36,19 +36,10 @@ export interface DependencyMetadata {
   styles: string[];     // 依赖的样式
 }
 
-export interface ExampleMetadata {
-  name: string;
-  description?: string;
-  code: string;
-  props?: Record<string, any>;
-  category?: 'basic' | 'advanced' | 'custom';
-}
 
 export interface ComponentMetadata {
   // 基础信息
   name: string;
-  description?: string;
-  category?: string; // 'form', 'layout', 'feedback' etc.
   
   // 详细信息
   props: PropMetadata[];
@@ -56,7 +47,6 @@ export interface ComponentMetadata {
   events: EventMetadata[];
   variants: VariantMetadata[];
   dependencies: DependencyMetadata;
-  examples: ExampleMetadata[];
   
   // 元数据信息
   extractedAt: Date;
@@ -76,16 +66,15 @@ export interface MetadataExtractionOptions {
 // 元数据提取结果
 export interface MetadataExtractionResult {
   success: boolean;
-  metadata?: ComponentMetadata;
+  metadata?: ComponentMetadata[];
   error?: string;
   warnings?: string[];
 }
 
 // 缓存相关类型
 export interface MetadataCacheEntry {
-  metadata: ComponentMetadata;
+  metadata: ComponentMetadata[];
   cachedAt: Date;
-  sourceHash: string;
 }
 
 export interface MetadataCacheOptions {
