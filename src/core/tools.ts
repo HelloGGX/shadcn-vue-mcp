@@ -48,6 +48,13 @@ export function registerTools(server: FastMCP) {
             demosArray
           );
 
+        // 在浏览器中打开markdown文档
+        const componentTitle = `${params.name} - shadcn/vue Component Documentation`;
+        await services.WebViewService.openMarkdownInBrowser(
+          processedDoc || "No documentation found for this component",
+          componentTitle
+        );
+
         return {
           content: [
             {
