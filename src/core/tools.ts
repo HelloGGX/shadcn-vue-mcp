@@ -97,7 +97,7 @@ export function registerTools(server: FastMCP) {
         // 将筛选任务和数据传给 IDE 的 AI 处理
         const filteringPrompt = `
         ${FILTER_COMPONENTS_PROMPT}\n<user-message>${params.message}</user-message>
-        After outputting the json, call the component-usage-doc tool for each element in components and charts
+        After outputting the json, call the all-components-doc tool for each element in components and charts
         `;
 
         return {
@@ -134,22 +134,7 @@ export function registerTools(server: FastMCP) {
     }),
     execute: async (params) => {
       try {
-        const doc = await services.ComponentServices.readFullComponentDoc({
-          type: params.type,
-          name: params.name,
-        });
-        const demos = await services.ComponentServices.fetchUsageDemo(
-          params.name
-        );
-
-        // 将文档中的 <ComponentPreview name="组件名" /> 替换为对应的 demo 代码
-        // 确保demos是数组类型
-        const demosArray = Array.isArray(demos) ? demos : [];
-        const processedDoc =
-          services.ComponentServices.replaceComponentPreviewsWithCode(
-            doc,
-            demosArray
-          );
+        const processedDoc = await services.ComponentServices.createComponentDoc(params.name, params.type);
 
         // 在浏览器中打开markdown文档
         const componentTitle = `${params.name} - shadcn/vue Component Documentation`;
@@ -162,7 +147,7 @@ export function registerTools(server: FastMCP) {
           content: [
             {
               type: "text",
-              text: `${processedDoc}\nAfter reading the documentation, call the component-creation tool`,
+              text: `${processedDoc}`,
             },
           ],
         };
@@ -173,6 +158,52 @@ export function registerTools(server: FastMCP) {
     },
   });
 
+  // all-components-doc tool 读取所有组件文档
+  server.addTool({
+    name: "all-components-doc",
+    description: "read all components doc",
+    parameters: z.object({
+      components: z
+        .array(services.ComponentSchema)
+        .describe("components from components-filter tool"),
+      charts: z
+        .array(services.ComponentSchema)
+        .describe("charts from components-filter tool"),
+    }),
+    execute: async (params) => {
+      params.components.forEach(async (component) => {
+        const processedDoc = await services.ComponentServices.createComponentDoc(component.name, "components");
+        // 在浏览器中打开markdown文档
+        const componentTitle = `${component.name} - shadcn/vue Component Documentation`;
+        await services.WebViewService.openMarkdownInBrowser(
+          processedDoc || "No documentation found for this component",
+          componentTitle
+        );
+      });
+      params.charts.forEach(async (chart) => {
+        const processedDoc = await services.ComponentServices.createComponentDoc(chart.name, "charts");
+        // 在浏览器中打开markdown文档
+        const componentTitle = `${chart.name} - shadcn/vue Component Documentation`;
+        await services.WebViewService.openMarkdownInBrowser(
+          processedDoc || "No documentation found for this component",
+          componentTitle
+        );
+      });
+
+      const filteredComponents = {
+        components: params.components,
+        charts: params.charts,
+      }
+      return {
+        content: [
+          {
+            type: "text",
+            text: `${JSON.stringify(filteredComponents)}\ncall the component-creation tool`,
+          },
+        ],
+      };
+    },
+  });
   // component-creation tool 组件生成器
   server.addTool({
     name: "component-creation",

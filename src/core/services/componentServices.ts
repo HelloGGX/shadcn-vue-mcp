@@ -353,7 +353,7 @@ export class ComponentServices {
   }
 
   static async fetchUsageDemo(
-    name: ShadcnVueComponent | ShadcnVueChartComponent
+    name: string
   ) {
     // 从相应的结构中获取 demo 列表
     let demoList: readonly string[];
@@ -405,7 +405,7 @@ export class ComponentServices {
   }
 
   static async createComponentDoc(
-    name: ShadcnVueComponent | ShadcnVueChartComponent,
+    name: string,
     type: string
   ) {
     const doc = await this.readFullComponentDoc({
