@@ -1,7 +1,7 @@
 import { FastMCP } from "fastmcp";
 import { z } from "zod";
 import * as services from "./services/index.js";
-import { FILTER_COMPONENTS_PROMPT } from "./prompts/componentPrompts.js";
+import { FILTER_COMPONENTS_PROMPT, getCreateComponentPrompt } from "./prompts/componentPrompts.js";
 
 /**
  * Register all tools with the MCP server
@@ -165,7 +165,7 @@ export function registerTools(server: FastMCP) {
   // all-components-doc tool 读取所有组件文档
   server.addTool({
     name: "all-components-doc",
-    description: "read all components doc",
+    description: "Retrieve documentation for all filtered components and charts to prepare for component generation",
     parameters: z.object({
       components: z
         .array(services.ComponentSchema)
@@ -220,47 +220,14 @@ export function registerTools(server: FastMCP) {
           components: componentResults,
           charts: chartResults,
         };
+        
+        const prompt = `${JSON.stringify(filteredComponents)}\n${getCreateComponentPrompt()}`;
 
         return {
           content: [
             {
               type: "text",
-              text: `
-              ${JSON.stringify(filteredComponents, null, 2)}
-              **Task:**
-        Now, combine all the parts to generate the final, production-level, complete \`.vue\` component code.
-
-        1. **Code implementation:** Fill in all function logic and complete the attribute binding and event listening in the template.
-        2. **Standard compliance:** During the implementation process, you must **check and meet** all the relevant items in the quality standards resource one by one, especially **performance optimization, DX, A11y and reverse constraints**.
-        3. **Mock data processing:** If it is a pure display component, the generated Mock data structure must be clear, and the document comments should provide guidance on how to replace it with real data (\`mockDataGuidance\`).
-        4. **Self-review:** After generating the final code, simulate a "Code Review" in your mind, and use the quality standards from the resource as a basis to conduct a quick self-assessment of your output to ensure that the delivered code can at least reach the 'A' level.
-
-        **Please directly output the final \`.vue\` file code without any modification. **
-        ## Component skeleton code
-          \`\`\`vue
-          <template>
-            <!-- Use semantic HTML with proper ARIA attributes -->
-          </template>
-
-          <script setup lang="ts">
-          import { ref, computed } from 'vue'
-          <!-- shadcn-vue component imports -->
-          <!-- Lucide icons imports   -->
-          <!-- Type definitions -->
-
-          <!-- Props with defaults -->
-          interface Props {
-            <!-- Define clear, typed props -->
-          }
-
-          const props = withDefaults(defineProps<Props>(), {
-            <!-- Sensible defaults -->
-          })
-
-          <!-- Reactive state with proper types -->
-          <!-- Computed properties for derived state -->
-          <!-- Methods with clear naming -->
-          </script>`,
+              text: prompt,
             },
           ],
         };
@@ -287,6 +254,8 @@ export function registerTools(server: FastMCP) {
       **IMPORTANT**: Before proceeding, you MUST first read the quality standards from the resource:
       - Resource URI: standards://quality-profile
       - This resource contains the complete quality profile that defines all requirements for component generation
+      - Five core dimensions: Accessibility, Performance, Consistency, Maintainability, Developer Experience
+      - Target quality level: B+ or higher (350+ points out of 500)
 
       Use the following MCP tools one after the other in this exact sequence. At each stage, you must review and apply the quality standards from the resource. Your responses must be professional, precise, and always with the ultimate goal of producing code that complies with the specifications. Do not make any assumptions or create anything outside of the standards.
        
