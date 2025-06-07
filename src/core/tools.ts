@@ -221,6 +221,7 @@ export function registerTools(server: FastMCP) {
           charts: chartResults,
         };
         
+        //todo 转为结构化md
         const prompt = `${JSON.stringify(filteredComponents)}\n${getCreateComponentPrompt()}`;
 
         return {
