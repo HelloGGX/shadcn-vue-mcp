@@ -1,10 +1,7 @@
 import { FastMCP } from "fastmcp";
 import { z } from "zod";
 import * as services from "./services/index.js";
-import {
-  FILTER_COMPONENTS_PROMPT,
-  CREATE_UI,
-} from "./prompts/componentPrompts.js";
+import { FILTER_COMPONENTS_PROMPT } from "./prompts/componentPrompts.js";
 
 /**
  * Register all tools with the MCP server
@@ -12,7 +9,7 @@ import {
  * @param server The FastMCP server instance
  */
 export function registerTools(server: FastMCP) {
-  // readUsageDocTool  tool
+  // readUsageDocTool  tool 读取组件使用文档
   server.addTool({
     name: "component-usage-doc",
     description:
@@ -69,14 +66,15 @@ export function registerTools(server: FastMCP) {
       }
     },
   });
-
   // filterComponents Tool
   server.addTool({
     name: "components-filter",
     description:
       "filter components with shadcn/ui components and tailwindcss, Use this tool when mentions /filter",
     parameters: z.object({
-      message: z.string().describe("description of the Web UI"),
+      message: z
+        .string()
+        .describe("requirement json from requirement-structuring tool"),
     }),
     execute: async (params) => {
       try {
@@ -98,99 +96,163 @@ export function registerTools(server: FastMCP) {
     },
   });
 
-  // createComponentTool  tool
+  // requirement-structuring 意图分析与需求结构化
+  server.addTool({
+    name: "requirement-structuring",
+    description:
+      "analyze the user's natural language and structure the requirements into a clear and structured component requirement document.",
+    parameters: z.object({
+      message: z
+        .string()
+        .describe(
+          "Content about user requirement in specific contextual information"
+        ),
+    }),
+    execute: async (params) => {
+      const prompt = `You are an expert Vue.js Frontend Architect specializing in shadcn-vue components. Your task is to analyze user requirements, understand their underlying intent, and create a comprehensive JSON blueprint that includes both explicit requirements and essential features the user may not have considered.
+
+ANALYSIS APPROACH:
+1. First, understand what the user is trying to achieve
+2. Identify the core functionality they described
+3. Consider what additional features would be essential for a complete, production-ready component
+4. Think about common user interactions, edge cases, and accessibility needs
+5. Enhance the requirements with industry best practices
+
+TASK: Convert the following user requirement into a comprehensive JSON object that goes beyond their basic description.
+
+USER REQUIREMENT: "${params.message}"
+
+REQUIRED OUTPUT FORMAT:
+Return ONLY a valid JSON object with these exact keys (no explanations, no markdown, no extra text):
+
+{
+  "main_goal": "One sentence describing the component's core purpose",
+  "data_structure": {
+    "property_name": "TypeScript_type - Brief description of purpose"
+  },
+  "user_actions": {
+    "actionName": "Description of what triggers this action and its effect"
+  }
+}
+
+EXAMPLE OUTPUT:
+{
+  "main_goal": "Display a searchable user management table with add/edit capabilities and essential UX features",
+  "data_structure": {
+    "users": "User[] - Array of user objects to display",
+    "searchQuery": "string - Current search filter value",
+    "isDialogOpen": "boolean - Controls add/edit dialog visibility",
+    "selectedUser": "User | null - User being edited",
+    "isLoading": "boolean - Loading state for operations",
+    "error": "string | null - Error message display"
+  },
+  "user_actions": {
+    "searchUsers": "Triggered by search input; filters users with debouncing",
+    "openAddDialog": "Triggered by Add button; opens dialog for new user",
+    "openEditDialog": "Triggered by edit button; opens dialog with selected user data",
+    "closeDialog": "Triggered by cancel/escape; closes dialog and clears state",
+    "saveUser": "Triggered by form submit; validates and saves user with error handling",
+    "deleteUser": "Triggered by delete button; shows confirmation then removes user"
+  }
+}
+
+ After outputting json, call components-filter tool`;
+
+      return {
+        content: [
+          {
+            type: "text",
+            text: prompt,
+          },
+        ],
+      };
+    },
+  });
+
+  server.addTool({
+    name: "component-creation",
+    description: "create a new component",
+    execute: async () => {
+      return {
+        content: [
+          {
+            type: "text",
+            text: `
+            ## Component skeleton code
+        \`\`\`vue
+        <template>
+          <!-- Use semantic HTML with proper ARIA attributes -->
+        </template>
+
+        <script setup lang="ts">
+        import { ref, computed } from 'vue'
+        <!-- shadcn-vue component imports -->
+        <!-- Lucide icons imports   -->
+        <!-- Type definitions -->
+
+        <!-- Props with defaults -->
+        interface Props {
+          <!-- Define clear, typed props -->
+        }
+
+        const props = withDefaults(defineProps<Props>(), {
+          <!-- Sensible defaults -->
+        })
+
+        <!-- Reactive state with proper types -->
+        <!-- Computed properties for derived state -->
+        <!-- Methods with clear naming -->
+        </script>
+        \`\`\`
+
+       **Task:**
+        Now, combine all the parts to generate the final, production-level, complete \`.vue\` component code.
+
+        1. **Code implementation:** Fill in all function logic and complete the attribute binding and event listening in the template.
+        2. **Standard compliance:** During the implementation process, you must **check and meet** all the relevant items in the quality standards resource one by one, especially **performance optimization, DX, A11y and reverse constraints**.
+        3. **Mock data processing:** If it is a pure display component, the generated Mock data structure must be clear, and the document comments should provide guidance on how to replace it with real data (\`mockDataGuidance\`).
+        4. **Self-review:** After generating the final code, simulate a "Code Review" in your mind, and use the quality standards from the resource as a basis to conduct a quick self-assessment of your output to ensure that the delivered code can at least reach the 'A' level.
+
+        **Please directly output the final \`.vue\` file code without any modification. **
+            `,
+          },
+        ],
+      };
+    },
+  });
+
   server.addTool({
     name: "component-builder",
     description: `"Use this tool when the user requests a new UI component—e.g., mentions /ui, or asks for a button, input, dialog, table, form, banner, card, or other Vue component.
   This tool ONLY returns the text snippet for that UI component with shadcn/ui components and tailwindcss.
   After calling this tool, you must edit or add files to integrate the snippet into the codebase."`,
     parameters: z.object({
-      filteredComponents: z
-        .string()
-        .transform((str) => {
-          return services.ComponentsSchema.parse(JSON.parse(str));
-        })
-        .describe("filtered components from components-filter tool"),
-      message: z.string().describe("Full users message"),
+      message: z.string().describe("description of the Web UI"),
     }),
     execute: async (params) => {
-      try {
-        // 过滤掉不存在的组件
-        const validComponents = params.filteredComponents.components.filter(
-          (component) => {
-            const isValid = services.ComponentServices.isValidComponent(
-              component.name
-            );
-            if (!isValid) {
-              console.warn(
-                `Warning: Component "${component.name}" is not available in shadcn/vue. Skipping...`
-              );
-            }
-            return isValid;
-          }
-        );
+      const prompt = `
+      You are an AI code generation engine. Your sole mission is to generate Vue 3 components that meet the highest quality standards based on the shadcn-vue component library. Your behavior and output must **strictly and absolutely** adhere to the [High-Quality UI Component Standard Definition] available as a resource.
 
-        const validCharts = params.filteredComponents.charts.filter((chart) => {
-          const isValid = services.ComponentServices.isValidComponent(
-            chart.name
-          );
-          if (!isValid) {
-            console.warn(
-              `Warning: Chart "${chart.name}" is not available in shadcn/vue. Skipping...`
-            );
-          }
-          return isValid;
-        });
+      **IMPORTANT**: Before proceeding, you MUST first read the quality standards from the resource:
+      - Resource URI: standards://quality-profile
+      - This resource contains the complete quality profile that defines all requirements for component generation
 
-        // 如果没有有效组件，提供默认建议
-        if (validComponents.length === 0 && validCharts.length === 0) {
-          console.warn(
-            "No valid components found. Using default components for basic layout."
-          );
-          return {
-            content: [
-              {
-                type: "text",
-                text: "No valid components found. Using default components for basic layout.",
-              },
-            ],
-          };
-        }
+      Use the following MCP tools one after the other in this exact sequence. At each stage, you must review and apply the quality standards from the resource. Your responses must be professional, precise, and always with the ultimate goal of producing code that complies with the specifications. Do not make any assumptions or create anything outside of the standards.
+       
+       1. requirement-structuring, user requirement: ${params.message}
+       2. components-filter,  
+       3. component-usage-doc, Based on the results returned by components-filter tool
+       4. component-creation
+       `;
 
-        // 获取组件文档
-        const usageDocs = await Promise.all(
-          [...validComponents, ...validCharts]
-            .filter(
-              services.ComponentServices.createNecessityFilter("optional")
-            )
-            .map(async (c) => {
-              return {
-                ...c,
-                doc: await services.ComponentServices.fetchLibraryDocumentation(
-                  "/unovue/shadcn-vue",
-                  {
-                    topic: c.name,
-                    tokens: 1000,
-                  }
-                ),
-              };
-            })
-        );
-
-        const promptForClientAI = `${CREATE_UI}\n<message>${params.message}</message>`;
-
-        return {
-          content: [
-            {
-              type: "text",
-              text: promptForClientAI,
-            },
-          ],
-        };
-      } catch (error) {
-        console.error("Error executing tool:", error);
-        throw error;
-      }
+      return {
+        content: [
+          {
+            type: "text",
+            text: prompt,
+          },
+        ],
+      };
     },
   });
 }

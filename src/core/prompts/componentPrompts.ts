@@ -1,7 +1,5 @@
 import { FastMCP } from "fastmcp";
 
-
-
 export const FILTER_COMPONENTS_PROMPT = `
 CRITICAL: You must respond with a valid JSON object in the exact format specified below. Do not include any other text or explanations outside the JSON.
 
@@ -105,146 +103,6 @@ FIELD SPECIFICATIONS:
 
 IMPORTANT: Your entire response must be a valid JSON object. Do not include any text before or after the JSON.
 `;
-
-export const CREATE_UI = `You are an expert Vue.js developer specializing in shadcn-vue and Tailwind CSS component creation.
-
-## CORE PRINCIPLES
-- **Copy-Paste Ready**: Generate production-ready components that can be directly used
-- **shadcn-vue Standards**: Follow official shadcn-vue patterns and conventions  
-- **Modern Design**: Create clean, professional interfaces with excellent UX
-- **Accessibility First**: Ensure WCAG compliance and keyboard navigation
-- **Performance Optimized**: Use efficient Vue 3 Composition API patterns
-
-## TECHNICAL STACK
-- **Framework**: Vue 3 + Composition API + TypeScript
-- **Components**: shadcn-vue (based on Radix Vue/Reka UI primitives)
-- **Styling**: Tailwind CSS utility-first approach
-- **Icons**: Lucide Vue Next for consistent iconography
-- **Type Safety**: Full TypeScript support with proper interfaces
-
-## SOPHISTICATED COLOR SCHEME
-Use an elegant black, white, and gray palette that conveys professionalism and modernity:
-
-### Primary Colors
-- **Pure White**: \`bg-white text-black\` for clean backgrounds
-- **Deep Black**: \`bg-black text-white\` for strong contrast and headers
-- **Charcoal**: \`bg-gray-900 text-white\` for sophisticated dark sections
-
-### Gray Spectrum (Choose appropriate shades)
-- **Light Grays**: \`bg-gray-50 bg-gray-100 bg-gray-200\` for subtle backgrounds
-- **Medium Grays**: \`bg-gray-300 bg-gray-400 bg-gray-500\` for borders and dividers  
-- **Dark Grays**: \`bg-gray-600 bg-gray-700 bg-gray-800\` for secondary elements
-
-### Text Hierarchy
-- **Primary Text**: \`text-black text-gray-900\` for main content
-- **Secondary Text**: \`text-gray-600 text-gray-700\` for supporting content
-- **Muted Text**: \`text-gray-400 text-gray-500\` for captions and labels
-
-### Interactive States
-- **Hover**: Subtle shifts like \`hover:bg-gray-50 hover:bg-gray-800\`
-- **Focus**: Clean focus rings \`focus:ring-gray-400 focus:ring-offset-2\`
-- **Active**: Slightly darker variants \`active:bg-gray-100 active:bg-gray-700\`
-
-## COMPONENT STRUCTURE
-\`\`\`vue
-<template>
-  <!-- Use semantic HTML with proper ARIA attributes -->
-  <div class="space-y-6">
-    <!-- Component content with consistent spacing -->
-  </div>
-</template>
-
-<script setup lang="ts">
-import { ref, computed } from 'vue'
-import type { ComponentPublicInstance } from 'vue'
-// shadcn-vue component imports
-// Lucide icons imports  
-// Type definitions
-
-// Props with defaults
-interface Props {
-  // Define clear, typed props
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  // Sensible defaults
-})
-
-// Reactive state with proper types
-// Computed properties for derived state
-// Methods with clear naming
-</script>
-\`\`\`
-
-## LAYOUT PATTERNS
-
-### Responsive Design
-- **Mobile First**: Start with mobile, enhance with sm:, md:, lg:, xl:
-- **Adaptive Spacing**: Use consistent spacing that scales well
-- **Flexible Grids**: Implement responsive grid layouts as needed
-
-### Component Composition
-- **Atomic Design**: Build from small, reusable pieces
-- **Compound Components**: Related components that work together
-- **Slot Patterns**: Use Vue slots for flexible content insertion
-
-## DESIGN PRINCIPLES
-
-### Visual Hierarchy
-- Use contrast and typography to establish clear information hierarchy
-- Employ whitespace strategically to create breathing room
-- Balance dense and sparse areas for optimal readability
-
-### Minimalist Approach
-- Favor clean lines and simple geometric shapes
-- Use subtle shadows and borders for depth without clutter
-- Maintain consistent spacing and alignment throughout
-
-### Professional Aesthetics
-- Prioritize readability and usability over decoration
-- Use typography weights and sizes to convey importance
-- Create visual rhythm through consistent patterns
-
-## ACCESSIBILITY REQUIREMENTS
-- **Semantic HTML**: Use proper heading hierarchy, landmarks
-- **ARIA Labels**: Include aria-label, aria-describedby where needed
-- **Keyboard Navigation**: Ensure tab order and keyboard interactions
-- **Focus Management**: Visible focus indicators and logical flow
-- **Screen Reader**: Proper announcements and descriptions
-- **Color Contrast**: Ensure sufficient contrast ratios for gray text combinations
-
-## ANIMATION & TRANSITIONS
-- **Subtle Motion**: Use Tailwind transition utilities sparingly
-- **Enter/Leave**: \`transition-all duration-200 ease-in-out\`
-- **Hover States**: Gentle background and text color transitions
-- **Focus States**: Clear, accessible focus indicators
-
-## CODE QUALITY STANDARDS
-- **TypeScript**: Full type safety with interfaces and generics
-- **Composables**: Extract reusable logic into composables
-- **Error Boundaries**: Handle loading, error, and empty states
-- **Performance**: Use v-memo, shallowRef where appropriate
-- **Consistency**: Follow Vue.js and shadcn-vue naming conventions
-
-## OUTPUT FORMAT
-Generate complete, functional Vue components that:
-1. **Work immediately** when copy-pasted into a shadcn-vue project
-2. **Include all imports** and dependencies clearly listed
-3. **Use realistic data** that demonstrates the component's purpose
-4. **Follow responsive design** patterns for all screen sizes
-5. **Implement proper accessibility** features and ARIA attributes
-6. **Include TypeScript types** for all props and emitted events
-7. **Showcase sophisticated black/white/gray color combinations**
-
-## DESIGN INSPIRATION
-Draw inspiration from:
-- High-end design agencies and portfolios
-- Minimalist architectural websites  
-- Premium SaaS applications with refined aesthetics
-- Modern typography-focused interfaces
-- Monochromatic design systems
-
-Create components that feel premium, accessible, and timeless through masterful use of the black, white, and gray color spectrum.`;
 
 export const COMPONENT_ANALYSIS_PROMPT = `
 You are a Vue.js and shadcn/vue expert. Analyze the provided component documentation and provide comprehensive guidance.
@@ -369,7 +227,6 @@ Provide clear, objective analysis to guide decision-making.
 `;
 
 export function registerComponentPrompts(server: FastMCP) {
-
   // Component documentation analysis prompt
   server.addPrompt({
     name: "component-analysis",
@@ -629,3 +486,265 @@ Provide practical, actionable guidance for a smooth migration process.`;
     },
   });
 }
+export const getQualityStandard = () => {
+  return {
+    qualityProfile: {
+      accessibility: {
+        description:
+          "Standards to ensure the component is accessible to all users",
+        coreRequirements: [
+          "WCAG 2.1 AA level compliance",
+          "Semantic HTML",
+          "Keyboard navigation",
+        ],
+        specificStandards: {
+          semanticHTML: {
+            properHTMLTags: true,
+            meaningfulHeadings: true,
+            landmarkRoles: true,
+          },
+          ariaSupport: {
+            ariaLabels: true,
+            ariaDescribedby: true,
+            ariaStates: true,
+            ariaLive: true,
+          },
+          keyboardNavigation: {
+            tabIndex: true,
+            focusManagement: true,
+            keyboardShortcuts: true,
+            escapeKey: true,
+          },
+          visualDesign: {
+            colorContrast: 4.5,
+            focusIndicators: true,
+            textSize: true,
+            motionReduction: true,
+          },
+        },
+        testingRequirements: [
+          "Automated testing with axe-core",
+          "Screen reader compatibility testing (NVDA, JAWS, VoiceOver)",
+          "Keyboard functionality testing",
+          "Color contrast testing",
+        ],
+      },
+      performance: {
+        description:
+          "Performance standards to ensure the component runs efficiently",
+        coreRequirements: [
+          "Fast loading",
+          "Efficient rendering",
+          "Memory optimization",
+          "Lightweight",
+        ],
+        specificStandards: {
+          loading: {
+            bundleSize: 50, // KB, gzipped
+            initialRender: 100, // ms
+            codeReady: 50, // ms
+          },
+          runtime: {
+            rerenderOptimization: true,
+            lazyLoading: true,
+            virtualScrolling: true,
+            memoization: true,
+          },
+          memory: {
+            noMemoryLeaks: true,
+            eventCleanup: true,
+            observerCleanup: true,
+            timersCleanup: true,
+          },
+          network: {
+            treeshaking: true,
+            codesplitting: true,
+            assetOptimization: true,
+          },
+        },
+        performanceBenchmarks: {
+          FCP: 1.5, // seconds
+          LCP: 2.5, // seconds
+          CLS: 0.1,
+          FID: 100, // ms
+        },
+      },
+      consistency: {
+        description:
+          "Standards to ensure consistency in design, behavior, and API",
+        coreRequirements: [
+          "Design consistency",
+          "Behavior consistency",
+          "API consistency",
+        ],
+        specificStandards: {
+          design: {
+            designTokens: true,
+            colorPalette: true,
+            typography: true,
+            spacing: true,
+            borderRadius: true,
+          },
+          api: {
+            propsNaming: true,
+            eventNaming: true,
+            slotNaming: true,
+            methodNaming: true,
+          },
+          behavior: {
+            interactionPatterns: true,
+            stateManagement: true,
+            errorHandling: true,
+            loadingStates: true,
+          },
+          codeStyle: {
+            tsTypes: true,
+            documentation: true,
+            testCoverage: true,
+            linting: true,
+          },
+        },
+        designSystemIntegration: {
+          colorSystem: "CSS custom properties",
+          spacingSystem: "4px/8px grid",
+          fontSystem: "Defined font sizes and line heights",
+          shadowSystem: "Unified shadow levels",
+        },
+      },
+      maintainability: {
+        description:
+          "Standards to ensure the component is easy to maintain and update",
+        coreRequirements: [
+          "Clear code",
+          "Modular design",
+          "Complete documentation",
+        ],
+        specificStandards: {
+          codeStructure: {
+            singleResponsibility: true,
+            compositionAPI: true,
+            customHooks: true,
+            propValidation: true,
+            clearMockDataStructure: true,
+          },
+          codeQuality: {
+            cyclomaticComplexity: 10,
+            codeReusability: true,
+            errorBoundaries: true,
+            gracefulDegradation: true,
+          },
+          documentation: {
+            jsdocComments: true,
+            propTypes: true,
+            usageExamples: true,
+            migrationGuides: true,
+          },
+          versioning: {
+            semanticVersioning: true,
+            changelog: true,
+            breakingChanges: true,
+            deprecationWarnings: true,
+          },
+        },
+        codeQualityMetrics: {
+          cyclomaticComplexity: 10,
+          codeDuplication: 5, // %
+          testCoverage: 80, // %
+          technicalDebtRatio: 10, // %
+        },
+      },
+      developerExperience: {
+        description: "Standards to ensure a developer-friendly experience",
+        coreRequirements: [
+          "Easy to use",
+          "Developer-friendly",
+          "Quick to get started",
+          "Easy to integrate",
+        ],
+        specificStandards: {
+          apiDesign: {
+            intuitive: true,
+            predictable: true,
+            composable: true,
+            flexible: true,
+          },
+          typeScript: {
+            strictTypes: true,
+            genericSupport: true,
+            autocompletion: true,
+            typeInference: true,
+          },
+          devTools: {
+            hotReload: true,
+            devtoolsIntegration: true,
+            errorMessages: true,
+            warnings: true,
+          },
+          learningCurve: {
+            documentation: true,
+            examples: true,
+            playground: true,
+            tutorials: true,
+            mockDataGuidance: true,
+          },
+        },
+        documentationRequirements: [
+          "API documentation",
+          "Usage examples",
+          "Best practices",
+          "Troubleshooting",
+          "Mock data guidance",
+        ],
+      },
+      antiPatterns: {
+        description: "Practices to avoid under any circumstances",
+        rules: [
+          "Do not use v-html directive unless explicitly required and for safe content",
+          "Do not use 'any' type in <script setup>",
+          "Do not make API requests directly inside the component; pass data via props or emit events to notify the parent",
+          "Avoid component nesting deeper than three levels",
+          "Do not use '!important' in CSS",
+        ],
+      },
+      qualityScoringSystem: {
+        description: "Component quality scoring system",
+        dimensions: [
+          "accessibility",
+          "performance",
+          "consistency",
+          "maintainability",
+          "developerExperience",
+        ],
+        scoring: {
+          maxPerDimension: 100,
+          totalMax: 500,
+        },
+        grades: {
+          "A+": [450, 500],
+          A: [400, 449],
+          "B+": [350, 399],
+          B: [300, 349],
+          C: [200, 299],
+          F: [0, 199],
+        },
+      },
+      implementationPlan: {
+        immediate: [
+          "Establish automated quality check processes",
+          "Create a component quality scoring tool",
+          "Develop a code review checklist",
+        ],
+        shortTerm: [
+          "Ensure all newly generated components reach B+ level",
+          "Set up continuous integration quality gates",
+          "Improve documentation templates and examples",
+        ],
+        longTerm: [
+          "Achieve A level for 90% of components",
+          "Establish quality trend analysis",
+          "Implement community feedback and improvement mechanisms",
+        ],
+      },
+    },
+  };
+};
