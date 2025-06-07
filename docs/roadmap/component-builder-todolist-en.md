@@ -7,7 +7,6 @@
 
 ## 📋 Phase 1: Infrastructure optimization & core DX foundation
 ### Component data management
-- [ ] Expand shadcn-vue component metadata collection (supported props, slots, events, variants, dependencies)
 - [ ] Create component classification and labeling system (function, scenario, atomicity, etc.)
 - [ ] Implement component dependency graph analysis and visualization prototype
 - [ ] Added a preliminary evaluation mechanism for component complexity and maintainability
