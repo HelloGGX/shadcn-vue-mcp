@@ -9,6 +9,112 @@ import { FILTER_COMPONENTS_PROMPT } from "./prompts/componentPrompts.js";
  * @param server The FastMCP server instance
  */
 export function registerTools(server: FastMCP) {
+  // requirement-structuring 意图分析与需求结构化
+  server.addTool({
+    name: "requirement-structuring",
+    description:
+      "analyze the user's natural language and structure the requirements into a clear and structured component requirement document.",
+    parameters: z.object({
+      message: z
+        .string()
+        .describe(
+          "Content about user requirement in specific contextual information"
+        ),
+    }),
+    execute: async (params) => {
+      const prompt = `You are an expert Vue.js Frontend Architect specializing in shadcn-vue components. Your task is to analyze user requirements, understand their underlying intent, and create a comprehensive JSON blueprint that includes both explicit requirements and essential features the user may not have considered.
+  
+  ANALYSIS APPROACH:
+  1. First, understand what the user is trying to achieve
+  2. Identify the core functionality they described
+  3. Consider what additional features would be essential for a complete, production-ready component
+  4. Think about common user interactions, edge cases, and accessibility needs
+  5. Enhance the requirements with industry best practices
+  
+  TASK: Convert the following user requirement into a comprehensive JSON object that goes beyond their basic description.
+  
+  USER REQUIREMENT: "${params.message}"
+  
+  REQUIRED OUTPUT FORMAT:
+  Return ONLY a valid JSON object with these exact keys (no explanations, no markdown, no extra text):
+  
+  {
+    "main_goal": "One sentence describing the component's core purpose",
+    "data_structure": {
+      "property_name": "TypeScript_type - Brief description of purpose"
+    },
+    "user_actions": {
+      "actionName": "Description of what triggers this action and its effect"
+    }
+  }
+  
+  EXAMPLE OUTPUT:
+  {
+    "main_goal": "Display a searchable user management table with add/edit capabilities and essential UX features",
+    "data_structure": {
+      "users": "User[] - Array of user objects to display",
+      "searchQuery": "string - Current search filter value",
+      "isDialogOpen": "boolean - Controls add/edit dialog visibility",
+      "selectedUser": "User | null - User being edited",
+      "isLoading": "boolean - Loading state for operations",
+      "error": "string | null - Error message display"
+    },
+    "user_actions": {
+      "searchUsers": "Triggered by search input; filters users with debouncing",
+      "openAddDialog": "Triggered by Add button; opens dialog for new user",
+      "openEditDialog": "Triggered by edit button; opens dialog with selected user data",
+      "closeDialog": "Triggered by cancel/escape; closes dialog and clears state",
+      "saveUser": "Triggered by form submit; validates and saves user with error handling",
+      "deleteUser": "Triggered by delete button; shows confirmation then removes user"
+    }
+  }
+  
+   After outputting json, call components-filter tool`;
+
+      return {
+        content: [
+          {
+            type: "text",
+            text: prompt,
+          },
+        ],
+      };
+    },
+  });
+
+  // filterComponents Tool
+  server.addTool({
+    name: "components-filter",
+    description:
+      "filter components with shadcn/ui components and tailwindcss, Use this tool when mentions /filter",
+    parameters: z.object({
+      message: z
+        .string()
+        .describe("requirement json from requirement-structuring tool"),
+    }),
+    execute: async (params) => {
+      try {
+        // 将筛选任务和数据传给 IDE 的 AI 处理
+        const filteringPrompt = `
+        ${FILTER_COMPONENTS_PROMPT}\n<user-message>${params.message}</user-message>
+        After outputting the json, call the component-usage-doc tool for each element in components and charts
+        `;
+
+        return {
+          content: [
+            {
+              type: "text",
+              text: filteringPrompt,
+            },
+          ],
+        };
+      } catch (error) {
+        console.error("Error executing tool:", error);
+        throw error;
+      }
+    },
+  });
+
   // readUsageDocTool  tool 读取组件使用文档
   server.addTool({
     name: "component-usage-doc",
@@ -16,12 +122,12 @@ export function registerTools(server: FastMCP) {
       "read usage doc of a component， Use this tool when mentions /doc.",
     parameters: z.object({
       // components | charts
-      type: z.enum(["components", "charts"]),
+      type: z
+        .enum(["components", "charts"])
+        .describe("type of the component from components-filter tool"),
       name: z
         .string()
-        .describe(
-          "name of the component from shadcn/vue, lowercase, kebab-case"
-        )
+        .describe("name of the component from components-filter tool")
         .refine((name) => services.ComponentServices.isValidComponent(name), {
           message: "Component must be a valid shadcn/vue component",
         }),
@@ -56,36 +162,7 @@ export function registerTools(server: FastMCP) {
           content: [
             {
               type: "text",
-              text: processedDoc || "No documentation found for this component",
-            },
-          ],
-        };
-      } catch (error) {
-        console.error("Error executing tool:", error);
-        throw error;
-      }
-    },
-  });
-  // filterComponents Tool
-  server.addTool({
-    name: "components-filter",
-    description:
-      "filter components with shadcn/ui components and tailwindcss, Use this tool when mentions /filter",
-    parameters: z.object({
-      message: z
-        .string()
-        .describe("requirement json from requirement-structuring tool"),
-    }),
-    execute: async (params) => {
-      try {
-        // 将筛选任务和数据传给 IDE 的 AI 处理
-        const filteringPrompt = `${FILTER_COMPONENTS_PROMPT}\n<user-message>${params.message}</user-message>`;
-
-        return {
-          content: [
-            {
-              type: "text",
-              text: filteringPrompt,
+              text: `${processedDoc}\nAfter reading the documentation, call the component-creation tool`,
             },
           ],
         };
@@ -96,116 +173,13 @@ export function registerTools(server: FastMCP) {
     },
   });
 
-  // requirement-structuring 意图分析与需求结构化
-  server.addTool({
-    name: "requirement-structuring",
-    description:
-      "analyze the user's natural language and structure the requirements into a clear and structured component requirement document.",
-    parameters: z.object({
-      message: z
-        .string()
-        .describe(
-          "Content about user requirement in specific contextual information"
-        ),
-    }),
-    execute: async (params) => {
-      const prompt = `You are an expert Vue.js Frontend Architect specializing in shadcn-vue components. Your task is to analyze user requirements, understand their underlying intent, and create a comprehensive JSON blueprint that includes both explicit requirements and essential features the user may not have considered.
-
-ANALYSIS APPROACH:
-1. First, understand what the user is trying to achieve
-2. Identify the core functionality they described
-3. Consider what additional features would be essential for a complete, production-ready component
-4. Think about common user interactions, edge cases, and accessibility needs
-5. Enhance the requirements with industry best practices
-
-TASK: Convert the following user requirement into a comprehensive JSON object that goes beyond their basic description.
-
-USER REQUIREMENT: "${params.message}"
-
-REQUIRED OUTPUT FORMAT:
-Return ONLY a valid JSON object with these exact keys (no explanations, no markdown, no extra text):
-
-{
-  "main_goal": "One sentence describing the component's core purpose",
-  "data_structure": {
-    "property_name": "TypeScript_type - Brief description of purpose"
-  },
-  "user_actions": {
-    "actionName": "Description of what triggers this action and its effect"
-  }
-}
-
-EXAMPLE OUTPUT:
-{
-  "main_goal": "Display a searchable user management table with add/edit capabilities and essential UX features",
-  "data_structure": {
-    "users": "User[] - Array of user objects to display",
-    "searchQuery": "string - Current search filter value",
-    "isDialogOpen": "boolean - Controls add/edit dialog visibility",
-    "selectedUser": "User | null - User being edited",
-    "isLoading": "boolean - Loading state for operations",
-    "error": "string | null - Error message display"
-  },
-  "user_actions": {
-    "searchUsers": "Triggered by search input; filters users with debouncing",
-    "openAddDialog": "Triggered by Add button; opens dialog for new user",
-    "openEditDialog": "Triggered by edit button; opens dialog with selected user data",
-    "closeDialog": "Triggered by cancel/escape; closes dialog and clears state",
-    "saveUser": "Triggered by form submit; validates and saves user with error handling",
-    "deleteUser": "Triggered by delete button; shows confirmation then removes user"
-  }
-}
-
- After outputting json, call components-filter tool`;
-
-      return {
-        content: [
-          {
-            type: "text",
-            text: prompt,
-          },
-        ],
-      };
-    },
-  });
-
+  // component-creation tool 组件生成器
   server.addTool({
     name: "component-creation",
     description: "create a new component",
     execute: async () => {
-      return {
-        content: [
-          {
-            type: "text",
-            text: `
-            ## Component skeleton code
-        \`\`\`vue
-        <template>
-          <!-- Use semantic HTML with proper ARIA attributes -->
-        </template>
-
-        <script setup lang="ts">
-        import { ref, computed } from 'vue'
-        <!-- shadcn-vue component imports -->
-        <!-- Lucide icons imports   -->
-        <!-- Type definitions -->
-
-        <!-- Props with defaults -->
-        interface Props {
-          <!-- Define clear, typed props -->
-        }
-
-        const props = withDefaults(defineProps<Props>(), {
-          <!-- Sensible defaults -->
-        })
-
-        <!-- Reactive state with proper types -->
-        <!-- Computed properties for derived state -->
-        <!-- Methods with clear naming -->
-        </script>
-        \`\`\`
-
-       **Task:**
+      const prompt = `
+      **Task:**
         Now, combine all the parts to generate the final, production-level, complete \`.vue\` component code.
 
         1. **Code implementation:** Fill in all function logic and complete the attribute binding and event listening in the template.
@@ -214,7 +188,39 @@ EXAMPLE OUTPUT:
         4. **Self-review:** After generating the final code, simulate a "Code Review" in your mind, and use the quality standards from the resource as a basis to conduct a quick self-assessment of your output to ensure that the delivered code can at least reach the 'A' level.
 
         **Please directly output the final \`.vue\` file code without any modification. **
-            `,
+        ## Component skeleton code
+          \`\`\`vue
+          <template>
+            <!-- Use semantic HTML with proper ARIA attributes -->
+          </template>
+
+          <script setup lang="ts">
+          import { ref, computed } from 'vue'
+          <!-- shadcn-vue component imports -->
+          <!-- Lucide icons imports   -->
+          <!-- Type definitions -->
+
+          <!-- Props with defaults -->
+          interface Props {
+            <!-- Define clear, typed props -->
+          }
+
+          const props = withDefaults(defineProps<Props>(), {
+            <!-- Sensible defaults -->
+          })
+
+          <!-- Reactive state with proper types -->
+          <!-- Computed properties for derived state -->
+          <!-- Methods with clear naming -->
+          </script>
+          \`\`\`
+      `;
+
+      return {
+        content: [
+          {
+            type: "text",
+            text: prompt,
           },
         ],
       };
@@ -240,9 +246,6 @@ EXAMPLE OUTPUT:
       Use the following MCP tools one after the other in this exact sequence. At each stage, you must review and apply the quality standards from the resource. Your responses must be professional, precise, and always with the ultimate goal of producing code that complies with the specifications. Do not make any assumptions or create anything outside of the standards.
        
        1. requirement-structuring, user requirement: ${params.message}
-       2. components-filter,  
-       3. component-usage-doc, Based on the results returned by components-filter tool
-       4. component-creation
        `;
 
       return {
