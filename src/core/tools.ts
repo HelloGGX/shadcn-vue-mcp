@@ -82,7 +82,7 @@ export function registerTools(server: FastMCP) {
     },
   });
 
-  // filterComponents Tool
+  // filterComponents Tool 筛选组件
   server.addTool({
     name: "components-filter",
     description:
@@ -271,6 +271,7 @@ export function registerTools(server: FastMCP) {
     },
   });
 
+  // component-builder tool 组件构建
   server.addTool({
     name: "component-builder",
     description: `"Use this tool when the user requests a new UI component—e.g., mentions /ui, or asks for a button, input, dialog, table, form, banner, card, or other Vue component.
