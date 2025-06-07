@@ -1,5 +1,4 @@
 import { FastMCP } from "fastmcp";
-import * as services from "./services/index.js";
 import { getQualityStandard } from "./prompts/componentPrompts.js";
 
 /**
@@ -9,13 +8,16 @@ import { getQualityStandard } from "./prompts/componentPrompts.js";
 export function registerResources(server: FastMCP) {
   
   // Component Quality Profile (Structured for AI consumption)
-  server.addResourceTemplate({
-    uriTemplate: "standards://quality-profile",
+  server.addResource({
+    uri: "standards://quality-profile",
     name: "Component Quality Profile",
     description: "Structured quality profile optimized for AI code generation",
     mimeType: "application/json",
-    arguments: [],
     async load() {
+      // 添加日志记录，用于验证客户端是否访问了此资源
+      console.log("🔍 [MCP Resource] Quality Profile accessed by client at:", new Date().toISOString());
+      console.log("📋 [MCP Resource] Client is reading standards://quality-profile");
+      
       const standards = getQualityStandard();
       return {
         text: JSON.stringify(standards.qualityProfile, null, 2)
