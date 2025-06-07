@@ -247,36 +247,39 @@ export class ComponentServices {
   private static async fetchWithFallback(path: string): Promise<string> {
     const urls = [
       `${ComponentServices.BASE_URL}${path}`,
-      `${ComponentServices.FALLBACK_BASE_URL}${path}`
+      `${ComponentServices.FALLBACK_BASE_URL}${path}`,
     ];
 
     for (let i = 0; i < urls.length; i++) {
       try {
         const response = await axios.get(urls[i], {
           timeout: 10000, // 10秒超时
-          validateStatus: (status) => status >= 200 && status < 300
+          validateStatus: (status) => status >= 200 && status < 300,
         });
-        
+
         // 检查内容是否包含 404 错误信息
         if (response.data.includes('<div class="error-code">404</div>')) {
-          throw new Error('404 Not Found');
+          throw new Error("404 Not Found");
         }
-        
+
         return response.data;
       } catch (error) {
-        console.warn(`Failed to fetch from ${urls[i]}:`, error instanceof AxiosError ? error.message : error);
-        
+        console.warn(
+          `Failed to fetch from ${urls[i]}:`,
+          error instanceof AxiosError ? error.message : error
+        );
+
         // 如果是最后一个 URL，抛出错误
         if (i === urls.length - 1) {
           throw error;
         }
-        
+
         // 继续尝试下一个 URL
         continue;
       }
     }
-    
-    throw new Error('All URLs failed');
+
+    throw new Error("All URLs failed");
   }
 
   static async fetchLibraryDocumentation(
@@ -333,23 +336,28 @@ export class ComponentServices {
     name: string;
     type: string;
   }) {
-    
     try {
-      
       const content = await ComponentServices.fetchWithFallback(
-        name === "typography" ? `/www/src/content/docs/${name}.md` : `/www/src/content/docs/${type}/${name}.md`
+        name === "typography"
+          ? `/www/src/content/docs/${name}.md`
+          : `/www/src/content/docs/${type}/${name}.md`
       );
       return content;
     } catch (error) {
-      console.error(`Failed to fetch component documentation for ${name}:`, error);
+      console.error(
+        `Failed to fetch component documentation for ${name}:`,
+        error
+      );
       return "No documentation found for this component";
     }
   }
 
-  static async fetchUsageDemo(name: ShadcnVueComponent | ShadcnVueChartComponent) {
+  static async fetchUsageDemo(
+    name: ShadcnVueComponent | ShadcnVueChartComponent
+  ) {
     // 从相应的结构中获取 demo 列表
     let demoList: readonly string[];
-    
+
     if (name in SHADCN_VUE_COMPONENTS) {
       demoList = SHADCN_VUE_COMPONENTS[name as ShadcnVueComponent];
     } else if (name in SHADCN_VUE_CHART_COMPONENTS) {
@@ -357,7 +365,7 @@ export class ComponentServices {
     } else {
       return "No demo found for this component";
     }
-    
+
     if (!demoList || demoList.length === 0) {
       return "No demo found for this component";
     }
@@ -396,6 +404,26 @@ export class ComponentServices {
     };
   }
 
+  static async createComponentDoc(
+    name: ShadcnVueComponent | ShadcnVueChartComponent,
+    type: string
+  ) {
+    const doc = await this.readFullComponentDoc({
+      type: type,
+      name: name,
+    });
+    const demos = await this.fetchUsageDemo(name);
+
+    // 将文档中的 <ComponentPreview name="组件名" /> 替换为对应的 demo 代码
+    // 确保demos是数组类型
+    const demosArray = Array.isArray(demos) ? demos : [];
+    const processedDoc = this.replaceComponentPreviewsWithCode(
+      doc,
+      demosArray
+    );
+    return processedDoc;
+  }
+
   /**
    * 将文档中的 ComponentPreview 标签替换为对应的 demo 代码
    * @param doc 原始文档内容
@@ -428,14 +456,18 @@ export class ComponentServices {
   /**
    * 检查组件是否存在
    */
-  static isValidComponent(name: string): name is ShadcnVueComponent | ShadcnVueChartComponent {
+  static isValidComponent(
+    name: string
+  ): name is ShadcnVueComponent | ShadcnVueChartComponent {
     return name in SHADCN_VUE_COMPONENTS || name in SHADCN_VUE_CHART_COMPONENTS;
   }
 
   /**
    * 获取指定组件的所有 demo 名称
    */
-  static getComponentDemos(name: ShadcnVueComponent | ShadcnVueChartComponent): readonly string[] {
+  static getComponentDemos(
+    name: ShadcnVueComponent | ShadcnVueChartComponent
+  ): readonly string[] {
     if (name in SHADCN_VUE_COMPONENTS) {
       return SHADCN_VUE_COMPONENTS[name as ShadcnVueComponent];
     } else if (name in SHADCN_VUE_CHART_COMPONENTS) {
