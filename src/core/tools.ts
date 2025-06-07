@@ -3,6 +3,8 @@ import { z } from "zod";
 import * as services from "./services/index.js";
 import { FILTER_COMPONENTS_PROMPT, getCreateComponentPrompt } from "./prompts/componentPrompts.js";
 
+
+
 /**
  * Register all tools with the MCP server
  *
@@ -183,7 +185,7 @@ export function registerTools(server: FastMCP) {
               "/unovue/shadcn-vue",
               {
                 topic: component.name,
-                tokens: 1000,
+                tokens: 700,
               }
             );
           return {
@@ -200,7 +202,7 @@ export function registerTools(server: FastMCP) {
               "/unovue/shadcn-vue",
               {
                 topic: chart.name,
-                tokens: 1000,
+                tokens: 700,
               }
             );
           return {
@@ -221,8 +223,9 @@ export function registerTools(server: FastMCP) {
           charts: chartResults,
         };
         
-        //todo 转为结构化md
-        const prompt = `${JSON.stringify(filteredComponents)}\n${getCreateComponentPrompt()}`;
+        // 转为结构化 markdown 内容
+        const structuredMarkdown = services.ComponentServices.convertToStructuredMarkdown(filteredComponents);
+        const prompt = `${structuredMarkdown}\n${getCreateComponentPrompt()}`;
 
         return {
           content: [

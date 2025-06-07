@@ -352,9 +352,7 @@ export class ComponentServices {
     }
   }
 
-  static async fetchUsageDemo(
-    name: string
-  ) {
+  static async fetchUsageDemo(name: string) {
     // 从相应的结构中获取 demo 列表
     let demoList: readonly string[];
 
@@ -404,10 +402,7 @@ export class ComponentServices {
     };
   }
 
-  static async createComponentDoc(
-    name: string,
-    type: string
-  ) {
+  static async createComponentDoc(name: string, type: string) {
     const doc = await this.readFullComponentDoc({
       type: type,
       name: name,
@@ -417,10 +412,7 @@ export class ComponentServices {
     // 将文档中的 <ComponentPreview name="组件名" /> 替换为对应的 demo 代码
     // 确保demos是数组类型
     const demosArray = Array.isArray(demos) ? demos : [];
-    const processedDoc = this.replaceComponentPreviewsWithCode(
-      doc,
-      demosArray
-    );
+    const processedDoc = this.replaceComponentPreviewsWithCode(doc, demosArray);
     return processedDoc;
   }
 
@@ -474,6 +466,101 @@ export class ComponentServices {
       return SHADCN_VUE_CHART_COMPONENTS[name as ShadcnVueChartComponent];
     }
     return [];
+  }
+  /**
+   * 将 filteredComponents 转换为结构化的 markdown 内容
+   * @param filteredComponents 包含组件和图表文档的对象
+   * @returns 格式化的 markdown 字符串
+   */
+  static convertToStructuredMarkdown(filteredComponents: {
+    components: Array<{ name: string; type: string; doc: string }>;
+    charts: Array<{ name: string; type: string; doc: string }>;
+  }): string {
+    let markdown = "# Shadcn-Vue Components Documentation\n\n";
+
+    // 处理组件部分
+    if (filteredComponents.components.length > 0) {
+      markdown += "## 📦 Components\n\n";
+
+      filteredComponents.components.forEach((component, index) => {
+        markdown += `### ${index + 1}. ${
+          component.name.charAt(0).toUpperCase() + component.name.slice(1)
+        } Component\n\n`;
+
+        try {
+          // 尝试解析 JSON 文档
+          const docData = JSON.parse(component.doc);
+
+          if (typeof docData === "string") {
+            // 如果是字符串，直接使用
+            markdown += `${docData}\n\n`;
+          } else if (docData && typeof docData === "object") {
+            // 如果是对象，格式化显示
+            if (docData.content) {
+              markdown += `${docData.content}\n\n`;
+            } else {
+              markdown += `\`\`\`json\n${JSON.stringify(
+                docData,
+                null,
+                2
+              )}\n\`\`\`\n\n`;
+            }
+          }
+        } catch (error) {
+          // 如果解析失败，直接使用原始文档
+          markdown += `${component.doc}\n\n`;
+        }
+
+        markdown += "---\n\n";
+      });
+    }
+
+    // 处理图表部分
+    if (filteredComponents.charts.length > 0) {
+      markdown += "## 📊 Charts\n\n";
+
+      filteredComponents.charts.forEach((chart, index) => {
+        markdown += `### ${index + 1}. ${
+          chart.name.charAt(0).toUpperCase() + chart.name.slice(1)
+        } Chart\n\n`;
+
+        try {
+          // 尝试解析 JSON 文档
+          const docData = JSON.parse(chart.doc);
+
+          if (typeof docData === "string") {
+            // 如果是字符串，直接使用
+            markdown += `${docData}\n\n`;
+          } else if (docData && typeof docData === "object") {
+            // 如果是对象，格式化显示
+            if (docData.content) {
+              markdown += `${docData.content}\n\n`;
+            } else {
+              markdown += `\`\`\`json\n${JSON.stringify(
+                docData,
+                null,
+                2
+              )}\n\`\`\`\n\n`;
+            }
+          }
+        } catch (error) {
+          // 如果解析失败，直接使用原始文档
+          markdown += `${chart.doc}\n\n`;
+        }
+
+        markdown += "---\n\n";
+      });
+    }
+
+    // 添加总结信息
+    markdown += "## 📋 Summary\n\n";
+    markdown += `- **Total Components**: ${filteredComponents.components.length}\n`;
+    markdown += `- **Total Charts**: ${filteredComponents.charts.length}\n`;
+    markdown += `- **Total Items**: ${
+      filteredComponents.components.length + filteredComponents.charts.length
+    }\n\n`;
+
+    return markdown;
   }
 }
 
