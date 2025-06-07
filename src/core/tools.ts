@@ -97,7 +97,7 @@ export function registerTools(server: FastMCP) {
         // 将筛选任务和数据传给 IDE 的 AI 处理
         const filteringPrompt = `
         ${FILTER_COMPONENTS_PROMPT}\n<user-message>${params.message}</user-message>
-        After outputting the json, call the all-components-doc tool for each element in components and charts
+        After outputting the json, call the all-components-doc tool
         `;
 
         return {
@@ -134,7 +134,11 @@ export function registerTools(server: FastMCP) {
     }),
     execute: async (params) => {
       try {
-        const processedDoc = await services.ComponentServices.createComponentDoc(params.name, params.type);
+        const processedDoc =
+          await services.ComponentServices.createComponentDoc(
+            params.name,
+            params.type
+          );
 
         // 在浏览器中打开markdown文档
         const componentTitle = `${params.name} - shadcn/vue Component Documentation`;
@@ -171,46 +175,59 @@ export function registerTools(server: FastMCP) {
         .describe("charts from components-filter tool"),
     }),
     execute: async (params) => {
-      params.components.forEach(async (component) => {
-        const processedDoc = await services.ComponentServices.createComponentDoc(component.name, "components");
-        // 在浏览器中打开markdown文档
-        const componentTitle = `${component.name} - shadcn/vue Component Documentation`;
-        await services.WebViewService.openMarkdownInBrowser(
-          processedDoc || "No documentation found for this component",
-          componentTitle
-        );
-      });
-      params.charts.forEach(async (chart) => {
-        const processedDoc = await services.ComponentServices.createComponentDoc(chart.name, "charts");
-        // 在浏览器中打开markdown文档
-        const componentTitle = `${chart.name} - shadcn/vue Component Documentation`;
-        await services.WebViewService.openMarkdownInBrowser(
-          processedDoc || "No documentation found for this component",
-          componentTitle
-        );
-      });
+      try {
+        // 并发处理所有组件文档
+        const componentPromises = params.components.map(async (component) => {
+          const processedDoc =
+            await services.ComponentServices.fetchLibraryDocumentation(
+              "/unovue/shadcn-vue",
+              {
+                topic: component.name,
+                tokens: 1000,
+              }
+            );
+          return {
+            name: component.name,
+            type: "component",
+            doc: JSON.stringify(processedDoc),
+          };
+        });
 
-      const filteredComponents = {
-        components: params.components,
-        charts: params.charts,
-      }
-      return {
-        content: [
-          {
-            type: "text",
-            text: `${JSON.stringify(filteredComponents)}\ncall the component-creation tool`,
-          },
-        ],
-      };
-    },
-  });
-  // component-creation tool 组件生成器
-  server.addTool({
-    name: "component-creation",
-    description: "create a new component",
-    execute: async () => {
-      const prompt = `
-      **Task:**
+        // 并发处理所有图表文档
+        const chartPromises = params.charts.map(async (chart) => {
+          const processedDoc =
+            await services.ComponentServices.fetchLibraryDocumentation(
+              "/unovue/shadcn-vue",
+              {
+                topic: chart.name,
+                tokens: 1000,
+              }
+            );
+          return {
+            name: chart.name,
+            type: "chart",
+            doc: JSON.stringify(processedDoc),
+          };
+        });
+
+        // 等待所有文档处理完成
+        const [componentResults, chartResults] = await Promise.all([
+          Promise.all(componentPromises),
+          Promise.all(chartPromises),
+        ]);
+
+        const filteredComponents = {
+          components: componentResults,
+          charts: chartResults,
+        };
+
+        return {
+          content: [
+            {
+              type: "text",
+              text: `
+              ${JSON.stringify(filteredComponents, null, 2)}
+              **Task:**
         Now, combine all the parts to generate the final, production-level, complete \`.vue\` component code.
 
         1. **Code implementation:** Fill in all function logic and complete the attribute binding and event listening in the template.
@@ -243,18 +260,14 @@ export function registerTools(server: FastMCP) {
           <!-- Reactive state with proper types -->
           <!-- Computed properties for derived state -->
           <!-- Methods with clear naming -->
-          </script>
-          \`\`\`
-      `;
-
-      return {
-        content: [
-          {
-            type: "text",
-            text: prompt,
-          },
-        ],
-      };
+          </script>`,
+            },
+          ],
+        };
+      } catch (error) {
+        console.error("Error executing all-components-doc tool:", error);
+        throw error;
+      }
     },
   });
 
