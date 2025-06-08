@@ -21,7 +21,7 @@ A powerful AI Agent tool that helps developers instantly create high-quality UI 
 Shadcn-vue MCP Server is a powerful AI-driven tool that helps developers instantly create beautiful, modern UI components through natural language descriptions. It integrates the shadcn-vue component library and tailwindcss, seamlessly connects with mainstream IDEs, and provides a streamlined UI development workflow.
 
 <div align="center">
-  🌐 Available Languages: <a href="./docs/README.zh-CN.md"><img src="https://img.shields.io/badge/docs-中文版-yellow" alt="中文文档"></a>
+  🌐 Available Languages: <a href="./docs/README-zh-CN.md"><img src="https://img.shields.io/badge/docs-中文版-yellow" alt="中文文档"></a>
 </div>
 
 
@@ -32,20 +32,29 @@ Shadcn-vue MCP Server is a powerful AI-driven tool that helps developers instant
 
 Developers face multiple challenges when building UI components:
 
-- ❌ Need to manually check shadcn-vue and tailwindcss4.0 documentation, wasting significant time
-- ❌ Component code needs to be written from scratch, inefficient
-- ❌ Difficult to achieve design consistency, components lack unified style
-- ❌ Hard to implement high-quality components that meet design and coding standards
+- ❌ **Tedious Development Workflow**: Constantly switching between the IDE, official documentation, and browser severely impacts development efficiency and focus.
+- ❌ **Difficulty in Component Selection**: Faced with numerous components from `shadcn-vue`, developers struggle to quickly find the best fit for their needs without intelligent recommendations.
+- ❌ **High Repetitive Workload**: Involves manually writing extensive boilerplate code and handling various component states and complex interaction logic.
+- ❌ **Insufficient Quality Assurance**: It's easy to overlook quality standards like accessibility (A11y), performance optimization, and best coding practices, leading to inconsistent component quality.
+- ❌ **High Maintenance Costs**: As the project grows, manually maintaining the style, behavior, and dependencies of all components becomes exceptionally difficult, making consistency hard to achieve.
 
 ## ✅ With shadcn-vue MCP
 
-shadcn-vue MCP provides an intelligent UI component development experience:
+shadcn-vue MCP provides an intelligent UI component development experience that revolutionizes the traditional workflow:
 
-- 1️⃣ Simply describe your desired component in natural language
-- 2️⃣ MCP automatically generates code compliant with shadcn-vue and tailwindcss standards
-- 3️⃣ Get production-ready, design-consistent shadcn-vue UI components
+- ✅ **One-Stop Development Experience**: Complete the entire process—from component selection and coding to preview—without ever leaving your editor, simply by describing your needs in natural language.
+- ✅ **Intelligent Component Recommendation**: The `components-filter` tool intelligently analyzes your requirements and recommends the most suitable `shadcn-vue` components.
+- ✅ **High-Quality Code Auto-Generation**: `component-builder` automatically generates high-quality Vue component code that complies with `shadcn-vue` and `tailwindcss` standards, with best practices built-in.
+- ✅ **Built-in Quality Assurance**: `component-quality-check` automatically performs accessibility (A11y) and code quality checks on the generated code, ensuring professional-grade components.
+- ✅ **Instant Documentation and Previews**: `component-usage-doc` provides real-time component documentation, APIs, and usage examples to get you started immediately.
+- ✅ **Ensures High Design Consistency**: All generated components strictly adhere to a unified design specification, ensuring visual and interactive consistency across the entire application and enhancing brand value.
 
+## Prerequisites
 
+Before you begin, ensure you have Node.js installed on your system.
+- **Recommended Node.js version**: `18.20.1` or later.
+
+> Using a different version might lead to installation errors like `Error: spawnSync code-insiders.cmd EINVAL`. Downgrading or upgrading to the recommended version is the best solution.
 
 ## ✨ Features
 
@@ -65,8 +74,7 @@ shadcn-vue MCP provides an intelligent UI component development experience:
   - Full TypeScript support ensures type-safe and scalable development.
 
 - **Intelligent Documentation Query**:
-  - Real-time access to detailed shadcn-vue component documentation.Generate real-time previews of components document.
-  - Integrated previews of component usage and best practices.
+  - Real-time access to detailed shadcn-vue component documentation with integrated previews of usage and best practices.
 
 - **Component Enhancement**:
     - Accessibility: WCAG 2.1 compliant, keyboard navigation, ARIA support
@@ -97,9 +105,9 @@ Error: spawnSync code-insiders.cmd EINVAL
 
 ### Method 2: Manual Configuration
 
-Manually configure AI application (e.g. Claude Desktop).你可以选择JSON选项，并选择对应的操作系统进行复制：
+Manually configure your AI application (e.g., Claude Desktop) by selecting the JSON option and copying the configuration for your operating system:
 
-for Mac/Linux:
+**For Mac/Linux:**
 ```json
 {
   "mcpServers": {
@@ -111,8 +119,27 @@ for Mac/Linux:
         "run",
         "@HelloGGX/shadcn-vue-mcp",
         "--key",
-        "your api key",
-        "--profile",
+        "parental-gayal-aplQPT"
+      ]
+    }
+  }
+}
+```
+
+**For Windows:**
+```json
+{
+  "mcpServers": {
+    "shadcn-vue-mcp": {
+      "command": "cmd",
+      "args": [
+         "/c",
+        "npx",
+        "-y",
+        "@smithery/cli@latest",
+        "run",
+        "@HelloGGX/shadcn-vue-mcp",
+        "--key",
         "parental-gayal-aplQPT"
       ]
     }
@@ -213,7 +240,12 @@ AI: Generated code as follows:
 
 ## 🤝 Contribution Guide
 
-We welcome all contributions! Help us improve @agent/shadcn-vue. Source code is open-sourced on [GitHub](https://github.com/HelloGGX/shadcn-vue-mcp).
+We welcome all forms of contributions! You can help us improve `@agent/shadcn-vue` by:
+- **Reporting Bugs:** If you find a bug, please create an issue in our [GitHub repository](https://github.com/HelloGGX/shadcn-vue-mcp/issues).
+- **Suggesting Enhancements:** Have an idea for a new feature or an improvement? Let us know by creating an issue.
+- **Submitting Pull Requests:** We are happy to review and merge pull requests. Before making significant changes, please open an issue first to discuss your ideas.
+
+The source code is open-sourced on [GitHub](https://github.com/HelloGGX/shadcn-vue-mcp).
 
 ## 👥 Community & Support
 
@@ -221,5 +253,5 @@ We welcome all contributions! Help us improve @agent/shadcn-vue. Source code is 
 
 ## 📝 License
 
-Apache2.0 License
+Licensed under the [Apache 2.0 License](./LICENSE).
 ---
