@@ -259,7 +259,7 @@ export function registerTools(server: FastMCP) {
       - Resource URI: standards://quality-profile
       - This resource contains the complete quality profile that defines all requirements for component generation
       - Five core dimensions: Accessibility, Performance, Consistency, Maintainability, Developer Experience
-      - Target quality level: B+ or higher (350+ points out of 500)
+      - Target quality level: A or higher (450+ points out of 500)
 
       Use the following MCP tools one after the other in this exact sequence. At each stage, you must review and apply the quality standards from the resource. Your responses must be professional, precise, and always with the ultimate goal of producing code that complies with the specifications. Do not make any assumptions or create anything outside of the standards.
        
