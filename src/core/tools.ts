@@ -1,9 +1,8 @@
 import { FastMCP } from "fastmcp";
 import { z } from "zod";
 import * as services from "./services/index.js";
-import { CREATE_COMPONENT_PROMPT, FILTER_COMPONENTS_PROMPT } from "./prompts/componentPrompts.js";
-
-
+import { CHECK_COMPONENT_QUALITY_PROMPT, CREATE_COMPONENT_PROMPT, FILTER_COMPONENTS_PROMPT } from "./prompts/componentPrompts.js";
+import fs from "fs";
 
 /**
  * Register all tools with the MCP server
@@ -242,6 +241,31 @@ export function registerTools(server: FastMCP) {
     },
   });
 
+  // 生成一个质量打分工具，给基于component-builder tool生成的组件进行检测
+  server.addTool({
+    name: "component-quality-check",
+    description: "Check the quality of a component whenever a component is generate or updated. Use this tool when mentions /check",
+    parameters: z.object({
+      absolute_component_path: z.string().describe("absolute path of the component"),
+    }),
+    execute: async (params) => {
+
+      // 从文件系统读取组件源代码
+      const componentCode = fs.readFileSync(params.absolute_component_path, 'utf-8');
+      
+      const prompt = `${CHECK_COMPONENT_QUALITY_PROMPT}\n\`\`\`vue\n${componentCode}\`\`\``;
+
+      return {
+        content: [
+          {
+            type: "text",
+            text: prompt, 
+          },
+        ],
+      };
+    },
+  });
+
   // component-builder tool 组件构建
   server.addTool({
     name: "component-builder",
@@ -256,7 +280,7 @@ export function registerTools(server: FastMCP) {
       You are an AI code generation engine. Your sole mission is to generate Vue 3 components that meet the highest quality standards based on the shadcn-vue component library. Your behavior and output must **strictly and absolutely** adhere to the [High-Quality UI Component Standard Definition] available as a resource.
 
       **IMPORTANT**: Before proceeding, you MUST first read the quality standards from the resource:
-      - Resource URI: standards://quality-profile
+      - query resource standards://component-quality
       - This resource contains the complete quality profile that defines all requirements for component generation
       - Five core dimensions: Accessibility, Performance, Consistency, Maintainability, Developer Experience
       - Target quality level: A or higher (450+ points out of 500)
@@ -264,6 +288,8 @@ export function registerTools(server: FastMCP) {
       Use the following MCP tools one after the other in this exact sequence. At each stage, you must review and apply the quality standards from the resource. Your responses must be professional, precise, and always with the ultimate goal of producing code that complies with the specifications. Do not make any assumptions or create anything outside of the standards.
        
        1. requirement-structuring, user requirement: ${params.message}
+       2. components-filter
+       3. all-components-doc
        `;
 
       return {

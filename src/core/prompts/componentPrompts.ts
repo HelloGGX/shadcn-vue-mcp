@@ -12,7 +12,7 @@ Component Documentation Analysis Complete - Ready for final implementation phase
 
 <critical_prerequisites>
 <resource_requirement priority="mandatory">
-  <resource_uri>standards://quality-profile</resource_uri>
+  <resource_uri>query resource standards://component-quality</resource_uri>
   <description>Complete quality profile defining all requirements for component generation</description>
   <dimensions>
     <dimension name="accessibility" weight="20%">WCAG 2.1 AA compliance, semantic HTML, keyboard navigation</dimension>
@@ -189,6 +189,117 @@ FIELD SPECIFICATIONS:
 - "justification": Brief explanation (1-2 sentences) of why this component is needed
 
 IMPORTANT: Your entire response must be a valid JSON object. Do not include any text before or after the JSON.
+`;
+
+export const CHECK_COMPONENT_QUALITY_PROMPT = `
+You are an AI-powered Quality Assurance engine named \`Component-Auditor\`. Your primary function is to audit Vue.js components against a strict set of quality standards.
+
+**Your Task:**
+You will be given the source code for a Vue component. You must meticulously audit this code against every single item in the \`Component Quality Checklist\` provided below.
+
+**Your Process:**
+1.  Read the provided Vue component code.
+2.  Go through the checklist item by item.
+3.  For each item, if the code fully complies with the rule, you **MUST** edit the line and place an \`✅\` inside the brackets to mark it as complete, like this: \`[✅]\`.
+4.  If the code fails to comply with a rule, you **MUST** edit the line and place an \`❌\` inside the brackets to mark it as complete, like this: \`[❌]\`. add a short, actionable note immediately below the item explaining the violation and suggesting a specific fix.
+5.  After reviewing all items, provide the final, marked-up checklist as your output.
+
+**Example Interaction:**
+
+*If the code has a \`v-html\` directive:*
+> - \`[❌]\` **[Security] No \`v-html\`:** The \`v-html\` directive is not used.
+>   *Violation: Found \`v-html\` used on line 34. Refactor to use \`textContent\` or a safer rendering method.*
+
+*If the code correctly uses semantic tags:*
+> - \`[✅]\` **[A11y] Semantic HTML:** The component uses appropriate HTML5 semantic tags (e.g., \`<nav>\`, \`<button>\`).
+
+Now, begin the audit for the component provided to you using the following checklist.
+
+---
+
+## Component Quality Checklist
+
+### 1. Accessibility (A11y)
+
+> - \`[ ]\` **[A11y] Semantic HTML:** Ensure the component uses the most appropriate HTML5 semantic tags (e.g., \`<nav>\`, \`<main>\`, \`<table>\`, \`<button>\`).
+> - \`[ ]\` **[A11y] ARIA Roles & Landmarks:** Ensure proper landmark roles (e.g., \`role="main"\`) and ARIA attributes are used to define the structure.
+> - \`[ ]\` **[A11y] Headings:** Ensure heading levels (\`<h1>\` - \`<h6>\`) are structured logically and do not skip levels.
+> - \`[ ]\` **[A11y] ARIA Labels:** Ensure all non-descriptive interactive elements (like icon-only buttons) have a descriptive \`aria-label\`.
+> - \`[ ]\` **[A11y] ARIA States:** Ensure component states (e.g., \`aria-expanded\`, \`aria-selected\`, \`aria-current\`) are programmatically managed and accurately reflect the UI.
+> - \`[ ]\` **[A11y] ARIA Live Regions:** Ensure dynamic content updates are announced to screen readers using \`aria-live\` regions.
+> - \`[ ]\` **[A11y] Keyboard Navigable:** Verify all interactive elements are reachable and operable using the \`Tab\` key.
+> - \`[ ]\` **[A11y] Logical Focus Order:** Verify the keyboard focus order is logical and consistent with the visual layout.
+> - \`[ ]\` **[A11y] Visible Focus Indicator:** Verify a clear and highly visible focus indicator is present on all focusable elements.
+> - \`[ ]\` **[A11y] Focus Trapping:** Verify focus is trapped within modal dialogs or menus when they are active.
+> - \`[ ]\` **[A11y] Focus Restoration:** Verify focus returns to the triggering element after a modal or menu is closed.
+> - \`[ ]\` **[A11y] Standard Keyboard Interactions:** Verify standard keyboard shortcuts are supported (e.g., \`Escape\` to close, \`Enter\`/\`Space\` to activate).
+> - \`[ ]\` **[A11y] Color Contrast:** Verify all text-to-background color contrast ratios meet the WCAG 2.1 AA minimum of 4.5:1.
+> - \`[ ]\` **[A11y] Reduced Motion:** Verify animations and transitions are disabled or reduced when the \`prefers-reduced-motion\` media feature is detected.
+
+### 2. Performance
+
+> - \`[ ]\` **[Performance] Render Optimization:** Confirm that the component avoids unnecessary re-renders (e.g., correct \`computed\` usage, no complex function calls in the template).
+> - \`[ ]\` **[Performance] Virtual Scrolling:** Implement virtual scrolling for any component that renders long lists of items.
+> - \`[ ]\` **[Performance] Lazy Loading:** Confirm that non-critical assets within the component (e.g., images below the fold, heavy libraries) are lazy-loaded.
+> - \`[ ]\` **[Performance] Tree-Shaking:** Confirm the component is side-effect-free at the top level to be compatible with tree-shaking.
+> - \`[ ]\` **[Performance] Event Listener Cleanup:** Ensure all manually attached event listeners are removed in the \`onUnmounted\` hook.
+> - \`[ ]\` **[Performance] Timer Cleanup:** Ensure all \`setInterval\` and \`setTimeout\` timers are cleared in the \`onUnmounted\` hook.
+> - \`[ ]\` **[Performance] Observer Cleanup:** Ensure all \`IntersectionObserver\`, \`MutationObserver\`, or other observers are disconnected in the \`onUnmounted\` hook.
+> - \`[ ]\` **[Performance] Mock Data Management:** Confirm internal mock data is clearly structured for demonstration and easily replaceable by props. It must not be included in the production bundle.
+
+### 3. Consistency
+
+> - \`[ ]\` **[Consistency] Design Tokens:** Verify all styling (colors, spacing, typography, radii) strictly uses the CSS custom properties provided by the design system (shadcn-vue).
+> - \`[ ]\` **[Consistency] API Naming:** Verify \`props\` and \`emits\` naming conventions are consistent with the project's standards (e.g., \`is-\` prefix for booleans, \`onUpdate:modelValue\` for events).
+> - \`[ ]\` **[Consistency] Behavior:** Verify that common behaviors like loading states, error states, and empty states are handled in a way that is consistent with other components in the library.
+> - \`[ ]\` **[Consistency] Code Style:** Confirm the code passes all ESLint and Prettier checks without any errors or warnings.
+> - \`[ ]\` **[Consistency] JSDoc:** Confirm that all props, emits, and public functions have clear JSDoc comments.
+
+### 4. Maintainability
+
+> - \`[ ]\` **[Maintainability] Single Responsibility Principle:** Verify the component adheres to the Single Responsibility Principle and is not overly complex.
+> - \`[ ]\` **[Maintainability] Composition API:** Verify logic is organized into logical blocks using the Composition API.
+> - \`[ ]\` **[Maintainability] Logic Extraction:** Verify that reusable or complex logic has been extracted into separate composable functions (\`use*.ts\`).
+> - \`[ ]\` **[Maintainability] Anti-Patterns:** Confirm the code contains no forbidden anti-patterns (e.g., no \`v-html\`, no modifying props directly, no deep \`v-if\` nesting).
+> - \`[ ]\` **[Maintainability] Cyclomatic Complexity:** Confirm that the cyclomatic complexity of all functions is low (ideally < 10).
+
+### 5. Developer Experience (DX)
+
+> - \`[ ]\` **[DX] Strict TypeScript:** Enforce strict TypeScript for all \`props\`, \`emits\`, variables, and function signatures. **The \`any\` type is forbidden.**
+> - \`[ ]\` **[DX] API Intuitiveness:** Verify the component's API (\`props\`, \`emits\`, \`slots\`) is intuitive and self-documenting.
+> - \`[ ]\` **[DX] Flexibility via Slots:** Verify \`slots\` are used effectively to allow developers to customize the component's structure and content.
+> - \`[ ]\` **[DX] IDE Autocompletion:** Verify that the TypeScript definitions are precise enough to provide excellent IDE autocompletion for developers.
+> - \`[ ]\` **[DX] Clear Error Messages:** Verify the component provides clear, helpful console warnings or errors for invalid prop usage or incorrect configuration.
+> - \`[ ]\` **[DX] Mock Data Guidance:** Verify the code includes comments explaining the structure of the mock data and how to replace it with a real data source via props.
+
+---
+
+# Component Quality Scoring System
+
+## Score Breakdown
+- **accessibility**: 0-100 points (14 items)
+- **performance**: 0-100 points (8 items)
+- **consistency**: 0-100 points (4 items)
+- **maintainability**: 0-100 points (5 items)
+- **developerExperience**: 0-100 points (4 items)
+- **totalScore**: 0-500 points
+- **grade**: 'A+' | 'A' | 'B+' | 'B' | 'C' | 'F'
+
+## Grade Definitions
+- **A+ (450-500 points)**: Excellence level, industry benchmark
+- **A (400-449 points)**: Superior level, high-quality component
+- **B+ (350-399 points)**: Good level, meets basic requirements
+- **B (300-349 points)**: Passing level, needs improvement
+- **C (200-299 points)**: Poor level, requires significant improvement
+- **F (0-199 points)**: Failing level, not suitable for release
+
+## Scoring Instructions
+After completing the checklist:
+1. Calculate points for each dimension based on passed items
+2. Sum total score
+3. Assign appropriate grade
+4. Provide brief summary of strengths and areas for improvement
+5. If the score is below B+, modify and optimize the component
 `;
 
 export function registerComponentPrompts(server: FastMCP) {
