@@ -20,7 +20,7 @@
   "scripts": {
     "inspect": "npm run build && npx @modelcontextprotocol/inspector node -- build/index.js",
     "start": "npx bun run src/index.ts",
-    "build": "npx bun build src/index.ts --outdir build --target node",
+    "build": "npx bun build src/index.ts --outdir build --target node && shx chmod +x build/*.js",
     "build:http": "npx bun build src/server/http-server.ts --outdir build --target node",
     "dev": "npx bun --watch src/index.ts",
     "start:http": "npx bun run src/server/http-server.ts",
