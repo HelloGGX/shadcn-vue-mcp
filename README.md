@@ -1,285 +1,202 @@
-# @mcpdotdirect/template-mcp-server
+<div align="center">
+  <a href="https://smithery.ai/server/@HelloGGX/shadcn-vue-mcp">
+    <img src="https://raw.githubusercontent.com/" alt="shadcnVue MCP Logo" height="60">
+  </a>
 
-![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
+  <br />
+
+A powerful AI Agent tool that helps developers instantly create high-quality UI components
+
+  <p align="center">
+    <a href="https://github.com/HelloGGX/shadcn-vue-mcp">GitHub Repository</a>
+  </p>
+
+  [![GitHub forks](https://img.shields.io/github/forks/HelloGGX/shadcn-vue-mcp.svg?style=social&label=Fork&maxAge=2592000)](https://GitHub.com/HelloGGX/shadcn-vue-mcp/network/)
+  [![GitHub stars](https://img.shields.io/github/stars/HelloGGX/shadcn-vue-mcp.svg?style=social&label=Star&maxAge=2592000)](https://GitHub.com/HelloGGX/shadcn-vue-mcp/stargazers/)
+  [![GitHub commits](https://badgen.net/github/commits/HelloGGX/shadcn-vue-mcp)](https://GitHub.com/HelloGGX/shadcn-vue-mcp/commit/)
+  [![License](https://img.shields.io/github/license/HelloGGX/shadcn-vue-mcp?colorA=00C586&colorB=000000)](https://github.com/HelloGGX/shadcn-vue-mcp/blob/main/LICENSE)
+  [![Contributors](https://img.shields.io/github/contributors/HelloGGX/shadcn-vue-mcp?colorA=00C586&colorB=000000)](https://github.com/HelloGGX/shadcn-vue-mcp/graphs/contributors)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-3178C6)
+[![smithery badge](https://smithery.ai/badge/@HelloGGX/shadcn-vue-mcp)](https://smithery.ai/server/@HelloGGX/shadcn-vue-mcp)
 
-A CLI tool to quickly get started building your very own MCP (Model Context Protocol) server using FastMCP
 
-## 📋 Usage
+Shadcn-vue MCP Server is a powerful AI-driven tool that helps developers instantly create beautiful, modern UI components through natural language descriptions. It integrates the shadcn-vue component library and tailwindcss, seamlessly connects with mainstream IDEs, and provides a streamlined UI development workflow.
 
-```bash
-# with npx
-npx @mcpdotdirect/create-mcp-server
+<div align="center">
+  🌐 Available Languages: <a href="./docs/README.zh-CN.md"><img src="https://img.shields.io/badge/docs-中文版-yellow" alt="中文文档"></a>
+</div>
 
-# Or with npm
-npm init @mcpdotdirect/mcp-server
-```
 
-## 🔭 What's Included
 
-The template includes:
+</div>
 
-- Basic server setup with both stdio and HTTP transport options using FastMCP
-- Structure for defining MCP tools, resources, and prompts
-- TypeScript configuration
-- Development scripts and configuration
+## ❌ Without shadcn-vue MCP
+
+Developers face multiple challenges when building UI components:
+
+- ❌ Need to manually check shadcn-vue and tailwindcss4.0 documentation, wasting significant time
+- ❌ Component code needs to be written from scratch, inefficient
+- ❌ Difficult to achieve design consistency, components lack unified style
+- ❌ Hard to implement high-quality components that meet design and coding standards
+
+## ✅ With shadcn-vue MCP
+
+shadcn-vue MCP provides an intelligent UI component development experience:
+
+- 1️⃣ Simply describe your desired component in natural language
+- 2️⃣ MCP automatically generates code compliant with shadcn-vue and tailwindcss standards
+- 3️⃣ Get production-ready, design-consistent shadcn-vue UI components
+
+
 
 ## ✨ Features
 
-- **FastMCP**: Built using the FastMCP framework for simpler implementation
-- **Dual Transport Support**: Run your MCP server over stdio or HTTP
-- **TypeScript**: Full TypeScript support for type safety
-- **Extensible**: Easy to add custom tools, resources, and prompts
+- **Natural Language Descriptions**:
+  - Create UI components effortlessly by describing them in plain language.
+
+- **Multi-IDE Support**:
+  - [Cursor](https://cursor.com) IDE integration for seamless workflows.
+  - [Trae](https://www.trae.ai/) support for advanced AI-driven development.
+  - [VSCode](https://code.visualstudio.com/) support for a robust coding experience.
+  - [VSCode + Cline](https://cline.bot) integration (Beta) for enhanced collaboration.
+
+- **Modern Component Library**:
+  - Built on the shadcn-vue component library and tailwindcss for modern, responsive designs.
+
+- **TypeScript Support**:
+  - Full TypeScript support ensures type-safe and scalable development.
+
+- **Intelligent Documentation Query**:
+  - Real-time access to detailed shadcn-vue component documentation.Generate real-time previews of components document.
+  - Integrated previews of component usage and best practices.
+
+- **Component Enhancement**:
+    - Accessibility: WCAG 2.1 compliant, keyboard navigation, ARIA support
+    - Performance: Code splitting, tree shaking, optimized bundles
+    - Consistency: Unified design system, consistent behavior patterns
+    - Maintainability: Clean code architecture, well-documented components
+    - Developer Experience: TypeScript support, hot reload, intuitive APIs
 
 ## 🚀 Getting Started
 
-After creating your project:
+### Method 1: CLI Quick Installation
 
-1. Install dependencies using your preferred package manager:
-   ```bash
-   # Using npm
-   npm install
-   
-   # Using yarn
-   yarn
-   
-   # Using pnpm
-   pnpm install
-   
-   # Using bun
-   bun install
-   ```
+To install shadcn-vue-mcp for all clients automatically via [Smithery](https://smithery.ai/server/@HelloGGX/shadcn-vue-mcp):
 
-2. Start the server:
-   ```bash
-   # Start the stdio server
-   npm start
-   
-   # Or start the HTTP server
-   npm run start:http
-   ```
+<img src="https://raw.githubusercontent.com/HelloGGX/shadcn-vue-mcp/main/docs/install.png" width="600" >
 
-3. For development with auto-reload:
-   ```bash
-   # Development mode with stdio
-   npm run dev
-   
-   # Development mode with HTTP
-   npm run dev:http
-   ```
+- Supported clients: cursor, windsurf, cline, claude, vscode, vscode-insiders
 
-> **Note**: The default scripts in package.json use Bun as the runtime (e.g., `bun run src/index.ts`). If you prefer to use a different package manager or runtime, you can modify these scripts in your package.json file to use Node.js or another runtime of your choice.
-
-## 📖 Detailed Usage
-
-### Transport Methods
-
-The MCP server supports two transport methods:
-
-1. **stdio Transport** (Command Line Mode):
-   - Runs on your **local machine**
-   - Managed automatically by Cursor
-   - Communicates directly via `stdout`
-   - Only accessible by you locally
-   - Ideal for personal development and tools
-
-2. **SSE Transport** (HTTP Web Mode):
-   - Can run **locally or remotely**
-   - Managed and run by you
-   - Communicates **over the network**
-   - Can be **shared** across machines
-   - Ideal for team collaboration and shared tools
-
-### Running the Server Locally
-
-#### stdio Transport (CLI Mode)
-
-Start the server in stdio mode for CLI tools:
-
+> **Note**: Take vscode as an example: When you select Auto, run the Smithery CLI command in the terminal:
 ```bash
-# Start the stdio server
-npm start
-# or with other package managers
-yarn start
-pnpm start
-bun start
-
-# Start the server in development mode with auto-reload
-npm run dev
-# or
-yarn dev
-pnpm dev
-bun dev
+npx -y @smithery/cli@latest install @HelloGGX/shadcn-vue-mcp --client vscode --profile parental-gayal-aplQPT --key xxxxx
 ```
-
-#### HTTP Transport (Web Mode)
-
-Start the server in HTTP mode for web applications:
-
+You may get an error: Failed to install @HelloGGX/shadcn-vue-mcp
 ```bash
-# Start the HTTP server
-npm run start:http
-# or
-yarn start:http
-pnpm start:http
-bun start:http
-
-# Start the HTTP server in development mode with auto-reload
-npm run dev:http
-# or
-yarn dev:http
-pnpm dev:http
-bun dev:http
+Error: spawnSync code-insiders.cmd EINVAL
 ```
+**Solution**: Downgrade the Node version to 18.20.1 and rerun
 
-By default, the HTTP server runs on port 3001. You can change this by setting the PORT environment variable:
+### Method 2: Manual Configuration
 
-```bash
-# Start the HTTP server on a custom port
-PORT=8080 npm run start:http
-```
+Manually configure AI application (e.g. Claude Desktop).你可以选择JSON选项，并选择对应的操作系统进行复制：
 
-### Connecting to the Server
-
-#### Connecting from Cursor
-
-To connect to your MCP server from Cursor:
-
-1. Open Cursor and go to Settings (gear icon in the bottom left)
-2. Click on "Features" in the left sidebar
-3. Scroll down to "MCP Servers" section
-4. Click "Add new MCP server"
-5. Enter the following details:
-   - Server name: `my-mcp-server` (or any name you prefer)
-   - For stdio mode:
-     - Type: `command`
-     - Command: The path to your server executable, e.g., `npm start`
-   - For SSE mode:
-     - Type: `url`
-     - URL: `http://localhost:3001/sse`
-6. Click "Save"
-
-#### Using mcp.json with Cursor
-
-For a more portable configuration, create an `.cursor/mcp.json` file in your project's root directory:
-
+for Mac/Linux:
 ```json
 {
   "mcpServers": {
-    "my-mcp-stdio": {
-      "command": "npm",
+    "shadcn-vue-mcp": {
+      "command": "npx",
       "args": [
-        "start"
-      ],
-      "env": {
-        "NODE_ENV": "development"
-      }
-    },
-    "my-mcp-sse": {
-      "url": "http://localhost:3001/sse"
+        "-y",
+        "@smithery/cli@latest",
+        "run",
+        "@HelloGGX/shadcn-vue-mcp",
+        "--key",
+        "your api key",
+        "--profile",
+        "parental-gayal-aplQPT"
+      ]
     }
   }
 }
 ```
 
-You can also create a global configuration at `~/.cursor/mcp.json` to make your MCP servers available in all your Cursor workspaces.
+### Method 3 URL Quick Installation for copilot
+You can also install shadcn-vue-mcp via URL.
+Step 1. copy the following URL and paste it into the URL field of the Smithery AI application:
 
-Note: 
-- The `command` type entries run the server in stdio mode
-- The `url` type entry connects to the HTTP server using SSE transport
-- You can provide environment variables using the `env` field
-- When connecting via SSE with FastMCP, use the full URL including the `/sse` path: `http://localhost:3001/sse`
+<img src="https://raw.githubusercontent.com/HelloGGX/shadcn-vue-mcp/main/docs/install_URL.png" width="600">
 
-### Testing Your Server with CLI Tools
+Step 2. Open vscode, open copilot and select Agent model
 
-FastMCP provides built-in tools for testing your server:
+Step 3: Select Add Server
 
-```bash
-# Test with mcp-cli
-npx fastmcp dev server.js
+<img src="https://raw.githubusercontent.com/HelloGGX/shadcn-vue-mcp/main/docs/add_server.png" width="600">
 
-# Inspect with MCP Inspector
-npx fastmcp inspect server.ts
+Step 4: choose HTTP
+
+<img src="https://raw.githubusercontent.com/HelloGGX/shadcn-vue-mcp/main/docs/choose_mcp_type.png" width="600">
+
+Step 5: paste the URL
+
+Step 6: config like this:
+
+```json
+{
+    "mcp": {
+		"servers": {
+			"shadcn-vue-mcp": {
+				"url": "https://server.smithery.ai/@HelloGGX/shadcn-vue-mcp/mcp?profile=parental-gayal-aplQPT&api_key=xxxxxxx"
+			},
+		}
+	}
+}
 ```
 
-### Using Environment Variables
+Config file locations:
 
-You can customize the server using environment variables:
+- Cursor: `~/.cursor/mcp.json`
+- Trae: `~/.Trae/mcp.json`
+- Cline: `~/.cline/mcp_config.json`
+- Claude: `~/.claude/mcp_config.json`
 
-```bash
-# Change the HTTP port (default is 3001)
-PORT=8080 npm run start:http
+## 🛠️ Tool List & Core Features
 
-# Change the host binding (default is 0.0.0.0)
-HOST=127.0.0.1 npm run start:http
-```
+### Component Generation Tools
+- **`requirement-structuring`**
+  - Analyzes natural language requirements
+  - Converts user needs into structured JSON format
+  - Considers core functionality and essential features
+  - Built-in user interaction and edge case analysis
 
-## 🛠️ Adding Custom Tools and Resources
+### Documentation & Analysis Tools
+- **`component-usage-doc`**
+  - Real-time access to shadcn-vue component documentation
+  - Interactive preview of component variants
+  - Built-in markdown rendering in browser
+  - Detailed API and usage examples
 
-When adding custom tools, resources, or prompts to your FastMCP server:
+### Component Filtering & Management
+- **`components-filter`**
+  - Smart component recommendation system
+  - Supports multi-language description parsing
+  - Component relationship analysis
+  - Usage frequency statistics and weighting
 
-### Tools
+### Code Quality & Testing
+- **`component-quality-check`**
+  - Automated code quality assessment
+  - A11y (Accessibility) compliance checking
+  - Performance optimization suggestions
+  - Best practices validation
 
-```typescript
-server.addTool({
-  name: "hello_world",
-  description: "A simple hello world tool",
-  parameters: z.object({
-    name: z.string().describe("Name to greet")
-  }),
-  execute: async (params) => {
-    return `Hello, ${params.name}!`;
-  }
-});
-```
+### Smart Code Generation
+- **`component-builder`**
+  - AI-powered component generation
+  - shadcn-vue and Tailwind CSS integration
+  - TypeScript type safety
+  - Built-in best practices implementation
 
-### Resources
 
-```typescript
-server.addResourceTemplate({
-  uriTemplate: "example://{id}",
-  name: "Example Resource",
-  mimeType: "text/plain",
-  arguments: [
-    {
-      name: "id",
-      description: "Resource ID",
-      required: true,
-    },
-  ],
-  async load({ id }) {
-    return {
-      text: `This is an example resource with ID: ${id}`
-    };
-  }
-});
-```
-
-### Prompts
-
-```typescript
-server.addPrompt({
-  name: "greeting",
-  description: "A simple greeting prompt",
-  arguments: [
-    {
-      name: "name",
-      description: "Name to greet",
-      required: true,
-    },
-  ],
-  load: async ({ name }) => {
-    return `Hello, ${name}! How can I help you today?`;
-  }
-});
-```
-
-## 📚 Documentation
-
-For more information about FastMCP, visit [FastMCP GitHub Repository](https://github.com/punkpeye/fastmcp).
-
-For more information about the Model Context Protocol, visit the [MCP Documentation](https://modelcontextprotocol.io/introduction).
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+## 🔭 What's Included
