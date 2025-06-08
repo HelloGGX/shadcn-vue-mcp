@@ -1,6 +1,6 @@
 <div align="center">
   <a href="https://smithery.ai/server/@HelloGGX/shadcn-vue-mcp">
-    <img src="https://raw.githubusercontent.com/" alt="shadcnVue MCP Logo" height="60">
+    <img src="https://github.com/HelloGGX/tailwindcss-mcp/raw/fast-agent/docs/logo.png" alt="shadcnVue MCP Logo" height="60">
   </a>
 
   <br />
@@ -199,4 +199,23 @@ Config file locations:
   - Built-in best practices implementation
 
 
-## 🔭 What's Included
+## Result Example
+
+User: /ui create a flight display component
+
+AI: Generated code as follows:
+
+![UI Component Example](https://github.com/HelloGGX/tailwindcss-mcp/raw/main/docs/ui.png)
+
+## 🤝 Contribution Guide
+
+We welcome all contributions! Help us improve @agent/shadcn-vue. Source code is open-sourced on [GitHub](https://github.com/HelloGGX/shadcn-vue-mcp).
+
+## 👥 Community & Support
+
+- [Discord Community](https://discord.gg/82Kf65ut) - Join our active community
+
+## 📝 License
+
+Apache2.0 License
+---
