@@ -11,20 +11,18 @@ A powerful AI Agent tool that helps developers instantly create high-quality UI 
     <a href="https://github.com/HelloGGX/shadcn-vue-mcp">GitHub Repository</a>
   </p>
 
-  [![GitHub forks](https://img.shields.io/github/forks/HelloGGX/shadcn-vue-mcp.svg?style=social&label=Fork&maxAge=2592000)](https://GitHub.com/HelloGGX/shadcn-vue-mcp/network/)
-  [![GitHub stars](https://img.shields.io/github/stars/HelloGGX/shadcn-vue-mcp.svg?style=social&label=Star&maxAge=2592000)](https://GitHub.com/HelloGGX/shadcn-vue-mcp/stargazers/)
-  [![GitHub commits](https://badgen.net/github/commits/HelloGGX/shadcn-vue-mcp)](https://GitHub.com/HelloGGX/shadcn-vue-mcp/commit/)
-  [![smithery badge](https://smithery.ai/badge/@HelloGGX/shadcn-vue-mcp)](https://smithery.ai/server/@HelloGGX/shadcn-vue-mcp)
-  [![License](https://img.shields.io/github/license/HelloGGX/shadcn-vue-mcp?colorA=00C586&colorB=000000)](https://github.com/HelloGGX/shadcn-vue-mcp/blob/main/LICENSE)
-  [![Contributors](https://img.shields.io/github/contributors/HelloGGX/shadcn-vue-mcp?colorA=00C586&colorB=000000)](https://github.com/HelloGGX/shadcn-vue-mcp/graphs/contributors)
+[![GitHub forks](https://img.shields.io/github/forks/HelloGGX/shadcn-vue-mcp.svg?style=social&label=Fork&maxAge=2592000)](https://GitHub.com/HelloGGX/shadcn-vue-mcp/network/)
+[![GitHub stars](https://img.shields.io/github/stars/HelloGGX/shadcn-vue-mcp.svg?style=social&label=Star&maxAge=2592000)](https://GitHub.com/HelloGGX/shadcn-vue-mcp/stargazers/)
+[![GitHub commits](https://badgen.net/github/commits/HelloGGX/shadcn-vue-mcp)](https://GitHub.com/HelloGGX/shadcn-vue-mcp/commit/)
+[![smithery badge](https://smithery.ai/badge/@HelloGGX/shadcn-vue-mcp)](https://smithery.ai/server/@HelloGGX/shadcn-vue-mcp)
+[![License](https://img.shields.io/github/license/HelloGGX/shadcn-vue-mcp?colorA=00C586&colorB=000000)](https://github.com/HelloGGX/shadcn-vue-mcp/blob/main/LICENSE)
+[![Contributors](https://img.shields.io/github/contributors/HelloGGX/shadcn-vue-mcp?colorA=00C586&colorB=000000)](https://github.com/HelloGGX/shadcn-vue-mcp/graphs/contributors)
 
 Shadcn-vue MCP Server is a powerful AI-driven tool that helps developers instantly create beautiful, modern UI components through natural language descriptions. It integrates the shadcn-vue component library and tailwindcss, seamlessly connects with mainstream IDEs, and provides a streamlined UI development workflow.
 
 <div align="center">
   🌐 Available Languages: <a href="./docs/README-zh-CN.md"><img src="https://img.shields.io/badge/docs-中文版-yellow" alt="中文文档"></a>
 </div>
-
-
 
 </div>
 
@@ -52,6 +50,7 @@ shadcn-vue MCP provides an intelligent UI component development experience that 
 ## Prerequisites
 
 Before you begin, ensure you have Node.js installed on your system.
+
 - **Recommended Node.js version**: `18.20.1` or later.
 
 > Using a different version might lead to installation errors like `Error: spawnSync code-insiders.cmd EINVAL`. Downgrading or upgrading to the recommended version is the best solution.
@@ -59,29 +58,34 @@ Before you begin, ensure you have Node.js installed on your system.
 ## ✨ Features
 
 - **Natural Language Descriptions**:
+
   - Create UI components effortlessly by describing them in plain language.
 
 - **Multi-IDE Support**:
+
   - [Cursor](https://cursor.com) IDE integration for seamless workflows.
   - [Trae](https://www.trae.ai/) support for advanced AI-driven development.
   - [VSCode](https://code.visualstudio.com/) support for a robust coding experience.
   - [VSCode + Cline](https://cline.bot) integration (Beta) for enhanced collaboration.
 
 - **Modern Component Library**:
+
   - Built on the shadcn-vue component library and tailwindcss for modern, responsive designs.
 
 - **TypeScript Support**:
+
   - Full TypeScript support ensures type-safe and scalable development.
 
 - **Intelligent Documentation Query**:
+
   - Real-time access to detailed shadcn-vue component documentation with integrated previews of usage and best practices.
 
 - **Component Enhancement**:
-    - Accessibility: WCAG 2.1 compliant, keyboard navigation, ARIA support
-    - Performance: Code splitting, tree shaking, optimized bundles
-    - Consistency: Unified design system, consistent behavior patterns
-    - Maintainability: Clean code architecture, well-documented components
-    - Developer Experience: TypeScript support, hot reload, intuitive APIs
+  - Accessibility: WCAG 2.1 compliant, keyboard navigation, ARIA support
+  - Performance: Code splitting, tree shaking, optimized bundles
+  - Consistency: Unified design system, consistent behavior patterns
+  - Maintainability: Clean code architecture, well-documented components
+  - Developer Experience: TypeScript support, hot reload, intuitive APIs
 
 ## 🚀 Getting Started
 
@@ -94,13 +98,17 @@ To install shadcn-vue-mcp for all clients automatically via [Smithery](https://s
 - Supported clients: cursor, windsurf, cline, claude, vscode, vscode-insiders
 
 > **Note**: Take vscode as an example: When you select Auto, run the Smithery CLI command in the terminal:
+
 ```bash
 npx -y @smithery/cli@latest install @HelloGGX/shadcn-vue-mcp --client vscode --profile parental-gayal-aplQPT --key xxxxx
 ```
+
 You may get an error: Failed to install @HelloGGX/shadcn-vue-mcp
+
 ```bash
 Error: spawnSync code-insiders.cmd EINVAL
 ```
+
 **Solution**: Downgrade the Node version to 18.20.1 and rerun
 
 ### Method 2: Manual Configuration
@@ -108,6 +116,7 @@ Error: spawnSync code-insiders.cmd EINVAL
 Manually configure your AI application (e.g., Claude Desktop) by selecting the JSON option and copying the configuration for your operating system:
 
 **For Mac/Linux:**
+
 ```json
 {
   "mcpServers": {
@@ -127,13 +136,14 @@ Manually configure your AI application (e.g., Claude Desktop) by selecting the J
 ```
 
 **For Windows:**
+
 ```json
 {
   "mcpServers": {
     "shadcn-vue-mcp": {
       "command": "cmd",
       "args": [
-         "/c",
+        "/c",
         "npx",
         "-y",
         "@smithery/cli@latest",
@@ -148,6 +158,7 @@ Manually configure your AI application (e.g., Claude Desktop) by selecting the J
 ```
 
 ### Method 3 URL Quick Installation for copilot
+
 You can also install shadcn-vue-mcp via URL.
 Step 1. copy the following URL and paste it into the URL field of the Smithery AI application:
 
@@ -169,13 +180,13 @@ Step 6: config like this:
 
 ```json
 {
-    "mcp": {
-		"servers": {
-			"shadcn-vue-mcp": {
-				"url": "https://server.smithery.ai/@HelloGGX/shadcn-vue-mcp/mcp?profile=parental-gayal-aplQPT&api_key=xxxxxxx"
-			},
-		}
-	}
+  "mcp": {
+    "servers": {
+      "shadcn-vue-mcp": {
+        "url": "https://server.smithery.ai/@HelloGGX/shadcn-vue-mcp/mcp?profile=parental-gayal-aplQPT&api_key=xxxxxxx"
+      }
+    }
+  }
 }
 ```
 
@@ -189,6 +200,7 @@ Config file locations:
 ## 🛠️ Tool List & Core Features
 
 ### Component Generation Tools
+
 - **`requirement-structuring`**
   - Analyzes natural language requirements
   - Converts user needs into structured JSON format
@@ -196,6 +208,7 @@ Config file locations:
   - Built-in user interaction and edge case analysis
 
 ### Documentation & Analysis Tools
+
 - **`component-usage-doc`**
   - Real-time access to shadcn-vue component documentation
   - Interactive preview of component variants
@@ -203,6 +216,7 @@ Config file locations:
   - Detailed API and usage examples
 
 ### Component Filtering & Management
+
 - **`components-filter`**
   - Smart component recommendation system
   - Supports multi-language description parsing
@@ -210,6 +224,7 @@ Config file locations:
   - Usage frequency statistics and weighting
 
 ### Code Quality & Testing
+
 - **`component-quality-check`**
   - Automated code quality assessment
   - A11y (Accessibility) compliance checking
@@ -217,12 +232,12 @@ Config file locations:
   - Best practices validation
 
 ### Smart Code Generation
+
 - **`component-builder`**
   - AI-powered component generation
   - shadcn-vue and Tailwind CSS integration
   - TypeScript type safety
   - Built-in best practices implementation
-
 
 ## Result Example
 
@@ -241,6 +256,7 @@ AI: Generated code as follows:
 ## 🤝 Contribution Guide
 
 We welcome all forms of contributions! You can help us improve `@agent/shadcn-vue` by:
+
 - **Reporting Bugs:** If you find a bug, please create an issue in our [GitHub repository](https://github.com/HelloGGX/shadcn-vue-mcp/issues).
 - **Suggesting Enhancements:** Have an idea for a new feature or an improvement? Let us know by creating an issue.
 - **Submitting Pull Requests:** We are happy to review and merge pull requests. Before making significant changes, please open an issue first to discuss your ideas.
@@ -253,5 +269,4 @@ The source code is open-sourced on [GitHub](https://github.com/HelloGGX/shadcn-v
 
 ## 📝 License
 
-Licensed under the [Apache 2.0 License](./LICENSE).
----
+## Licensed under the [Apache 2.0 License](./LICENSE).

@@ -1,5 +1,5 @@
 import { FastMCP } from "fastmcp";
-import { registerComponentPrompts } from './componentPrompts.js';
+import { registerComponentPrompts } from "./componentPrompts.js";
 
 /**
  * Register all prompts with the MCP server
@@ -8,5 +8,4 @@ import { registerComponentPrompts } from './componentPrompts.js';
 export function registerPrompts(server: FastMCP) {
   // Register component-related prompts
   registerComponentPrompts(server);
-
 }

@@ -1,10 +1,22 @@
 {
   "name": "mcp-server",
   "module": "src/index.ts",
+  "main": "build/index.js",
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Model Context Protocol (MCP) Server",
   "private": true,
+  "author": "gavin",
+  "license": "Apache-2.0",
+  "bin": {
+    "shadcn-vue-mcp": "build/index.js"
+  },
+  "files": [
+    "build"
+  ],
+  "bugs": {
+    "url": "https://github.com/HelloGGX/shadcn-vue-mcp/issues"
+  },
   "scripts": {
     "inspect": "npm run build && npx @modelcontextprotocol/inspector node -- build/index.js",
     "start": "npx bun run src/index.ts",
@@ -12,12 +24,37 @@
     "build:http": "npx bun build src/server/http-server.ts --outdir build --target node",
     "dev": "npx bun --watch src/index.ts",
     "start:http": "npx bun run src/server/http-server.ts",
-    "dev:http": "npx bun --watch src/server/http-server.ts"
+    "dev:http": "npx bun --watch src/server/http-server.ts",
+    "format": "prettier --write .",
+    "lint": "eslint \"**/*.{js,ts,tsx}\" --fix"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HelloGGX/shadcn-vue-mcp"
+  },
+  "keywords": [
+    "shadcn-vue-mcp",
+    "mcp",
+    "context7",
+    "agent",
+    "fast-mcp",
+    "tailwindcss"
+  ],
   "devDependencies": {
+    "@eslint/js": "^9.28.0",
+    "@eslint/json": "^0.12.0",
+    "@eslint/markdown": "^6.5.0",
     "@types/bun": "latest",
     "@types/cors": "^2.8.17",
-    "@types/node": "^20.11.0"
+    "@types/express": "^5.0.3",
+    "@types/node": "^20.11.0",
+    "eslint": "^9.28.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.4.1",
+    "eslint-plugin-vue": "^10.2.0",
+    "globals": "^16.2.0",
+    "prettier": "^3.5.3",
+    "typescript-eslint": "^8.33.1"
   },
   "peerDependencies": {
     "@valibot/to-json-schema": "^1.0.0",
@@ -27,6 +64,7 @@
   "dependencies": {
     "axios": "^1.9.0",
     "cors": "^2.8.5",
+    "express": "^5.1.0",
     "fastmcp": "^1.21.0",
     "marked": "^15.0.12",
     "open": "^10.1.2",

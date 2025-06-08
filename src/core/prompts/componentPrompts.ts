@@ -1,6 +1,3 @@
-import { FastMCP } from "fastmcp";
-
-
 export const CREATE_COMPONENT_PROMPT = `
 <role>
 You are an expert Vue.js developer specializing in shadcn/vue components with deep knowledge of accessibility, performance optimization, and modern web development best practices.
@@ -302,20 +299,13 @@ After completing the checklist:
 5. If the score is below B+, modify and optimize the component
 `;
 
-export function registerComponentPrompts(server: FastMCP) {
-  
-}
+export function registerComponentPrompts() {}
 export const getQualityStandard = () => {
   return {
     qualityProfile: {
       accessibility: {
-        description:
-          "Standards to ensure the component is accessible to all users",
-        coreRequirements: [
-          "WCAG 2.1 AA level compliance",
-          "Semantic HTML",
-          "Keyboard navigation",
-        ],
+        description: "Standards to ensure the component is accessible to all users",
+        coreRequirements: ["WCAG 2.1 AA level compliance", "Semantic HTML", "Keyboard navigation"],
         specificStandards: {
           semanticHTML: {
             properHTMLTags: true,
@@ -349,8 +339,7 @@ export const getQualityStandard = () => {
         ],
       },
       performance: {
-        description:
-          "Performance standards to ensure the component runs efficiently",
+        description: "Performance standards to ensure the component runs efficiently",
         coreRequirements: [
           "Fast loading",
           "Efficient rendering",
@@ -389,13 +378,8 @@ export const getQualityStandard = () => {
         },
       },
       consistency: {
-        description:
-          "Standards to ensure consistency in design, behavior, and API",
-        coreRequirements: [
-          "Design consistency",
-          "Behavior consistency",
-          "API consistency",
-        ],
+        description: "Standards to ensure consistency in design, behavior, and API",
+        coreRequirements: ["Design consistency", "Behavior consistency", "API consistency"],
         specificStandards: {
           design: {
             designTokens: true,
@@ -431,13 +415,8 @@ export const getQualityStandard = () => {
         },
       },
       maintainability: {
-        description:
-          "Standards to ensure the component is easy to maintain and update",
-        coreRequirements: [
-          "Clear code",
-          "Modular design",
-          "Complete documentation",
-        ],
+        description: "Standards to ensure the component is easy to maintain and update",
+        coreRequirements: ["Clear code", "Modular design", "Complete documentation"],
         specificStandards: {
           codeStructure: {
             singleResponsibility: true,

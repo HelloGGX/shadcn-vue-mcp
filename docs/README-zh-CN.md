@@ -11,12 +11,12 @@
     <a href="https://github.com/HelloGGX/shadcn-vue-mcp">GitHub 仓库</a>
   </p>
 
-  [![GitHub forks](https://img.shields.io/github/forks/HelloGGX/shadcn-vue-mcp.svg?style=social&label=Fork&maxAge=2592000)](https://GitHub.com/HelloGGX/shadcn-vue-mcp/network/)
-  [![GitHub stars](https://img.shields.io/github/stars/HelloGGX/shadcn-vue-mcp.svg?style=social&label=Star&maxAge=2592000)](https://GitHub.com/HelloGGX/shadcn-vue-mcp/stargazers/)
-  [![GitHub commits](https://badgen.net/github/commits/HelloGGX/shadcn-vue-mcp)](https://GitHub.com/HelloGGX/shadcn-vue-mcp/commit/)
-  [![smithery badge](https://smithery.ai/badge/@HelloGGX/shadcn-vue-mcp)](https://smithery.ai/server/@HelloGGX/shadcn-vue-mcp)
-  [![License](https://img.shields.io/github/license/HelloGGX/shadcn-vue-mcp?colorA=00C586&colorB=000000)](https://github.com/HelloGGX/shadcn-vue-mcp/blob/main/LICENSE)
-  [![Contributors](https://img.shields.io/github/contributors/HelloGGX/shadcn-vue-mcp?colorA=00C586&colorB=000000)](https://github.com/HelloGGX/shadcn-vue-mcp/graphs/contributors)
+[![GitHub forks](https://img.shields.io/github/forks/HelloGGX/shadcn-vue-mcp.svg?style=social&label=Fork&maxAge=2592000)](https://GitHub.com/HelloGGX/shadcn-vue-mcp/network/)
+[![GitHub stars](https://img.shields.io/github/stars/HelloGGX/shadcn-vue-mcp.svg?style=social&label=Star&maxAge=2592000)](https://GitHub.com/HelloGGX/shadcn-vue-mcp/stargazers/)
+[![GitHub commits](https://badgen.net/github/commits/HelloGGX/shadcn-vue-mcp)](https://GitHub.com/HelloGGX/shadcn-vue-mcp/commit/)
+[![smithery badge](https://smithery.ai/badge/@HelloGGX/shadcn-vue-mcp)](https://smithery.ai/server/@HelloGGX/shadcn-vue-mcp)
+[![License](https://img.shields.io/github/license/HelloGGX/shadcn-vue-mcp?colorA=00C586&colorB=000000)](https://github.com/HelloGGX/shadcn-vue-mcp/blob/main/LICENSE)
+[![Contributors](https://img.shields.io/github/contributors/HelloGGX/shadcn-vue-mcp?colorA=00C586&colorB=000000)](https://github.com/HelloGGX/shadcn-vue-mcp/graphs/contributors)
 
 Shadcn-vue MCP Server 是一个强大的 AI 驱动工具，可帮助开发人员通过自然语言描述即时创建美观、现代的 UI 组件。它集成了 shadcn-vue 组件库和 tailwindcss，与主流 IDE 无缝连接，并提供简化的 UI 开发工作流程。
 
@@ -50,6 +50,7 @@ shadcn-vue MCP 提供了智能化的 UI 组件开发体验，彻底改变了传�
 ## 先决条件
 
 在开始之前，请确保您的系统上已安装 Node.js。
+
 - **推荐 Node.js 版本**: `18.20.1` 或更高版本。
 
 > 使用不同版本可能会导致安装错误，如 `Error: spawnSync code-insiders.cmd EINVAL`。降级或升级到推荐版本是最佳解决方案。
@@ -57,29 +58,34 @@ shadcn-vue MCP 提供了智能化的 UI 组件开发体验，彻底改变了传�
 ## ✨ 特性
 
 - **自然语言描述**:
+
   - 通过简单的语言描述，轻松创建 UI 组件。
 
 - **多 IDE 支持**:
+
   - 集成 [Cursor](https://cursor.com) IDE，实现无缝工作流。
   - 支持 [Trae](https://www.trae.ai/)，实现先进的 AI 驱动开发。
   - 支持 [VSCode](https://code.visualstudio.com/)，提供强大的编码体验。
   - 集成 [VSCode + Cline](https://cline.bot) (Beta)，增强协作能力。
 
 - **现代化组件库**:
+
   - 基于 shadcn-vue 组件库和 tailwindcss 构建，实现现代化、响应式设计。
 
 - **TypeScript 支持**:
+
   - 全面支持 TypeScript，确保类型安全和可扩展的开发。
 
 - **智能文档查询**:
+
   - 实时访问详细的 shadcn-vue 组件文档，并集成用法和最佳实践的预览。
 
 - **组件增强**:
-    - 可访问性：符合 WCAG 2.1 标准，支持键盘导航和 ARIA
-    - 性能：代码分割、摇树优化、优化的捆绑包
-    - 一致性：统一的设计系统，一致的行为模式
-    - 可维护性：清晰的代码架构，文档齐全的组件
-    - 开发者体验：TypeScript 支持、热重载、直观的 API
+  - 可访问性：符合 WCAG 2.1 标准，支持键盘导航和 ARIA
+  - 性能：代码分割、摇树优化、优化的捆绑包
+  - 一致性：统一的设计系统，一致的行为模式
+  - 可维护性：清晰的代码架构，文档齐全的组件
+  - 开发者体验：TypeScript 支持、热重载、直观的 API
 
 ## 🚀 快速上手
 
@@ -92,13 +98,17 @@ shadcn-vue MCP 提供了智能化的 UI 组件开发体验，彻底改变了传�
 - 支持的客户端: cursor, windsurf, cline, claude, vscode, vscode-insiders
 
 > **注意**: 以 vscode 为例：当您选择"自动"时，在终端中运行 Smithery CLI 命令：
+
 ```bash
 npx -y @smithery/cli@latest install @HelloGGX/shadcn-vue-mcp --client vscode --profile parental-gayal-aplQPT --key xxxxx
 ```
+
 您可能会遇到错误：`Failed to install @HelloGGX/shadcn-vue-mcp`
+
 ```bash
 Error: spawnSync code-insiders.cmd EINVAL
 ```
+
 **解决方案**: 如"先决条件"部分所述，请确保您使用的是 Node.js `18.20.1` 版本。
 
 ### 方法二：手动配置
@@ -106,6 +116,7 @@ Error: spawnSync code-insiders.cmd EINVAL
 通过选择 JSON 选项并复制适用于您操作系统的配置，手动配置您的 AI 应用程序（例如 Claude 桌面版）：
 
 **对于 Mac/Linux:**
+
 ```json
 {
   "mcpServers": {
@@ -124,6 +135,7 @@ Error: spawnSync code-insiders.cmd EINVAL
 ```
 
 **对于 Windows:**
+
 ```json
 {
   "mcpServers": {
@@ -144,6 +156,7 @@ Error: spawnSync code-insiders.cmd EINVAL
 ```
 
 ### 方法三：通过 URL 为 Copilot 快速安装
+
 您还可以通过 URL 安装 shadcn-vue-mcp。
 步骤 1. 复制以下 URL 并将其粘贴到 Smithery AI 应用程序的 URL 字段中：
 
@@ -165,13 +178,13 @@ Error: spawnSync code-insiders.cmd EINVAL
 
 ```json
 {
-    "mcp": {
-		"servers": {
-			"shadcn-vue-mcp": {
-				"url": "https://server.smithery.ai/@HelloGGX/shadcn-vue-mcp/mcp?profile=parental-gayal-aplQPT&api_key=xxxxxxx"
-			}
-		}
-	}
+  "mcp": {
+    "servers": {
+      "shadcn-vue-mcp": {
+        "url": "https://server.smithery.ai/@HelloGGX/shadcn-vue-mcp/mcp?profile=parental-gayal-aplQPT&api_key=xxxxxxx"
+      }
+    }
+  }
 }
 ```
 
@@ -185,6 +198,7 @@ Error: spawnSync code-insiders.cmd EINVAL
 ## 🛠️ 工具列表与核心功能
 
 ### 组件生成工具
+
 - **`requirement-structuring`**
   - 分析自然语言需求
   - 将用户需求转换为结构化的 JSON 格式
@@ -192,6 +206,7 @@ Error: spawnSync code-insiders.cmd EINVAL
   - 内置用户交互和边缘情况分析
 
 ### 文档与分析工具
+
 - **`component-usage-doc`**
   - 实时访问 shadcn-vue 组件文档
   - 组件变体的交互式预览
@@ -199,6 +214,7 @@ Error: spawnSync code-insiders.cmd EINVAL
   - 详细的 API 和使用示例
 
 ### 组件筛选与管理
+
 - **`components-filter`**
   - 智能组件推荐系统
   - 支持多语言描述解析
@@ -206,6 +222,7 @@ Error: spawnSync code-insiders.cmd EINVAL
   - 使用频率统计与加权
 
 ### 代码质量与测试
+
 - **`component-quality-check`**
   - 自动化代码质量评估
   - A11y (可访问性) 合规性检查
@@ -213,12 +230,12 @@ Error: spawnSync code-insiders.cmd EINVAL
   - 最佳实践验证
 
 ### 智能代码生成
+
 - **`component-builder`**
   - AI 驱动的组件生成
   - 集成 shadcn-vue 和 Tailwind CSS
   - TypeScript 类型安全
   - 内置最佳实践实现
-
 
 ## 效果示例
 
@@ -237,6 +254,7 @@ AI: 生成代码如下:
 ## 🤝 贡献指南
 
 我们欢迎所有形式的贡献！您可以通过以下方式帮助我们改进 `@agent/shadcn-vue`：
+
 - **报告错误：** 如果您发现错误，请在我们的 [GitHub 仓库](https://github.com/HelloGGX/shadcn-vue-mcp/issues)中创建一个问题。
 - **建议增强功能：** 对新功能或改进有想法吗？通过创建问题让我们知道。
 - **提交拉取请求：** 我们很乐意审查和合并拉取请求。在进行重大更改之前，请先打开一个问题来讨论您的想法。
@@ -249,5 +267,4 @@ AI: 生成代码如下:
 
 ## 📝 许可证
 
-根据 [Apache 2.0 许可证](./LICENSE) 授权。
----
+## 根据 [Apache 2.0 许可证](./LICENSE) 授权。

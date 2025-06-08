@@ -1,8 +1,8 @@
-import { marked } from 'marked';
-import open from 'open';
-import * as fs from 'fs';
-import * as path from 'path';
-import * as os from 'os';
+import { marked } from "marked";
+import open from "open";
+import * as fs from "fs";
+import * as path from "path";
+import * as os from "os";
 
 export class WebViewService {
   /**
@@ -10,27 +10,30 @@ export class WebViewService {
    * @param markdownContent markdown内容
    * @param title 页面标题
    */
-  static async openMarkdownInBrowser(markdownContent: string, title: string = 'Component Documentation'): Promise<void> {
+  static async openMarkdownInBrowser(
+    markdownContent: string,
+    title: string = "Component Documentation"
+  ): Promise<void> {
     try {
       // 将markdown转换为HTML
       const htmlContent = await marked(markdownContent);
-      
+
       // 创建完整的HTML页面
       const fullHtml = this.createHtmlPage(htmlContent, title);
-      
+
       // 创建临时文件
       const tempDir = os.tmpdir();
       const tempFilePath = path.join(tempDir, `component-doc-${Date.now()}.html`);
-      
+
       // 写入HTML文件
-      fs.writeFileSync(tempFilePath, fullHtml, 'utf8');
-      
+      fs.writeFileSync(tempFilePath, fullHtml, "utf8");
+
       // 在浏览器中打开
       await open(tempFilePath);
-      
+
       console.log(`Documentation opened in browser: ${tempFilePath}`);
     } catch (error) {
-      console.error('Error opening markdown in browser:', error);
+      console.error("Error opening markdown in browser:", error);
       throw error;
     }
   }
@@ -494,7 +497,7 @@ export class WebViewService {
         </div>
         
         <div class="timestamp">
-            Generated on ${new Date().toLocaleString('zh-CN')} • Powered by shadcn/vue MCP Server
+            Generated on ${new Date().toLocaleString("zh-CN")} • Powered by shadcn/vue MCP Server
         </div>
     </div>
     
@@ -562,4 +565,4 @@ export class WebViewService {
 </body>
 </html>`;
   }
-} 
+}

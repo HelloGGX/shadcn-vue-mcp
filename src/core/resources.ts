@@ -6,7 +6,6 @@ import { getQualityStandard } from "./prompts/componentPrompts.js";
  * @param server The FastMCP server instance
  */
 export function registerResources(server: FastMCP) {
-  
   // Component Quality Profile (Structured for AI consumption)
   server.addResource({
     uri: "standards://component-quality",
@@ -16,8 +15,8 @@ export function registerResources(server: FastMCP) {
     async load() {
       const standards = getQualityStandard();
       return {
-        text: JSON.stringify(standards.qualityProfile, null, 2)
+        text: JSON.stringify(standards.qualityProfile, null, 2),
       };
-    }
+    },
   });
-} 
+}

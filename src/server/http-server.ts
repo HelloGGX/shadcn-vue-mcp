@@ -7,7 +7,7 @@ async function main() {
   try {
     // Create and initialize the FastMCP server
     const server = await startServer();
-    
+
     // Start the server with SSE transport
     server.start({
       transportType: "stdio",
@@ -16,7 +16,7 @@ async function main() {
       //   endpoint: "/sse",
       // },
     });
-    
+
     console.error(`MCP Server running at http://localhost:${PORT}`);
     // console.error(`SSE endpoint: http://localhost:${PORT}/sse`);
   } catch (error) {
@@ -35,4 +35,4 @@ process.on("SIGINT", () => {
 main().catch((error) => {
   console.error("Fatal error:", error);
   process.exit(1);
-}); 
+});

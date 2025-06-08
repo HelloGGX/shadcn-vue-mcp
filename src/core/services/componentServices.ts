@@ -19,12 +19,7 @@ export const SHADCN_VUE_COMPONENTS = {
     "AutoFormSubObject",
   ],
   avatar: ["AvatarDemo"],
-  badge: [
-    "BadgeDemo",
-    "BadgeDestructiveDemo",
-    "BadgeOutlineDemo",
-    "BadgeSecondaryDemo",
-  ],
+  badge: ["BadgeDemo", "BadgeDestructiveDemo", "BadgeOutlineDemo", "BadgeSecondaryDemo"],
 
   breadcrumb: [
     "BreadcrumbDemo",
@@ -103,11 +98,7 @@ export const SHADCN_VUE_COMPONENTS = {
     "DialogScrollOverlayDemo",
   ],
   drawer: ["DrawerDemo", "DrawerDialog"],
-  "dropdown-menu": [
-    "DropdownMenuCheckboxes",
-    "DropdownMenuDemo",
-    "DropdownMenuRadioGroup",
-  ],
+  "dropdown-menu": ["DropdownMenuCheckboxes", "DropdownMenuDemo", "DropdownMenuRadioGroup"],
   "hover-card": ["HoverCardDemo"],
   input: [
     "InputDemo",
@@ -151,12 +142,7 @@ export const SHADCN_VUE_COMPONENTS = {
   skeleton: ["SkeletonCard", "SkeletonDemo"],
   slider: ["SliderDemo", "SliderForm"],
   sonner: ["SonnerDemo", "SonnerWithDialog"],
-  stepper: [
-    "StepperDemo",
-    "StepperForm",
-    "StepperHorizental",
-    "StepperVertical",
-  ],
+  stepper: ["StepperDemo", "StepperForm", "StepperHorizental", "StepperVertical"],
   switch: ["SwitchDemo", "SwitchForm"],
   table: ["TableDemo"],
   tabs: ["TabsDemo", "TabsVerticalDemo"],
@@ -169,13 +155,7 @@ export const SHADCN_VUE_COMPONENTS = {
     "TextareaWithLabel",
     "TextareaWithText",
   ],
-  toast: [
-    "ToastDemo",
-    "ToastDestructive",
-    "ToastSimple",
-    "ToastWithAction",
-    "ToastWithTitle",
-  ],
+  toast: ["ToastDemo", "ToastDestructive", "ToastSimple", "ToastWithAction", "ToastWithTitle"],
   toggle: [
     "ToggleDemo",
     "ToggleDisabledDemo",
@@ -213,18 +193,8 @@ export const SHADCN_VUE_COMPONENTS = {
 
 export const SHADCN_VUE_CHART_COMPONENTS = {
   area: ["AreaChartCustomTooltip", "AreaChartDemo", "AreaChartSparkline"],
-  bar: [
-    "BarChartCustomTooltip",
-    "BarChartDemo",
-    "BarChartRounded",
-    "BarChartStacked",
-  ],
-  donut: [
-    "DonutChartColor",
-    "DonutChartCustomTooltip",
-    "DonutChartDemo",
-    "DonutChartPie",
-  ],
+  bar: ["BarChartCustomTooltip", "BarChartDemo", "BarChartRounded", "BarChartStacked"],
+  donut: ["DonutChartColor", "DonutChartCustomTooltip", "DonutChartDemo", "DonutChartPie"],
   line: ["LineChartCustomTooltip", "LineChartDemo", "LineChartSparkline"],
 } as const;
 
@@ -298,11 +268,8 @@ export class ComponentServices {
       if (libraryId.startsWith("/")) {
         libraryId = libraryId.slice(1);
       }
-      const url = new URL(
-        `${ComponentServices.CONTEXT7_API_BASE_URL}/v1/${libraryId}`
-      );
-      if (options.tokens)
-        url.searchParams.set("tokens", options.tokens.toString());
+      const url = new URL(`${ComponentServices.CONTEXT7_API_BASE_URL}/v1/${libraryId}`);
+      if (options.tokens) url.searchParams.set("tokens", options.tokens.toString());
       if (options.topic) url.searchParams.set("topic", options.topic);
       if (options.folders) url.searchParams.set("folders", options.folders);
       url.searchParams.set("type", ComponentServices.DEFAULT_TYPE);
@@ -316,11 +283,7 @@ export class ComponentServices {
         return null;
       }
       const text = await response.text();
-      if (
-        !text ||
-        text === "No content available" ||
-        text === "No context data available"
-      ) {
+      if (!text || text === "No content available" || text === "No context data available") {
         return null;
       }
       return text;
@@ -329,13 +292,7 @@ export class ComponentServices {
       return null;
     }
   }
-  static async readFullComponentDoc({
-    name,
-    type,
-  }: {
-    name: string;
-    type: string;
-  }) {
+  static async readFullComponentDoc({ name, type }: { name: string; type: string }) {
     try {
       const content = await ComponentServices.fetchWithFallback(
         name === "typography"
@@ -344,10 +301,7 @@ export class ComponentServices {
       );
       return content;
     } catch (error) {
-      console.error(
-        `Failed to fetch component documentation for ${name}:`,
-        error
-      );
+      console.error(`Failed to fetch component documentation for ${name}:`, error);
       return "No documentation found for this component";
     }
   }
@@ -448,18 +402,14 @@ export class ComponentServices {
   /**
    * 检查组件是否存在
    */
-  static isValidComponent(
-    name: string
-  ): name is ShadcnVueComponent | ShadcnVueChartComponent {
+  static isValidComponent(name: string): name is ShadcnVueComponent | ShadcnVueChartComponent {
     return name in SHADCN_VUE_COMPONENTS || name in SHADCN_VUE_CHART_COMPONENTS;
   }
 
   /**
    * 获取指定组件的所有 demo 名称
    */
-  static getComponentDemos(
-    name: ShadcnVueComponent | ShadcnVueChartComponent
-  ): readonly string[] {
+  static getComponentDemos(name: ShadcnVueComponent | ShadcnVueChartComponent): readonly string[] {
     if (name in SHADCN_VUE_COMPONENTS) {
       return SHADCN_VUE_COMPONENTS[name as ShadcnVueComponent];
     } else if (name in SHADCN_VUE_CHART_COMPONENTS) {
@@ -499,14 +449,10 @@ export class ComponentServices {
             if (docData.content) {
               markdown += `${docData.content}\n\n`;
             } else {
-              markdown += `\`\`\`json\n${JSON.stringify(
-                docData,
-                null,
-                2
-              )}\n\`\`\`\n\n`;
+              markdown += `\`\`\`json\n${JSON.stringify(docData, null, 2)}\n\`\`\`\n\n`;
             }
           }
-        } catch (error) {
+        } catch {
           // 如果解析失败，直接使用原始文档
           markdown += `${component.doc}\n\n`;
         }
@@ -536,14 +482,10 @@ export class ComponentServices {
             if (docData.content) {
               markdown += `${docData.content}\n\n`;
             } else {
-              markdown += `\`\`\`json\n${JSON.stringify(
-                docData,
-                null,
-                2
-              )}\n\`\`\`\n\n`;
+              markdown += `\`\`\`json\n${JSON.stringify(docData, null, 2)}\n\`\`\`\n\n`;
             }
           }
-        } catch (error) {
+        } catch {
           // 如果解析失败，直接使用原始文档
           markdown += `${chart.doc}\n\n`;
         }

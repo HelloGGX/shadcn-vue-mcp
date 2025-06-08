@@ -1,7 +1,11 @@
 import { FastMCP } from "fastmcp";
 import { z } from "zod";
 import * as services from "./services/index.js";
-import { CHECK_COMPONENT_QUALITY_PROMPT, CREATE_COMPONENT_PROMPT, FILTER_COMPONENTS_PROMPT } from "./prompts/componentPrompts.js";
+import {
+  CHECK_COMPONENT_QUALITY_PROMPT,
+  CREATE_COMPONENT_PROMPT,
+  FILTER_COMPONENTS_PROMPT,
+} from "./prompts/componentPrompts.js";
 import fs from "fs";
 
 /**
@@ -18,9 +22,7 @@ export function registerTools(server: FastMCP) {
     parameters: z.object({
       message: z
         .string()
-        .describe(
-          "Content about user requirement in specific contextual information"
-        ),
+        .describe("Content about user requirement in specific contextual information"),
     }),
     execute: async (params) => {
       const prompt = `You are an expert Vue.js Frontend Architect specializing in shadcn-vue components. Your task is to analyze user requirements, understand their underlying intent, and create a comprehensive JSON blueprint that includes both explicit requirements and essential features the user may not have considered.
@@ -89,9 +91,7 @@ export function registerTools(server: FastMCP) {
     description:
       "filter components with shadcn/ui components and tailwindcss, Use this tool when mentions /filter",
     parameters: z.object({
-      message: z
-        .string()
-        .describe("requirement json from requirement-structuring tool"),
+      message: z.string().describe("requirement json from requirement-structuring tool"),
     }),
     execute: async (params) => {
       try {
@@ -119,8 +119,7 @@ export function registerTools(server: FastMCP) {
   // readUsageDocTool  tool 读取组件使用文档
   server.addTool({
     name: "component-usage-doc",
-    description:
-      "read usage doc of a component， Use this tool when mentions /doc.",
+    description: "read usage doc of a component， Use this tool when mentions /doc.",
     parameters: z.object({
       // components | charts
       type: z
@@ -135,11 +134,10 @@ export function registerTools(server: FastMCP) {
     }),
     execute: async (params) => {
       try {
-        const processedDoc =
-          await services.ComponentServices.createComponentDoc(
-            params.name,
-            params.type
-          );
+        const processedDoc = await services.ComponentServices.createComponentDoc(
+          params.name,
+          params.type
+        );
 
         // 在浏览器中打开markdown文档
         const componentTitle = `${params.name} - shadcn/vue Component Documentation`;
@@ -166,27 +164,25 @@ export function registerTools(server: FastMCP) {
   // all-components-doc tool 读取所有组件文档
   server.addTool({
     name: "all-components-doc",
-    description: "Retrieve documentation for all filtered components and charts to prepare for component generation",
+    description:
+      "Retrieve documentation for all filtered components and charts to prepare for component generation",
     parameters: z.object({
       components: z
         .array(services.ComponentSchema)
         .describe("components from components-filter tool"),
-      charts: z
-        .array(services.ComponentSchema)
-        .describe("charts from components-filter tool"),
+      charts: z.array(services.ComponentSchema).describe("charts from components-filter tool"),
     }),
     execute: async (params) => {
       try {
         // 并发处理所有组件文档
         const componentPromises = params.components.map(async (component) => {
-          const processedDoc =
-            await services.ComponentServices.fetchLibraryDocumentation(
-              "/unovue/shadcn-vue",
-              {
-                topic: component.name,
-                tokens: 700,
-              }
-            );
+          const processedDoc = await services.ComponentServices.fetchLibraryDocumentation(
+            "/unovue/shadcn-vue",
+            {
+              topic: component.name,
+              tokens: 700,
+            }
+          );
           return {
             name: component.name,
             type: "component",
@@ -196,14 +192,13 @@ export function registerTools(server: FastMCP) {
 
         // 并发处理所有图表文档
         const chartPromises = params.charts.map(async (chart) => {
-          const processedDoc =
-            await services.ComponentServices.fetchLibraryDocumentation(
-              "/unovue/shadcn-vue",
-              {
-                topic: chart.name,
-                tokens: 700,
-              }
-            );
+          const processedDoc = await services.ComponentServices.fetchLibraryDocumentation(
+            "/unovue/shadcn-vue",
+            {
+              topic: chart.name,
+              tokens: 700,
+            }
+          );
           return {
             name: chart.name,
             type: "chart",
@@ -221,9 +216,10 @@ export function registerTools(server: FastMCP) {
           components: componentResults,
           charts: chartResults,
         };
-        
+
         // 转为结构化 markdown 内容
-        const structuredMarkdown = services.ComponentServices.convertToStructuredMarkdown(filteredComponents);
+        const structuredMarkdown =
+          services.ComponentServices.convertToStructuredMarkdown(filteredComponents);
         const prompt = `${structuredMarkdown}\n${CREATE_COMPONENT_PROMPT}`;
 
         return {
@@ -244,22 +240,22 @@ export function registerTools(server: FastMCP) {
   // 生成一个质量打分工具，给基于component-builder tool生成的组件进行检测
   server.addTool({
     name: "component-quality-check",
-    description: "Check the quality of a component whenever a component is generate or updated. Use this tool when mentions /check",
+    description:
+      "Check the quality of a component whenever a component is generate or updated. Use this tool when mentions /check",
     parameters: z.object({
       absolute_component_path: z.string().describe("absolute path of the component"),
     }),
     execute: async (params) => {
-
       // 从文件系统读取组件源代码
-      const componentCode = fs.readFileSync(params.absolute_component_path, 'utf-8');
-      
+      const componentCode = fs.readFileSync(params.absolute_component_path, "utf-8");
+
       const prompt = `${CHECK_COMPONENT_QUALITY_PROMPT}\n\`\`\`vue\n${componentCode}\`\`\``;
 
       return {
         content: [
           {
             type: "text",
-            text: prompt, 
+            text: prompt,
           },
         ],
       };
