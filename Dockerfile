@@ -13,8 +13,6 @@ COPY package.json pnpm-lock.yaml tsconfig.json ./
 # Copy source
 COPY src ./src
 
-COPY previewer previewer
-
 # Install deps and build
 RUN pnpm install --frozen-lockfile && pnpm run build
 
