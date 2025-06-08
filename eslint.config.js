@@ -40,8 +40,6 @@ export default defineConfig([
       "@typescript-eslint/explicit-module-boundary-types": "off",
       "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
       "@typescript-eslint/no-explicit-any": "warn",
-      // Prettier integration
-      "prettier/prettier": "error",
     },
   },
 ]);
