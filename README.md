@@ -207,7 +207,7 @@ AI: Generated code as follows:
 
 User: /check
 
-AI: ![alt text](https://github.com/HelloGGX/tailwindcss-mcp/raw/main/docs/check.png)
+AI: ![alt text](https://github.com/HelloGGX/tailwindcss-mcp/raw/fast-agent/docs/check.png)
 
 AI: Generated code as follows:
 
