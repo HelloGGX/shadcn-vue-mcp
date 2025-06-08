@@ -4,7 +4,7 @@
   "main": "build/index.js",
   "type": "module",
   "version": "1.0.1",
-  "description": "Model Context Protocol (MCP) Server",
+  "description": "A powerful AI Agent tool that helps developers instantly create high-quality UI components",
   "private": true,
   "author": "gavin",
   "license": "Apache-2.0",
