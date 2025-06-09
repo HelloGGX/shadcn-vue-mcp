@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import startServer from "./server/server.js";
 
 // Start the server
