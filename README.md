@@ -1,6 +1,6 @@
 <div align="center">
   <a href="https://smithery.ai/server/@HelloGGX/shadcn-vue-mcp">
-    <img src="https://github.com/HelloGGX/tailwindcss-mcp/raw/fast-agent/docs/logo.png" alt="shadcnVue MCP Logo" height="450">
+    <img src="https://github.com/HelloGGX/tailwindcss-mcp/raw/fast-agent/docs/logo.png" alt="shadcnVue MCP Logo" max-height="450">
   </a>
 
   <br />
@@ -47,19 +47,11 @@ shadcn-vue MCP provides an intelligent UI component development experience that 
 - ✅ **Instant Documentation and Previews**: `component-usage-doc` provides real-time component documentation, APIs, and usage examples to get you started immediately.
 - ✅ **Ensures High Design Consistency**: All generated components strictly adhere to a unified design specification, ensuring visual and interactive consistency across the entire application and enhancing brand value.
 
-## Prerequisites
-
-Before you begin, ensure you have Node.js installed on your system.
-
-- **Recommended Node.js version**: `18.20.1` or later.
-
-> Using a different version might lead to installation errors like `Error: spawnSync code-insiders.cmd EINVAL`. Downgrading or upgrading to the recommended version is the best solution.
-
-## ✨ Features
+## 🌟 Features
 
 - **Natural Language Descriptions**:
 
-  - Create UI components effortlessly by describing them in plain language.
+  - AI-Powered UI Generation: Create UI components by describing them in natural language
 
 - **Multi-IDE Support**:
 
@@ -88,6 +80,14 @@ Before you begin, ensure you have Node.js installed on your system.
   - Developer Experience: TypeScript support, hot reload, intuitive APIs
 
 ## 🚀 Getting Started
+
+### Prerequisites
+
+Before you begin, ensure you have Node.js installed on your system.
+
+- **Recommended Node.js version**: `18.20.1` or later.
+
+> Using a different version might lead to installation errors like `Error: spawnSync code-insiders.cmd EINVAL`. Downgrading or upgrading to the recommended version is the best solution.
 
 ### Method 1: CLI Quick Installation
 
