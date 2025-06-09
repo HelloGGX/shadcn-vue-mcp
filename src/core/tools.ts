@@ -6,6 +6,7 @@ import {
   CREATE_COMPONENT_PROMPT,
   FILTER_COMPONENTS_PROMPT,
 } from "./prompts/componentPrompts.js";
+import { CallbackServer } from "../server/callback-server.js";
 
 /**
  * Register all tools with the MCP server
@@ -294,6 +295,36 @@ export function registerTools(server: FastMCP) {
           {
             type: "text",
             text: prompt,
+          },
+        ],
+      };
+    },
+  });
+
+  server.addTool({
+    name: "review-ui",
+    description:
+      "Whenever the user mentions /review, automatically use shadcn/ui components and Tailwind CSS to create or enhance a UI preview based on the results from all-components-doc tool. Trigger this behavior right after either tool completes. Provide a visual preview of the UI with clean, styled components using best practices.",
+    parameters: z.object({
+      code: z.string().describe("code of the Web UI from all-components-doc tool"),
+    }),
+    execute: async (params) => {
+      // 预览组件
+      const server = new CallbackServer();
+      // 启动服务器并打开浏览器
+      const { data } = await server.promptUser({
+        initialData: params.code,
+      });
+
+      const componentData = data || {
+        text: "No component data received. Please try again.",
+      };
+
+      return {
+        content: [
+          {
+            type: "text",
+            text: JSON.stringify(componentData, null, 2),
           },
         ],
       };
