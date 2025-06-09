@@ -15,7 +15,7 @@ COPY src ./src
 
 # Install deps and build
 RUN pnpm install --frozen-lockfile && pnpm run build
-
+RUN pnpm cache clean --force
 # Runner stage
 FROM node:lts-alpine AS runner
 
