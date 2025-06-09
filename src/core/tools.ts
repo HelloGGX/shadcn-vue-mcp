@@ -242,7 +242,9 @@ export function registerTools(server: FastMCP) {
     description:
       "Check the quality of a component whenever a component is generate or updated. Use this tool when mentions /check",
     parameters: z.object({
-      absolute_component_path: z.string().describe("absolute path of the component"),
+      absolute_component_path: z
+        .string()
+        .describe("Absolute path to the component file that needs to be checked"),
     }),
     execute: async (params) => {
       // 1. 规范化文件路径
