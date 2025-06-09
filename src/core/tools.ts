@@ -121,12 +121,10 @@ export function registerTools(server: FastMCP) {
     description: "read usage doc of a component， Use this tool when mentions /doc.",
     parameters: z.object({
       // components | charts
-      type: z
-        .enum(["components", "charts"])
-        .describe("type of the component from components-filter tool"),
+      type: z.enum(["components", "charts"]).describe("type of the component"),
       name: z
         .string()
-        .describe("name of the component from components-filter tool")
+        .describe("name of the component in lowercase")
         .refine((name) => services.ComponentServices.isValidComponent(name), {
           message: "Component must be a valid shadcn/vue component",
         }),
