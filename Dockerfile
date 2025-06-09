@@ -14,7 +14,7 @@ COPY package.json pnpm-lock.yaml tsconfig.json ./
 COPY src ./src
 
 # Install deps and build
-RUN pnpm store prune
+RUN pnpm store clear
 RUN pnpm install --frozen-lockfile && pnpm run build
 
 # Runner stage
