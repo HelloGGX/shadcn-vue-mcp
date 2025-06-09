@@ -14,8 +14,9 @@ COPY package.json pnpm-lock.yaml tsconfig.json ./
 COPY src ./src
 
 # Install deps and build
+RUN pnpm store prune
 RUN pnpm install --frozen-lockfile && pnpm run build
-RUN pnpm cache clean --force
+
 # Runner stage
 FROM node:lts-alpine AS runner
 
