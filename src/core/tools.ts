@@ -1,5 +1,6 @@
 import { FastMCP } from "fastmcp";
 import { z } from "zod";
+import path from "path";
 import * as services from "./services/index.js";
 import {
   CHECK_COMPONENT_QUALITY_PROMPT,
@@ -246,8 +247,16 @@ export function registerTools(server: FastMCP) {
       absolute_component_path: z.string().describe("absolute path of the component"),
     }),
     execute: async (params) => {
-      // 从文件系统读取组件源代码
-      const componentCode = fs.readFileSync(params.absolute_component_path, "utf-8");
+      // 1. 规范化文件路径
+      const normalizedPath = path.normalize(params.absolute_component_path);
+
+      // 2. 检查文件是否存在
+      if (!fs.existsSync(normalizedPath)) {
+        throw new Error(`Component file not found at path: ${normalizedPath}`);
+      }
+
+      // 3. 读取文件内容
+      const componentCode = fs.readFileSync(normalizedPath, "utf-8");
 
       const prompt = `${CHECK_COMPONENT_QUALITY_PROMPT}\n\`\`\`vue\n${componentCode}\`\`\``;
 
