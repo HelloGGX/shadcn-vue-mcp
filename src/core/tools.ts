@@ -70,7 +70,9 @@ export function registerTools(server: FastMCP) {
       "saveUser": "Triggered by form submit; validates and saves user with error handling",
       "deleteUser": "Triggered by delete button; shows confirmation then removes user"
     }
-  }`;
+  }
+  After outputting json, call components-filter tool  
+  `;
 
       return {
         content: [
@@ -95,7 +97,7 @@ export function registerTools(server: FastMCP) {
       try {
         // 将筛选任务和数据传给 IDE 的 AI 处理
         const filteringPrompt = `
-        ${FILTER_COMPONENTS_PROMPT}\n<user-message>${params.message}</user-message>`;
+        ${FILTER_COMPONENTS_PROMPT}\n<user-message>${params.message}</user-message>\nAfter outputting the json, call the all-components-doc tool`;
 
         return {
           content: [
@@ -235,7 +237,7 @@ export function registerTools(server: FastMCP) {
   server.addTool({
     name: "component-quality-check",
     description:
-      "Check the quality of a component whenever a component is generate or updated. Use this tool when mentions /check",
+      "Check the quality of a component whenever a component is created by all-components-doc tool. Use this tool when mentions /check",
     parameters: z.object({
       absolute_component_path: z
         .string()
