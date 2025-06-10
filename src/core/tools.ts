@@ -70,9 +70,7 @@ export function registerTools(server: FastMCP) {
       "saveUser": "Triggered by form submit; validates and saves user with error handling",
       "deleteUser": "Triggered by delete button; shows confirmation then removes user"
     }
-  }
-  
-   After outputting json, call components-filter tool`;
+  }`;
 
       return {
         content: [
@@ -97,9 +95,7 @@ export function registerTools(server: FastMCP) {
       try {
         // 将筛选任务和数据传给 IDE 的 AI 处理
         const filteringPrompt = `
-        ${FILTER_COMPONENTS_PROMPT}\n<user-message>${params.message}</user-message>
-        After outputting the json, call the all-components-doc tool
-        `;
+        ${FILTER_COMPONENTS_PROMPT}\n<user-message>${params.message}</user-message>`;
 
         return {
           content: [
@@ -273,21 +269,15 @@ export function registerTools(server: FastMCP) {
     parameters: z.object({
       message: z.string().describe("description of the Web UI"),
     }),
-    execute: async (params) => {
+    execute: async () => {
       const prompt = `
-      You are an AI code generation engine. Your sole mission is to generate Vue 3 components that meet the highest quality standards based on the shadcn-vue component library. Your behavior and output must **strictly and absolutely** adhere to the [High-Quality UI Component Standard Definition] available as a resource.
-
-      **IMPORTANT**: Before proceeding, you MUST first read the quality standards from the resource:
-      - query resource standards://component-quality
-      - This resource contains the complete quality profile that defines all requirements for component generation
-      - Five core dimensions: Accessibility, Performance, Consistency, Maintainability, Developer Experience
-      - Target quality level: A or higher (450+ points out of 500)
-
+      query resource standards://component-quality
       Use the following MCP tools one after the other in this exact sequence. At each stage, you must review and apply the quality standards from the resource. Your responses must be professional, precise, and always with the ultimate goal of producing code that complies with the specifications. Do not make any assumptions or create anything outside of the standards.
        
-       1. requirement-structuring, user requirement: ${params.message}
+       1. requirement-structuring
        2. components-filter
        3. all-components-doc
+       4. component-quality-check
        `;
 
       return {
