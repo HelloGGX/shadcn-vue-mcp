@@ -3,8 +3,8 @@ import { z } from "zod";
 import * as services from "./services/index.js";
 import {
   CHECK_COMPONENT_QUALITY_PROMPT,
-  CREATE_COMPONENT_PROMPT,
   FILTER_COMPONENTS_PROMPT,
+  getComponentPrompt,
 } from "./prompts/componentPrompts.js";
 import { CallbackServer } from "../server/callback-server.js";
 
@@ -25,53 +25,31 @@ export function registerTools(server: FastMCP) {
         .describe("Content about user requirement in specific contextual information"),
     }),
     execute: async (params) => {
-      const prompt = `You are an expert Vue.js Frontend Architect specializing in shadcn-vue components. Your task is to analyze user requirements, understand their underlying intent, and create a comprehensive JSON blueprint that includes both explicit requirements and essential features the user may not have considered.
-  
-  ANALYSIS APPROACH:
-  1. First, understand what the user is trying to achieve
-  2. Identify the core functionality they described
-  3. Consider what additional features would be essential for a complete, production-ready component
-  4. Think about common user interactions, edge cases, and accessibility needs
-  5. Enhance the requirements with industry best practices
-  
-  TASK: Convert the following user requirement into a comprehensive JSON object that goes beyond their basic description.
-  
-  USER REQUIREMENT: "${params.message}"
-  
-  REQUIRED OUTPUT FORMAT:
-  Return ONLY a valid JSON object with these exact keys (no explanations, no markdown, no extra text):
-  
-  {
-    "main_goal": "One sentence describing the component's core purpose",
-    "data_structure": {
-      "property_name": "TypeScript_type - Brief description of purpose"
-    },
-    "user_actions": {
-      "actionName": "Description of what triggers this action and its effect"
+      const prompt = `
+# Role
+You are a Vue.js Frontend Architect, an expert in shadcn-vue.
+
+# Task
+Your task is to convert a simple user requirement into a production-ready component blueprint in JSON format. Analyze the user's underlying intent and add essential features they might have overlooked, such as loading states, error handling, user interactions, edge cases, and accessibility.
+
+# Input
+The user requirement will be provided via the \`${params.message}\` variable.
+
+# Output Requirements
+1.  **Strictly** return a single, valid JSON object with absolutely no extra text, explanations, or markdown.
+2.  The JSON object **must** strictly follow this exact structure:
+    \`\`\`json
+    {
+      "main_goal": "A one-sentence summary of the component's core purpose.",
+      "data_structure": {
+        "propertyName": "TypeScriptType - Brief description of its purpose."
+      },
+      "user_actions": {
+        "actionName": "Description of the action's trigger and its effect."
+      }
     }
-  }
-  
-  EXAMPLE OUTPUT:
-  {
-    "main_goal": "Display a searchable user management table with add/edit capabilities and essential UX features",
-    "data_structure": {
-      "users": "User[] - Array of user objects to display",
-      "searchQuery": "string - Current search filter value",
-      "isDialogOpen": "boolean - Controls add/edit dialog visibility",
-      "selectedUser": "User | null - User being edited",
-      "isLoading": "boolean - Loading state for operations",
-      "error": "string | null - Error message display"
-    },
-    "user_actions": {
-      "searchUsers": "Triggered by search input; filters users with debouncing",
-      "openAddDialog": "Triggered by Add button; opens dialog for new user",
-      "openEditDialog": "Triggered by edit button; opens dialog with selected user data",
-      "closeDialog": "Triggered by cancel/escape; closes dialog and clears state",
-      "saveUser": "Triggered by form submit; validates and saves user with error handling",
-      "deleteUser": "Triggered by delete button; shows confirmation then removes user"
-    }
-  }
-  After outputting json, call components-filter tool  
+   \`\`\`
+3.  After outputting the JSON, you **must** call the \`components-filter\` tool. 
   `;
 
       return {
@@ -163,6 +141,7 @@ export function registerTools(server: FastMCP) {
     description:
       "Retrieve documentation for all filtered components and charts to prepare for component generation",
     parameters: z.object({
+      icon: z.enum(["@nuxt/icon", "lucide"]).describe("icon module of the component"),
       components: z
         .array(services.ComponentSchema)
         .describe("components from components-filter tool"),
@@ -216,7 +195,7 @@ export function registerTools(server: FastMCP) {
         // 转为结构化 markdown 内容
         const structuredMarkdown =
           services.ComponentServices.convertToStructuredMarkdown(filteredComponents);
-        const prompt = `${structuredMarkdown}\n${CREATE_COMPONENT_PROMPT}`;
+        const prompt = `${structuredMarkdown}\n${getComponentPrompt(params.icon)}`;
 
         return {
           content: [
@@ -237,7 +216,7 @@ export function registerTools(server: FastMCP) {
   server.addTool({
     name: "component-quality-check",
     description:
-      "Check the quality of a component whenever a component is created by all-components-doc tool. Use this tool when mentions /check",
+      "Check the quality of a component whenever a component is created. Use this tool when mentions /check",
     parameters: z.object({
       absolute_component_path: z
         .string()
@@ -270,15 +249,35 @@ export function registerTools(server: FastMCP) {
   After calling this tool, you must edit or add files to integrate the snippet into the codebase."`,
     parameters: z.object({
       message: z.string().describe("description of the Web UI"),
+      // 默认 lucide
+      icon: z
+        .enum(["@nuxt/icon", "lucide"])
+        .describe("icon module of the component from description of the Web UI")
+        .optional()
+        .default("lucide"),
     }),
-    execute: async () => {
+    execute: async (params) => {
+      // 智能识别用户描述中的图标库偏好
+      const detectIconLibrary = (message: string): "@nuxt/icon" | "lucide" => {
+        const lowerMessage = message.toLowerCase();
+        // 优先检查明确的图标库关键词
+        if (lowerMessage.includes("nuxt")) {
+          return "@nuxt/icon";
+        }
+        // 如果没有明确指定，返回默认值
+        return "lucide";
+      };
+
+      // 如果用户没有显式指定 icon，则从描述中智能识别
+      const icon = detectIconLibrary(params.message);
+
       const prompt = `
       query resource standards://component-quality
       Use the following MCP tools one after the other in this exact sequence. At each stage, you must review and apply the quality standards from the resource. Your responses must be professional, precise, and always with the ultimate goal of producing code that complies with the specifications. Do not make any assumptions or create anything outside of the standards.
        
-       1. requirement-structuring
+       1. requirement-structuring 
        2. components-filter
-       3. all-components-doc
+       3. all-components-doc ${icon ? `with icon: ${icon}` : ""}
        `;
 
       return {

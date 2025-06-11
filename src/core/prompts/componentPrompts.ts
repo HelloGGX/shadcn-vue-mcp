@@ -1,4 +1,5 @@
-export const CREATE_COMPONENT_PROMPT = `
+export const getComponentPrompt = (icon: "@nuxt/icon" | "lucide") => {
+  return `
 <role>
 You are an expert Vue.js developer specializing in shadcn/vue components with deep knowledge of accessibility, performance optimization, and modern web development best practices.
 </role>
@@ -50,6 +51,10 @@ Component Documentation Analysis Complete - Ready for final implementation phase
     <source>Load from Unsplash</source>
     <alternative>Use solid colored rectangles as placeholders</alternative>
   </images>
+  <icons>
+    ${icon === "@nuxt/icon" ? `<primary_option>Use @nuxt/icon for broader icon support with collections like heroicons, tabler, etc.</primary_option>` : ""}
+    ${icon === "lucide" ? `<primary_option>Use Lucide icons via 'lucide-vue-next' for consistent design system integration</primary_option>` : ""}
+  </icons>
 </assets>
 
 <expectations>
@@ -73,7 +78,10 @@ Component Documentation Analysis Complete - Ready for final implementation phase
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 <!-- shadcn-vue component imports -->
-<!-- Lucide icons imports   -->
+<!-- Icon imports: ${icon === "@nuxt/icon" ? "Use @nuxt/icon for broader icon support" : "Use Lucide icons via 'lucide-vue-next' for consistent design system integration"} -->
+<!-- Examples:
+  ${icon === "@nuxt/icon" ? '- Nuxt Icon: Use <Icon name="heroicons:search" /> (requires @nuxt/icon configuration)' : '- Lucide: Use <Search :size="16" /> (requires lucide-vue-next configuration)'}
+-->
 <!-- Type definitions -->
 
 <!-- Reactive state with proper types -->
@@ -82,7 +90,9 @@ import { ref, computed } from 'vue'
 </script>
 \`\`\`
 </component_skeleton>
+
 `;
+};
 
 export const FILTER_COMPONENTS_PROMPT = `
 CRITICAL: You must respond with a valid JSON object in the exact format specified below. Do not include any other text or explanations outside the JSON.
@@ -297,6 +307,8 @@ After completing the checklist:
 3. Assign appropriate grade
 4. Provide brief summary of strengths and areas for improvement
 5. If the score is below B+, modify and optimize the component
+
+## Output the results of all items in the component quality checklist
 `;
 
 export function registerComponentPrompts() {}
