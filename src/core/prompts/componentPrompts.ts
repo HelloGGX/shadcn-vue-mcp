@@ -1,12 +1,9 @@
-export const getComponentPrompt = (icon: "@nuxt/icon" | "lucide") => {
+export const getComponentPrompt = (icon: "@nuxt/icon" | "lucide", structuredMarkdown: string) => {
   return `
 <role>
 You are an expert Vue.js developer specializing in shadcn/vue components with deep knowledge of accessibility, performance optimization, and modern web development best practices.
+Your sole input is a JSON object representing a structured filtered list of components and charts from components-filter tool, and a structured documentation of user requirements from the requirement-structuring tool, You will ignore all other conversational text.
 </role>
-
-<context>
-Component Documentation Analysis Complete - Ready for final implementation phase.
-</context>
 
 <critical_prerequisites>
 <resource_requirement priority="mandatory">
@@ -91,28 +88,28 @@ import { ref, computed } from 'vue'
 \`\`\`
 </component_skeleton>
 
+<component_documentation>
+${structuredMarkdown}
+</component_documentation>
 `;
 };
 
-export const FILTER_COMPONENTS_PROMPT = `
-CRITICAL: You must respond with a valid JSON object in the exact format specified below. Do not include any other text or explanations outside the JSON.
+export function getFilterComponentsPrompt(ui_requirement: string) {
+  return `
+SYSTEM ROLE: You are a highly specialized component filtering service with ZERO conversational context awareness.
 
-As a web UI expert, analyze the provided UI description and identify ONLY the specific components and charts absolutely necessary to implement the described interface.
+INPUT SPECIFICATION:
+You MUST receive input in the following EXACT JSON structure":
+${JSON.stringify(JSON.parse(ui_requirement), null, 2)}
 
-STRICT REQUIREMENTS:
-- You MUST ONLY select components from the provided available-components list
-- DO NOT create, invent, or suggest components that are not explicitly listed
-- If a component you think you need doesn't exist, find alternative components from the list
-- Your response MUST be a valid JSON object with the exact structure shown below
+PROCESSING RULES:
+1. You WILL ONLY process the JSON object provided
+2. You WILL IGNORE all conversational text, chat history, or unstructured descriptions
+3. If the input is not in the specified JSON format, respond with: {"error": "Invalid input format. Expected structured JSON."}
+4. You MUST ONLY select components from the AVAILABLE_COMPONENTS list below
+5. DO NOT invent, create, or suggest components not explicitly listed
 
-ANALYSIS PROCESS:
-1. Consider the exact functional requirements in the description
-2. Identify the minimum set of components needed FROM THE AVAILABLE LIST ONLY
-3. Exclude components that might be nice-to-have but aren't essential
-4. Justify each component's selection with a brief reason tied to the requirements
-5. Consider performance and maintainability implications
-
-AVAILABLE COMPONENTS:
+AVAILABLE_COMPONENTS:
 - accordion: A vertically stacked set of interactive headings that each reveal a section of content.
 - alert-dialog: A modal dialog that interrupts the user with important content and expects a response.
 - alert: Displays a callout for user attention.
@@ -167,36 +164,48 @@ AVAILABLE COMPONENTS:
 - toggle-group: A set of two-state buttons that can be toggled on or off.
 - tooltip: A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.
 - typography: Styles for headings, paragraphs, lists...etc
+
+AVAILABLE_CHARTS:
 - area: An area chart visually represents data over time, displaying trends and patterns through filled-in areas under a line graph.
 - bar: A line chart visually represents data using rectangular bars of varying lengths to compare quantities across different categories or groups.
 - donut: A line chart visually represents data in a circular form, similar to a pie chart but with a central void, emphasizing proportions within categories.
 - line: A line chart  visually displays data points connected by straight lines, illustrating trends or relationships over a continuous axis.
 
-REQUIRED OUTPUT FORMAT - RESPOND WITH ONLY THIS JSON STRUCTURE:
+ANALYSIS ALGORITHM:
+1. Parse the JSON object
+2. Map functional_requirements to specific component capabilities
+3. Map user_interactions to interaction-capable components
+4. Map data_display needs to appropriate display components
+5. Consider layout_constraints when selecting layout components
+6. Prioritize components by necessity: critical > important > optional
+7. Select MINIMUM viable set - avoid redundancy
+
+OUTPUT FORMAT - RESPOND WITH ONLY THIS JSON STRUCTURE:
 {
   "components": [
     {
-      "name": "string (must be from available-components list)",
+      "name": "string (exact match from AVAILABLE_COMPONENTS)",
       "necessity": "critical|important|optional",
-      "justification": "string (explain how this component achieves the desired functionality)"
+      "justification": "string (functional mapping explanation)"
     }
   ],
   "charts": [
     {
-      "name": "string (must be from available-charts list)", 
+      "name": "string (exact match from AVAILABLE_CHARTS)", 
       "necessity": "critical|important|optional",
-      "justification": "string (explain how this chart achieves the desired functionality)"
+      "justification": "string (data visualization requirement mapping)"
     }
   ]
 }
 
-FIELD SPECIFICATIONS:
-- "name": Must be exactly one of the component names from the available-components list above
-- "necessity": Must be exactly one of: "critical", "important", "optional"
-- "justification": Brief explanation (1-2 sentences) of why this component is needed
+VALIDATION RULES:
+- "name" field MUST be exact string match from available lists
+- "necessity" field MUST be one of: "critical", "important", "optional"
+- "justification" field MUST directly reference specific requirement from input JSON
 
-IMPORTANT: Your entire response must be a valid JSON object. Do not include any text before or after the JSON.
-`;
+CRITICAL: Your entire response must be a valid JSON object. No explanatory text outside the JSON structure is permitted.
+  `;
+}
 
 export const CHECK_COMPONENT_QUALITY_PROMPT = `
 You are an AI-powered Quality Assurance engine named \`Component-Auditor\`. Your primary function is to audit Vue.js components against a strict set of quality standards.

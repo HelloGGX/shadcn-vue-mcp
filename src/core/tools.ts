@@ -3,10 +3,10 @@ import { z } from "zod";
 import * as services from "./services/index.js";
 import {
   CHECK_COMPONENT_QUALITY_PROMPT,
-  FILTER_COMPONENTS_PROMPT,
   getComponentPrompt,
+  getFilterComponentsPrompt,
 } from "./prompts/componentPrompts.js";
-import { CallbackServer } from "../server/callback-server.js";
+// import { CallbackServer } from "../server/callback-server.js";
 
 /**
  * Register all tools with the MCP server
@@ -18,7 +18,7 @@ export function registerTools(server: FastMCP) {
   server.addTool({
     name: "requirement-structuring",
     description:
-      "analyze the user's natural language and structure the requirements into a clear and structured component requirement document.",
+      "analyze the user's natural language and structure the requirements into a clear and structured component requirement document. Use this tool when the user requests a new UI component—e.g., mentions /ui, or asks for a button, input, dialog, table, form, banner, card, or other Vue component",
     parameters: z.object({
       message: z
         .string()
@@ -74,8 +74,7 @@ The user requirement will be provided via the \`${params.message}\` variable.
     execute: async (params) => {
       try {
         // 将筛选任务和数据传给 IDE 的 AI 处理
-        const filteringPrompt = `
-        ${FILTER_COMPONENTS_PROMPT}\n<user-message>${params.message}</user-message>\nAfter outputting the json, call the all-components-doc tool`;
+        const filteringPrompt = `${getFilterComponentsPrompt(params.message)}\nAfter outputting the json, call the all-components-doc tool`;
 
         return {
           content: [
@@ -135,9 +134,9 @@ The user requirement will be provided via the \`${params.message}\` variable.
     },
   });
 
-  // all-components-doc tool 读取所有组件文档
+  // component-builder tool 读取所有组件文档
   server.addTool({
-    name: "all-components-doc",
+    name: "component-builder",
     description:
       "Retrieve documentation for all filtered components and charts to prepare for component generation",
     parameters: z.object({
@@ -149,8 +148,11 @@ The user requirement will be provided via the \`${params.message}\` variable.
     }),
     execute: async (params) => {
       try {
+        const necessityFilter = services.ComponentServices.createNecessityFilter(
+          "important"
+        );
         // 并发处理所有组件文档
-        const componentPromises = params.components.map(async (component) => {
+        const componentPromises = params.components.filter(necessityFilter).map(async (component) => {
           const processedDoc = await services.ComponentServices.fetchLibraryDocumentation(
             "/unovue/shadcn-vue",
             {
@@ -166,7 +168,7 @@ The user requirement will be provided via the \`${params.message}\` variable.
         });
 
         // 并发处理所有图表文档
-        const chartPromises = params.charts.map(async (chart) => {
+        const chartPromises = params.charts.filter(necessityFilter).map(async (chart) => {
           const processedDoc = await services.ComponentServices.fetchLibraryDocumentation(
             "/unovue/shadcn-vue",
             {
@@ -193,9 +195,8 @@ The user requirement will be provided via the \`${params.message}\` variable.
         };
 
         // 转为结构化 markdown 内容
-        const structuredMarkdown =
-          services.ComponentServices.convertToStructuredMarkdown(filteredComponents);
-        const prompt = `${structuredMarkdown}\n${getComponentPrompt(params.icon)}`;
+        const structuredMarkdown = services.ComponentServices.convertToStructuredMarkdown(filteredComponents);
+        const prompt = `${getComponentPrompt(params.icon, structuredMarkdown)}`;
 
         return {
           content: [
@@ -216,7 +217,7 @@ The user requirement will be provided via the \`${params.message}\` variable.
   server.addTool({
     name: "component-quality-check",
     description:
-      "Check the quality of a component whenever a component is created. Use this tool when mentions /check",
+      "Automatically check Vue component quality and provide detailed feedback. This tool should be called immediately after creating any component to ensure it meets production standards. Use this tool when you need to validate component quality, accessibility, performance, and best practices compliance.",
     parameters: z.object({
       absolute_component_path: z
         .string()
@@ -241,83 +242,34 @@ The user requirement will be provided via the \`${params.message}\` variable.
     },
   });
 
-  // component-builder tool 组件构建
-  server.addTool({
-    name: "component-builder",
-    description: `"Use this tool when the user requests a new UI component—e.g., mentions /ui, or asks for a button, input, dialog, table, form, banner, card, or other Vue component.
-  This tool ONLY returns the text snippet for that UI component with shadcn/ui components and tailwindcss.
-  After calling this tool, you must edit or add files to integrate the snippet into the codebase."`,
-    parameters: z.object({
-      message: z.string().describe("description of the Web UI"),
-      // 默认 lucide
-      icon: z
-        .enum(["@nuxt/icon", "lucide"])
-        .describe("icon module of the component from description of the Web UI")
-        .optional()
-        .default("lucide"),
-    }),
-    execute: async (params) => {
-      // 智能识别用户描述中的图标库偏好
-      const detectIconLibrary = (message: string): "@nuxt/icon" | "lucide" => {
-        const lowerMessage = message.toLowerCase();
-        // 优先检查明确的图标库关键词
-        if (lowerMessage.includes("nuxt")) {
-          return "@nuxt/icon";
-        }
-        // 如果没有明确指定，返回默认值
-        return "lucide";
-      };
+  // // review-ui tool  UI预览
+  // server.addTool({
+  //   name: "review-ui",
+  //   description:
+  //     "Whenever the user mentions /review, automatically use shadcn/ui components and Tailwind CSS to create or enhance a UI preview based on the results from all-components-doc tool. Trigger this behavior right after either tool completes. Provide a visual preview of the UI with clean, styled components using best practices.",
+  //   parameters: z.object({
+  //     code: z.string().describe("code of the Web UI from all-components-doc tool"),
+  //   }),
+  //   execute: async (params) => {
+  //     // 预览组件
+  //     const server = new CallbackServer();
+  //     // 启动服务器并打开浏览器
+  //     const { data } = await server.promptUser({
+  //       initialData: params.code,
+  //     });
 
-      // 如果用户没有显式指定 icon，则从描述中智能识别
-      const icon = detectIconLibrary(params.message);
+  //     const componentData = data || {
+  //       text: "No component data received. Please try again.",
+  //     };
 
-      const prompt = `
-      query resource standards://component-quality
-      Use the following MCP tools one after the other in this exact sequence. At each stage, you must review and apply the quality standards from the resource. Your responses must be professional, precise, and always with the ultimate goal of producing code that complies with the specifications. Do not make any assumptions or create anything outside of the standards.
-       
-       1. requirement-structuring 
-       2. components-filter
-       3. all-components-doc ${icon ? `with icon: ${icon}` : ""}
-       `;
-
-      return {
-        content: [
-          {
-            type: "text",
-            text: prompt,
-          },
-        ],
-      };
-    },
-  });
-
-  server.addTool({
-    name: "review-ui",
-    description:
-      "Whenever the user mentions /review, automatically use shadcn/ui components and Tailwind CSS to create or enhance a UI preview based on the results from all-components-doc tool. Trigger this behavior right after either tool completes. Provide a visual preview of the UI with clean, styled components using best practices.",
-    parameters: z.object({
-      code: z.string().describe("code of the Web UI from all-components-doc tool"),
-    }),
-    execute: async (params) => {
-      // 预览组件
-      const server = new CallbackServer();
-      // 启动服务器并打开浏览器
-      const { data } = await server.promptUser({
-        initialData: params.code,
-      });
-
-      const componentData = data || {
-        text: "No component data received. Please try again.",
-      };
-
-      return {
-        content: [
-          {
-            type: "text",
-            text: JSON.stringify(componentData, null, 2),
-          },
-        ],
-      };
-    },
-  });
+  //     return {
+  //       content: [
+  //         {
+  //           type: "text",
+  //           text: JSON.stringify(componentData, null, 2),
+  //         },
+  //       ],
+  //     };
+  //   },
+  // });
 }
