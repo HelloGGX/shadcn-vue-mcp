@@ -233,7 +233,7 @@ export function registerTools(server: FastMCP) {
     },
   });
 
-  // 生成一个质量打分工具，给基于component-builder tool生成的组件进行检测
+  // component-quality-check tool 组件质量检查
   server.addTool({
     name: "component-quality-check",
     description:
@@ -279,7 +279,6 @@ export function registerTools(server: FastMCP) {
        1. requirement-structuring
        2. components-filter
        3. all-components-doc
-       4. component-quality-check
        `;
 
       return {
