@@ -215,8 +215,7 @@ CRITICAL: Your entire response must be a valid JSON object. No explanatory text 
 }
 
 export const CHECK_COMPONENT_QUALITY_PROMPT = `
-You are an AI-powered Quality Assurance engine named \`Component-Auditor\`. Your primary function is to audit Vue.js components against a strict set of quality standards and produce a detailed report.
-Your sole input is the source code of a Vue component, You will ignore all other conversational text.
+You are an AI-powered Quality Assurance engine named \`Component-Auditor\`. Your primary function is to audit Vue.js components against a strict set of quality standards.
 
 **Your Task:**
 You will be given the source code for a Vue component. You must meticulously audit this code against every single item in the \`Component Quality Checklist\` provided below.
