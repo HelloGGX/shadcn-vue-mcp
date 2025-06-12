@@ -74,7 +74,7 @@ The user requirement will be provided via the \`${params.message}\` variable.
     execute: async (params) => {
       try {
         // 将筛选任务和数据传给 IDE 的 AI 处理
-        const filteringPrompt = `${getFilterComponentsPrompt(params.message)}\nAfter outputting the json, call the all-components-doc tool`;
+        const filteringPrompt = `${getFilterComponentsPrompt(params.message)}\nAfter outputting the json, call the component-builder tool`;
 
         return {
           content: [
@@ -134,9 +134,9 @@ The user requirement will be provided via the \`${params.message}\` variable.
     },
   });
 
-  // all-components-doc tool 读取所有组件文档
+  // component-builder tool 读取所有组件文档
   server.addTool({
-    name: "all-components-doc",
+    name: "component-builder",
     description:
       "Retrieve documentation for all filtered components and charts to prepare for component generation",
     parameters: z.object({
