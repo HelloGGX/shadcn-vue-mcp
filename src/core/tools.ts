@@ -134,9 +134,9 @@ The user requirement will be provided via the \`${params.message}\` variable.
     },
   });
 
-  // component-builder tool 读取所有组件文档
+  // all-components-doc tool 读取所有组件文档
   server.addTool({
-    name: "component-builder",
+    name: "all-components-doc",
     description:
       "Retrieve documentation for all filtered components and charts to prepare for component generation",
     parameters: z.object({
@@ -148,24 +148,24 @@ The user requirement will be provided via the \`${params.message}\` variable.
     }),
     execute: async (params) => {
       try {
-        const necessityFilter = services.ComponentServices.createNecessityFilter(
-          "important"
-        );
+        const necessityFilter = services.ComponentServices.createNecessityFilter("important");
         // 并发处理所有组件文档
-        const componentPromises = params.components.filter(necessityFilter).map(async (component) => {
-          const processedDoc = await services.ComponentServices.fetchLibraryDocumentation(
-            "/unovue/shadcn-vue",
-            {
-              topic: component.name,
-              tokens: 700,
-            }
-          );
-          return {
-            name: component.name,
-            type: "component",
-            doc: JSON.stringify(processedDoc),
-          };
-        });
+        const componentPromises = params.components
+          .filter(necessityFilter)
+          .map(async (component) => {
+            const processedDoc = await services.ComponentServices.fetchLibraryDocumentation(
+              "/unovue/shadcn-vue",
+              {
+                topic: component.name,
+                tokens: 700,
+              }
+            );
+            return {
+              name: component.name,
+              type: "component",
+              doc: JSON.stringify(processedDoc),
+            };
+          });
 
         // 并发处理所有图表文档
         const chartPromises = params.charts.filter(necessityFilter).map(async (chart) => {
@@ -195,7 +195,8 @@ The user requirement will be provided via the \`${params.message}\` variable.
         };
 
         // 转为结构化 markdown 内容
-        const structuredMarkdown = services.ComponentServices.convertToStructuredMarkdown(filteredComponents);
+        const structuredMarkdown =
+          services.ComponentServices.convertToStructuredMarkdown(filteredComponents);
         const prompt = `${getComponentPrompt(params.icon, structuredMarkdown)}`;
 
         return {
