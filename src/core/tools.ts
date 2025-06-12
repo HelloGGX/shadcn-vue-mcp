@@ -25,6 +25,20 @@ export function registerTools(server: FastMCP) {
         .describe("Content about user requirement in specific contextual information"),
     }),
     execute: async (params) => {
+      // 智能识别用户描述中的图标库偏好
+      const detectIconLibrary = (message: string): "@nuxt/icon" | "lucide" => {
+        const lowerMessage = message.toLowerCase();
+        // 优先检查明确的图标库关键词
+        if (lowerMessage.includes("nuxt")) {
+          return "@nuxt/icon";
+        }
+        // 如果没有明确指定，返回默认值
+        return "lucide";
+      };
+
+      // 如果用户没有显式指定 icon，则从描述中智能识别
+      const icon = detectIconLibrary(params.message);
+
       const prompt = `
 # Role
 You are a Vue.js Frontend Architect, an expert in shadcn-vue.
@@ -46,10 +60,11 @@ The user requirement will be provided via the \`${params.message}\` variable.
       },
       "user_actions": {
         "actionName": "Description of the action's trigger and its effect."
-      }
+      },
+      "icon": "${icon}"
     }
    \`\`\`
-3.  After outputting the JSON, you **must** call the \`components-filter\` tool. 
+3.  After outputting the JSON, you **must** call the \`components-filter\` tool with the JSON as the input. 
   `;
 
       return {
@@ -138,9 +153,13 @@ The user requirement will be provided via the \`${params.message}\` variable.
   server.addTool({
     name: "component-builder",
     description:
-      "Retrieve documentation for all filtered components and charts to prepare for component generation",
+      "Retrieve documentation for all filtered components and charts to prepare for component generation, This tool ONLY returns the text snippet for that UI component. After calling this tool, you must edit or add files to integrate the snippet into the codebase.",
     parameters: z.object({
-      icon: z.enum(["@nuxt/icon", "lucide"]).describe("icon module of the component"),
+      icon: z
+        .enum(["@nuxt/icon", "lucide"])
+        .describe("icon module of the component")
+        .optional()
+        .default("lucide"),
       components: z
         .array(services.ComponentSchema)
         .describe("components from components-filter tool"),
