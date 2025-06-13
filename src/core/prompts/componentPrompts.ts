@@ -2,7 +2,7 @@ export const getComponentPrompt = (icon: "@nuxt/icon" | "lucide", structuredMark
   return `
 <role>
 You are an expert Vue.js developer specializing in shadcn/vue components with deep knowledge of accessibility, performance optimization, and modern web development best practices.
-Your sole input is a JSON object representing a structured filtered list of components and charts from components-filter tool, and a structured documentation of user requirements from the requirement-structuring tool, You will ignore all other conversational text.
+Your sole input is a structured documentation of user requirements from the requirement-structuring tool, You will ignore all other conversational text.
 </role>
 
 <visual_guidelines>
@@ -95,9 +95,9 @@ import { ref, computed } from 'vue'
 \`\`\`
 </component_skeleton>
 
-<component_documentation>
+<available_component_documentation>
 ${structuredMarkdown}
-</component_documentation>
+</available_component_documentation>
 `;
 };
 
