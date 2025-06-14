@@ -1,75 +1,47 @@
+import { deserializeComponentCode, isValidVueComponent } from '../utils/componentSerializer.js';
+
 export const getComponentPrompt = (icon: "@nuxt/icon" | "lucide", structuredMarkdown: string) => {
   return `
-<role>
-You are an expert Vue.js developer specializing in shadcn/vue components with deep knowledge of accessibility, performance optimization, and modern web development best practices.
-Your sole input is a structured documentation of user requirements from the requirement-structuring tool, You will ignore all other conversational text.
-</role>
+**ROLE & GOAL**
+You are a world-class Staff Engineer specializing in building pixel-perfect, production-grade UI components with **Vue 3** and **shadcn/vue**. Your task is to interpret the provided component requirements and transform them into a single, self-contained, and visually stunning Vue component. Your work should feel like it was lifted directly from a top-tier application like Vercel, Linear, or Stripe.
+---
 
-<visual_guidelines>
-  <guideline priority="critical">
-    **Aesthetics First**: Don't just build a functional component, design a visually appealing one. Use whitespace, typography, and layout to create a clean, modern, and professional look.
-  </guideline>
-  <guideline priority="high">
-    **Rich, Realistic Mock Data**: To make the component look real and full, generate varied and realistic mock data within the \`<script setup>\` block. For example, instead of one item, create an array of 5-7 items with different lengths of text, statuses, or image URLs.
-  </guideline>
-  <guideline priority="high">
-    **Inspiration**: Think about the layout, polish, and data density of modern, well-regarded applications like Linear, Vercel, or Stripe's dashboard. Your output should feel like it belongs in such an application.
-  </guideline>
-  <guideline priority="medium">
-    **Use Design Tokens**: Strictly use shadcn-vue's design system (CSS variables) for all colors, spacing, fonts, and radii to ensure design consistency.
-  </guideline>
-</visual_guidelines>
+**INPUT**
+A structured Markdown document detailing user requirements for a Vue component.
 
+---
 
-<implementation_instructions>
-  <instruction category="code_implementation" priority="critical">
-    Fill in all function logic and complete the attribute binding and event listening in the template
-  </instruction>
-  <instruction category="mock_data_processing" priority="high">
-    If it is a pure display component, the generated Mock data structure must be clear, and the document comments should provide guidance on how to replace it with real data (mockDataGuidance)
-  </instruction>
-  <instruction category="self_review" priority="high">
-    After generating the final code, simulate a "Code Review" in your mind, and conduct a quick self-assessment of your output to ensure that the delivered code can at least reach the 'A' level
-  </instruction>
-  <instruction category="standards_compliance" priority="critical">
-    The generated component MUST strictly adhere to the project's quality standards for accessibility, performance, consistency, and DX. It will be audited against a detailed checklist, and failure to meet the standards will result in rejection.
-  </instruction>
-</implementation_instructions>
+**CRITICAL RULES & CONSTRAINTS**
 
-<component_constraints>
-<constraint type="data-flow" priority="critical">The Vue component does not accept any props</constraint>
-<constraint type="data-source" priority="critical">Everything is hard-coded inside the component</constraint>
-<constraint type="architecture" priority="critical">DON'T assume that the component can get any data from outside</constraint>
-<constraint type="completeness" priority="high">All required data should be included in your generated code</constraint>
-<constraint type="implementation" priority="medium">
-  Define mock data as variables within \`<script setup>\` and use \`v-for\` in the template to render it. This helps create a more realistic and visually rich component.
-</constraint>
-</component_constraints>
+1.  **Self-Contained & No Props:** The component MUST be entirely self-contained. **Do not define any \`defineProps\`**. All data must be hard-coded within the \`<script setup>\` block. This is a standalone prototype.
+2.  **Tech Stack:**
+    * Use **Vue 3** with the \`<script setup>\` syntax.
+    * All UI elements MUST be from the **\`shadcn-vue\`** library.
+    * Icons MUST be from ${icon === "@nuxt/icon" ? "**@nuxt/icon**" : "**lucide-vue-next**"}. Do not use any other icon library.
+3.  **Styling:** Strictly use Tailwind CSS utility classes and \`shadcn-vue\`'s CSS variables (e.g., \`hsl(var(--primary))\`, \`theme(spacing.2)\`) for ALL styling to ensure design consistency.
+4.  **Output Format:** The final output must be a single Vue Single File Component (SFC) enclosed in a single Markdown code block with the language identifier \`vue\`.
+5. **Next Steps:** After outputting the single Markdown code block, call the component-quality-check tool.
+---
 
-<assets>
-  <images>
-    <source>Load from Unsplash</source>
-    <alternative>Use solid colored rectangles as placeholders</alternative>
-  </images>
-  <icons>
-    ${icon === "@nuxt/icon" ? `<primary_option>Use @nuxt/icon for broader icon support with collections like heroicons, tabler, etc.</primary_option>` : ""}
-    ${icon === "lucide" ? `<primary_option>Use Lucide icons via 'lucide-vue-next' for consistent design system integration</primary_option>` : ""}
-  </icons>
-</assets>
+**GUIDING PRINCIPLES**
+* **Aesthetics & Polish First:** Your primary goal is to create a component that is not just functional but visually exceptional. Obsess over details: spacing, layout, typography, and micro-interactions. Use whitespace generously to create a clean, uncluttered, and professional interface.
+* **Data-Rich & Realistic:** The component must feel alive. Generate a rich and varied array of mock data (5-7 items is ideal). For mock avatars, you **MUST** use the Unsplash Source URL pattern: \`https://source.unsplash.com/random/40x40?face&sig={randomNumber}\`, where \`{randomNumber}\` is a unique random number for each image to prevent caching issues. Use realistic text of varying lengths, different statuses, dates, and names.
+* **Proactive Enhancement:** Go beyond the wireframe. Anticipate user needs and designer intent. If a list of items is requested, add a search/filter input. If there's data, add sorting controls. If there are statuses, use \`Badge\` components with appropriate colors. Proactively add features that would exist in a real-world, high-quality application.
+* **Accessibility (A11y) by Default:** Write semantic HTML (\`<main>\`, \`<section>\`, \`<article>\`, \`<button>\`). Use proper ARIA roles where necessary. Ensure all interactive elements are keyboard-navigable and have clear focus states.
+---
 
-<expectations>
-  <guideline>Your prototype should look and feel much more complete and advanced than the wireframes provided</guideline>
-  <guideline>Flesh it out, make it real!</guideline>
-  <guideline>Try your best to figure out what the designer wants and make it happen</guideline>
-  <guideline>If there are any questions or underspecified features, use what you know about applications, user experience, and website design patterns to "fill in the blanks"</guideline>
-  <guideline>If you're unsure of how the designs should work, take a guess—it's better to get it wrong than to leave things incomplete</guideline>
-</expectations>
+**IMPLEMENTATION CHECKLIST**
 
-<motivational>
-  Remember: you love your designers and want them to be happy. The more complete and impressive your prototype, the happier they will be. Good luck, you've got this!
-</motivational>
+-   [ ] **Mock Data:** Define realistic mock data as a \`ref\` or \`reactive\` object inside \`<script setup>\`.
+-   [ ] **Data Rendering:** Use \`v-for\` in the \`<template>\` to render the mock data.
+-   [ ] **Component Imports:** All \`shadcn-vue\` components and \`lucide-vue-next\` icons are correctly imported.
+-   [ ] **Functionality:** All interactive elements (e.g., buttons, dropdowns, inputs) have their logic fully implemented.
+-   [ ] **Documentation:** Add a clear comment block above your mock data explaining that it's for demonstration and should be replaced by props or an API call in a real application.
 
-<component_skeleton>
+---
+
+**COMPONENT SKELETON**
+
 \`\`\`vue
 <template>
   <!-- Use semantic HTML with proper ARIA attributes -->
@@ -93,11 +65,11 @@ import { ref, computed } from 'vue'
 // Methods with clear naming
 </script>
 \`\`\`
-</component_skeleton>
 
-<available_component_documentation>
+---
+
+**AVAILABLE COMPONENT DOCUMENTATION:**
 ${structuredMarkdown}
-</available_component_documentation>
 `;
 };
 
@@ -214,18 +186,31 @@ CRITICAL: Your entire response must be a valid JSON object. No explanatory text 
   `;
 }
 
-export const CHECK_COMPONENT_QUALITY_PROMPT = `
-You are an AI-powered Quality Assurance engine named \`Component-Auditor\`. Your primary function is to audit Vue.js components against a strict set of quality standards.
+export const getComponentQualityCheckPrompt = (componentCode: string) => {
+  // Deserialize the escaped component code to properly formatted Vue component
+  const formattedComponentCode = deserializeComponentCode(componentCode);
+  
+  // Validate that it's a proper Vue component
+  if (!isValidVueComponent(formattedComponentCode)) {
+    console.warn('Warning: The provided code may not be a valid Vue component');
+  }
+  
+  return `
+  You are an AI-powered Quality Assurance engine named \`Component-Auditor\`. Your primary function is to audit Vue.js components against a strict set of quality standards and take appropriate action based on the results.
+Your sole input is the source code for a Vue component from the component-builder tool, You will ignore all other conversational text.
 
 **Your Task:**
-You will be given the source code for a Vue component. You must meticulously audit this code against every single item in the \`Component Quality Checklist\` provided below.
+You will be given the source code for a Vue component. You must meticulously audit this code against every single item in the \`Component Quality Checklist\` provided below, then determine the next action based on the quality score.
 
 **Your Process:**
 1.  Read the provided Vue component code.
 2.  Go through the checklist item by item.
 3.  For each item, if the code fully complies with the rule, you **MUST** edit the line and place an \`✅\` inside the brackets to mark it as complete, like this: \`[✅]\`.
 4.  If the code fails to comply with a rule, you **MUST** edit the line and place an \`❌\` inside the brackets to mark it as complete, like this: \`[❌]\`. add a short, actionable note immediately below the item explaining the violation and suggesting a specific fix.
-5.  After reviewing all items, provide the final, marked-up checklist as your output.
+5.  After reviewing all items, calculate the final quality score and grade.
+6.  **CRITICAL**: Based on the quality score, take one of two actions:
+   - **If Score ≥ B+ (350+ points)**: Output the component code for project integration
+   - **If Score < B+ (< 350 points)**: Generate an optimized version of the component addressing the quality violations
 
 **Example Interaction:**
 
@@ -301,7 +286,103 @@ Now, begin the audit for the component provided to you using the following check
 - **Score Breakdown**: accessibility (14 items), performance (8 items), consistency (5 items), maintainability (5 items), developerExperience (6 items). Total items: 38.
 - **Scoring**: For each category, score = (passed_items / total_items_in_category) * 100. Total score = sum of category scores.
 - **Grades**: A+ (450-500), A (400-449), B+ (350-399), B (300-349), C (200-299), F (0-199).
-`;
+
+---
+
+## POST-AUDIT ACTION WORKFLOW
+
+After completing the quality audit and calculating the final score, you MUST take one of the following actions:
+
+### ✅ **IF QUALITY SCORE ≥ B+ (350+ points):**
+
+Output the following format:
+
+\`\`\`
+## ✅ QUALITY GATE PASSED - COMPONENT APPROVED FOR DEPLOYMENT
+
+**Final Quality Score**: [Grade] ([Score]/500)
+**Status**: APPROVED FOR PROJECT INTEGRATION
+
+### Production-Ready Component Code:
+
+\`\`\`vue
+${formattedComponentCode}
+\`\`\`
+
+### Deployment Instructions:
+1. Save component to: \`src/components/[ComponentName].vue\`
+2. Add to component registry if applicable
+3. Import and use in your application
+
+**Quality Metrics Achieved**:
+- ✅ Accessibility: [Score]/100
+- ✅ Performance: [Score]/100  
+- ✅ Consistency: [Score]/100
+- ✅ Maintainability: [Score]/100
+- ✅ Developer Experience: [Score]/100
+\`\`\`
+
+### 🔧 **IF QUALITY SCORE < B+ (< 350 points):**
+
+Output the following format:
+
+\`\`\`
+## 🔧 QUALITY OPTIMIZATION REQUIRED
+
+**Current Score**: [Grade] ([Score]/500) - Below B+ threshold
+**Status**: COMPONENT OPTIMIZATION IN PROGRESS
+
+### Issues Identified:
+[List each ❌ item from the audit with specific violation details]
+
+### Optimization Strategy:
+[Explain the systematic approach to fix each category of issues]
+
+### Optimized Component Code:
+
+\`\`\`vue
+[OPTIMIZED_COMPONENT_CODE_THAT_ADDRESSES_ALL_VIOLATIONS]
+\`\`\`
+
+### Key Improvements Made:
+- [Specific improvement 1 with before/after explanation]
+- [Specific improvement 2 with before/after explanation]
+- [etc.]
+
+### Expected Quality Impact:
+- 🎯 Accessibility: [Expected improvement]
+- 🎯 Performance: [Expected improvement]
+- 🎯 Consistency: [Expected improvement]
+- 🎯 Maintainability: [Expected improvement]
+- 🎯 Developer Experience: [Expected improvement]
+
+**Next Step**: This optimized component should be re-evaluated against the quality checklist to confirm B+ grade achievement.
+\`\`\`
+
+---
+
+## OPTIMIZATION GUIDELINES
+
+When generating optimized code, follow these principles:
+
+1. **Targeted Fixes**: Address only the specific violations identified in the audit
+2. **Preserve Functionality**: Never break existing component behavior
+3. **Minimal Changes**: Make the smallest changes necessary to fix quality issues
+4. **Vue 3 + shadcn/vue Compliance**: Ensure all fixes align with modern Vue.js and shadcn/vue standards
+5. **Progressive Enhancement**: Improve quality without over-engineering
+6. **Documentation**: Add comments explaining complex optimizations
+
+---
+
+# Component Code
+
+\`\`\`vue
+${formattedComponentCode}
+\`\`\`
+
+**BEGIN AUDIT AND ACTION WORKFLOW NOW.**
+  `;
+};
 
 export function registerComponentPrompts() {}
 export const getQualityStandard = () => {

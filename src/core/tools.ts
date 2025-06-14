@@ -1,11 +1,7 @@
 import { FastMCP } from "fastmcp";
 import { z } from "zod";
 import * as services from "./services/index.js";
-import {
-  CHECK_COMPONENT_QUALITY_PROMPT,
-  getComponentPrompt,
-  getFilterComponentsPrompt,
-} from "./prompts/componentPrompts.js";
+import { getComponentPrompt, getComponentQualityCheckPrompt, getFilterComponentsPrompt } from "./prompts/componentPrompts.js";
 // import { CallbackServer } from "../server/callback-server.js";
 
 /**
@@ -237,19 +233,24 @@ The user requirement will be provided via the \`${params.message}\` variable.
   server.addTool({
     name: "component-quality-check",
     description:
-      "Automatically check Vue component quality and provide detailed feedback. This tool should be called immediately after creating any component to ensure it meets production standards. Use this tool when you need to validate component quality, accessibility, performance, and best practices compliance.",
+      "Automatically check Vue component quality and provide detailed feedback. Use this tool when you need to validate component quality, accessibility, performance, and best practices compliance.",
     parameters: z.object({
+      componentCode: z.string().describe("code of the component from component-builder tool").optional(),
       absolute_component_path: z
         .string()
-        .describe("Absolute path to the component file that needs to be checked"),
+        .describe("Absolute path to the component file that needs to be checked")
+        .optional(),
     }),
     execute: async (params) => {
       // 1. 规范化文件路径
-      const componentCode = await services.ComponentServices.getContentOfFile(
-        params.absolute_component_path
-      );
+      let componentCode = params.componentCode;
+      if (params.absolute_component_path) {
+        componentCode = await services.ComponentServices.getContentOfFile(
+          params.absolute_component_path
+        );
+      }
 
-      const prompt = `${CHECK_COMPONENT_QUALITY_PROMPT}\n\`\`\`vue\n${componentCode}\`\`\``;
+      const prompt = getComponentQualityCheckPrompt(componentCode || "");
 
       return {
         content: [
