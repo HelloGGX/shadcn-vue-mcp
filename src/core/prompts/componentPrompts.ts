@@ -1,4 +1,4 @@
-import { deserializeComponentCode, isValidVueComponent } from '../utils/componentSerializer.js';
+import { deserializeComponentCode, isValidVueComponent } from "../utils/componentSerializer.js";
 
 export const getComponentPrompt = (icon: "@nuxt/icon" | "lucide", structuredMarkdown: string) => {
   return `
@@ -189,37 +189,29 @@ CRITICAL: Your entire response must be a valid JSON object. No explanatory text 
 export const getComponentQualityCheckPrompt = (componentCode: string) => {
   // Deserialize the escaped component code to properly formatted Vue component
   const formattedComponentCode = deserializeComponentCode(componentCode);
-  
+
   // Validate that it's a proper Vue component
   if (!isValidVueComponent(formattedComponentCode)) {
-    console.warn('Warning: The provided code may not be a valid Vue component');
+    console.warn("Warning: The provided code may not be a valid Vue component");
   }
-  
+
   return `
-  You are an AI-powered Quality Assurance engine named \`Component-Auditor\`. Your primary function is to audit Vue.js components against a strict set of quality standards and take appropriate action based on the results.
-Your sole input is the source code for a Vue component from the component-builder tool, You will ignore all other conversational text.
+  You are an expert Vue.js code reviewer. Your goal is to provide a detailed quality analysis of a given Vue component based on a comprehensive checklist.
 
 **Your Task:**
-You will be given the source code for a Vue component. You must meticulously audit this code against every single item in the \`Component Quality Checklist\` provided below, then determine the next action based on the quality score.
+1.  Thoroughly analyze the Vue component code provided.
+2.  First, generate a complete **Quality Audit Report**. For each checklist item, mark its compliance with '✅' or '❌' and provide actionable feedback for any '❌' violations.
+3.  Next, generate a **Final Score & Recommendation** section based on the audit results and the provided scoring system.
+4.  Finally, provide a **Refactored Component Code** that addresses all identified violations and aims to achieve a perfect score.
 
-**Your Process:**
-1.  Read the provided Vue component code.
-2.  Go through the checklist item by item.
-3.  For each item, if the code fully complies with the rule, you **MUST** edit the line and place an \`✅\` inside the brackets to mark it as complete, like this: \`[✅]\`.
-4.  If the code fails to comply with a rule, you **MUST** edit the line and place an \`❌\` inside the brackets to mark it as complete, like this: \`[❌]\`. add a short, actionable note immediately below the item explaining the violation and suggesting a specific fix.
-5.  After reviewing all items, calculate the final quality score and grade.
-6.  **CRITICAL**: Based on the quality score, take one of two actions:
-   - **If Score ≥ B+ (350+ points)**: Output the component code for project integration
-   - **If Score < B+ (< 350 points)**: Generate an optimized version of the component addressing the quality violations
+**Your entire output must follow this structure: 1. Report -> 2. Score -> 3. Refactored Code.**
 
-**Example Interaction:**
+  ---
+  ## Component Code to Audit
 
-*If the code has a \`v-html\` directive:*
-> - \`[❌]\` **[Security] No \`v-html\`:** The \`v-html\` directive is not used.
->   *Violation: Found \`v-html\` used on line 34. Refactor to use \`textContent\` or a safer rendering method.*
-
-*If the code correctly uses semantic tags:*
-> - \`[✅]\` **[A11y] Semantic HTML:** The component uses appropriate HTML5 semantic tags (e.g., \`<nav>\`, \`<button>\`).
+  \`\`\`vue
+  ${componentCode}
+  \`\`\`
 
 Now, begin the audit for the component provided to you using the following checklist.
 
@@ -286,80 +278,15 @@ Now, begin the audit for the component provided to you using the following check
 - **Score Breakdown**: accessibility (14 items), performance (8 items), consistency (5 items), maintainability (5 items), developerExperience (6 items). Total items: 38.
 - **Scoring**: For each category, score = (passed_items / total_items_in_category) * 100. Total score = sum of category scores.
 - **Grades**: A+ (450-500), A (400-449), B+ (350-399), B (300-349), C (200-299), F (0-199).
-
+- **Recommendation:** [Provide a one-sentence summary, e.g., "Component is production-ready." or "Component requires refactoring to address critical accessibility and performance issues."]
 ---
 
-## POST-AUDIT ACTION WORKFLOW
+  ## Refactored Component Code
+  fix all items that are marked with a ❌, and make sure the checklist is fully green.
 
-After completing the quality audit and calculating the final score, you MUST take one of the following actions:
-
-### ✅ **IF QUALITY SCORE ≥ B+ (350+ points):**
-
-Output the following format:
-
-\`\`\`
-## ✅ QUALITY GATE PASSED - COMPONENT APPROVED FOR DEPLOYMENT
-
-**Final Quality Score**: [Grade] ([Score]/500)
-**Status**: APPROVED FOR PROJECT INTEGRATION
-
-### Production-Ready Component Code:
-
-\`\`\`vue
-[ORIGINAL_COMPONENT_CODE]
-\`\`\`
-
-### Deployment Instructions:
-1. Save component to: \`src/components/[ComponentName].vue\`
-2. Add to component registry if applicable
-3. Import and use in your application
-
-**Quality Metrics Achieved**:
-- ✅ Accessibility: [Score]/100
-- ✅ Performance: [Score]/100  
-- ✅ Consistency: [Score]/100
-- ✅ Maintainability: [Score]/100
-- ✅ Developer Experience: [Score]/100
-\`\`\`
-
-### 🔧 **IF QUALITY SCORE < B+ (< 350 points):**
-
-Output the following format:
-
-\`\`\`
-## 🔧 QUALITY OPTIMIZATION REQUIRED
-
-**Current Score**: [Grade] ([Score]/500) - Below B+ threshold
-**Status**: COMPONENT OPTIMIZATION IN PROGRESS
-
-### Issues Identified:
-[List each ❌ item from the audit with specific violation details]
-
-### Optimization Strategy:
-[Explain the systematic approach to fix each category of issues]
-
-### Optimized Component Code:
-
-\`\`\`vue
-[OPTIMIZED_COMPONENT_CODE_THAT_ADDRESSES_ALL_VIOLATIONS]
-\`\`\`
-
-### Key Improvements Made:
-- [Specific improvement 1 with before/after explanation]
-- [Specific improvement 2 with before/after explanation]
-- [etc.]
-
-### Expected Quality Impact:
-- 🎯 Accessibility: [Expected improvement]
-- 🎯 Performance: [Expected improvement]
-- 🎯 Consistency: [Expected improvement]
-- 🎯 Maintainability: [Expected improvement]
-- 🎯 Developer Experience: [Expected improvement]
-
-**Next Step**: This optimized component should be re-evaluated against the quality checklist to confirm B+ grade achievement.
-\`\`\`
-
----
+  \`\`\`vue
+  // Your improved Vue component code goes here
+  \`\`\`
 
 ## OPTIMIZATION GUIDELINES
 
@@ -372,15 +299,6 @@ When generating optimized code, follow these principles:
 5. **Progressive Enhancement**: Improve quality without over-engineering
 6. **Documentation**: Add comments explaining complex optimizations
 
----
-
-# Component Code to Audit
-
-\`\`\`vue
-${formattedComponentCode}
-\`\`\`
-
-**BEGIN AUDIT AND ACTION WORKFLOW NOW.**
   `;
 };
 
