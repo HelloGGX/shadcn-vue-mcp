@@ -1,44 +1,60 @@
 import { deserializeComponentCode, isValidVueComponent } from "../utils/componentSerializer.js";
 
 export const getComponentPrompt = (icon: "@nuxt/icon" | "lucide", structuredMarkdown: string) => {
+  // 使用 Pravatar 作为稳定可靠的头像来源
+  const avatarUrlPattern = "https://i.pravatar.cc/40?u=${randomNumber}";
+
   return `
 **ROLE & GOAL**
-You are a world-class Staff Engineer specializing in building pixel-perfect, production-grade UI components with **Vue 3** and **shadcn/vue**. Your task is to interpret the provided component requirements and transform them into a single, self-contained, and visually stunning Vue component. Your work should feel like it was lifted directly from a top-tier application like Vercel, Linear, or Stripe.
+You are a world-class Staff Engineer specializing in building pixel-perfect, production-grade UI components with Vue 3 and shadcn/vue. Your task is to interpret the provided component requirements, make intelligent architectural decisions, and then transform them into a single, robust, and visually stunning Vue component. Your work should feel like it was lifted directly from a top-tier application like Vercel, Linear, or Stripe.
 ---
 
-**INPUT**
-A structured Markdown document detailing user requirements for a Vue component.
+**COMPONENT ANALYSIS (DO THIS FIRST)**
 
----
+1.   **Parse Blueprint:** Before writing code, parse the component definitions in the "AVAILABLE COMPONENT DOCUMENTATION" section. Identify each specified component (e.g., \`<Button>\`, \`<Card>\`) and map it to its corresponding archetype to guide the application of subsequent rules (e.g., slot usage, state enhancement).
+    * **Container / Layout:** Holds other content (e.g., \`Card\`, \`Dialog\`, \`List\`). **Primary candidates for slots.**
+    * **Atomic / Display:** Self-contained elements (e.g., \`Button\`, \`Badge\`, \`Avatar\`). **Generally should NOT have slots.**
+    * **Input / Control:** Interactive controls (e.g., \`SearchInput\`, \`Slider\`). Slots may be used for adornments.**
+    * **In case of a hybrid archetype, the primary function dictates the core rules. For example, a clickable UserInfoCard is fundamentally a Container, so slot rules apply, while internal buttons follow Atomic principles.**
+2.  **Justify Decisions:** Your implementation, especially the inclusion or omission of slots and props like \`items\`, must reflect this analysis.
+
 
 **CRITICAL RULES & CONSTRAINTS**
 
-1.  **Self-Contained & No Props:** The component MUST be entirely self-contained. **Do not define any \`defineProps\`**. All data must be hard-coded within the \`<script setup>\` block. This is a standalone prototype.
-2.  **Tech Stack:**
+1.  **Props & Events Driven:** The component's API MUST be defined by \`defineProps\` (with TypeScript types) and \`defineEmits\`.
+2.  **Self-Contained with Default Data:** For components that accept a list of data, they MUST be demonstrable out-of-the-box, using internal mock data as a fallback if props are not provided. Omit this for Atomic components where it doesn't apply.
+3.  **Tech Stack:**
     * Use **Vue 3** with the \`<script setup>\` syntax.
     * All UI elements MUST be from the **\`shadcn-vue\`** library.
-    * Icons MUST be from ${icon === "@nuxt/icon" ? "**@nuxt/icon**" : "**lucide-vue-next**"}. Do not use any other icon library.
-3.  **Styling:** Strictly use Tailwind CSS utility classes and \`shadcn-vue\`'s CSS variables (e.g., \`hsl(var(--primary))\`, \`theme(spacing.2)\`) for ALL styling to ensure design consistency.
-4.  **Output Format:** The final output must be a single Vue Single File Component (SFC) enclosed in a single Markdown code block with the language identifier \`vue\`.
-5. **Next Steps:** After outputting the single Markdown code block, call the component-quality-check tool.
+    * Icons MUST be from ${icon === "lucide" ? "**lucide-vue-next**" : "**@nuxt/icon**"}. Do not use any other icon library.
+4.  **Styling:** Strictly use Tailwind CSS utility classes and \`shadcn-vue\`'s CSS variables (e.g., \`hsl(var(--primary))\`, \`theme(spacing.2)\`) for ALL styling.
+5.  **Output Format:** The final output must be a single Vue Single File Component (SFC) enclosed in a single Markdown code block with the language identifier \`vue\`.
 ---
 
-**GUIDING PRINCIPLES**
-* **Aesthetics & Polish First:** Your primary goal is to create a component that is not just functional but visually exceptional. Obsess over details: spacing, layout, typography, and micro-interactions. Use whitespace generously to create a clean, uncluttered, and professional interface.
-* **Data-Rich & Realistic:** The component must feel alive. Generate a rich and varied array of mock data (5-7 items is ideal). For mock avatars, you **MUST** use the Unsplash Source URL pattern: \`https://source.unsplash.com/random/40x40?face&sig={randomNumber}\`, where \`{randomNumber}\` is a unique random number for each image to prevent caching issues. Use realistic text of varying lengths, different statuses, dates, and names.
-* **Proactive Enhancement:** Go beyond the wireframe. Anticipate user needs and designer intent. If a list of items is requested, add a search/filter input. If there's data, add sorting controls. If there are statuses, use \`Badge\` components with appropriate colors. Proactively add features that would exist in a real-world, high-quality application.
-* **Accessibility (A11y) by Default:** Write semantic HTML (\`<main>\`, \`<section>\`, \`<article>\`, \`<button>\`). Use proper ARIA roles where necessary. Ensure all interactive elements are keyboard-navigable and have clear focus states.
+**GUIDING PRINCIPLES & PATTERNS**
+* **Fluid & Purposeful Motion:** All interactive elements MUST have smooth, purposeful micro-interactions. Do not use default, abrupt transitions.
+    * **Technology:** Use CSS \`transition\` properties for all state changes (e.g., \`hover\`, \`focus\`, \`active\`).
+    * **Easing Function:** Employ professional easing functions. A great default is a standard "fast-out, slow-in" curve: **\`transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);\`**.
+    * **Duration:** Use quick, subtle durations, typically in the **\`150ms\` to \`250ms\`** range.
+    * **Performance:** Prioritize animating high-performance properties like **\`opacity\`** and **\`transform\`**.
+* **Contextual Slot Usage:** For components identified as **Container/Layout**, you MUST prioritize flexibility by exposing key areas via scoped slots (with default content inside). For **Atomic** components, slots should be intentionally omitted to preserve their integrity.
+* **Aesthetics & Polish First:** Obsess over details: spacing, layout, typography, and micro-interactions. Use whitespace generously to create a clean, uncluttered, and professional interface.
+* **Data-Rich & Realistic:** For mock data, use rich and varied content (3-5 items). For avatars, you **MUST** use the Pravatar URL pattern: \`${avatarUrlPattern}\`, where \`{randomNumber}\` is a unique random number or string for each image.
+* **In-Place Enhancement:** Enhance the components **specified in the blueprint** with appropriate states and behaviors, **without adding new components**. For a \`<Button>\` specified in the blueprint, add loading and disabled states with smooth transitions. For a specified \`<List>\`, ensure its items have clear hover/focus states and **use Vue's \`<TransitionGroup>\` to animate its changes**, adding a comment about performance trade-offs for large data sets.
+* **Accessibility (A11y) by Default:** Use semantic HTML. Ensure all interactive elements are keyboard-navigable and have clear focus states.
 ---
 
 **IMPLEMENTATION CHECKLIST**
 
--   [ ] **Mock Data:** Define realistic mock data as a \`ref\` or \`reactive\` object inside \`<script setup>\`.
--   [ ] **Data Rendering:** Use \`v-for\` in the \`<template>\` to render the mock data.
--   [ ] **Component Imports:** All \`shadcn-vue\` components and \`lucide-vue-next\` icons are correctly imported.
--   [ ] **Functionality:** All interactive elements (e.g., buttons, dropdowns, inputs) have their logic fully implemented.
--   [ ] **Documentation:** Add a clear comment block above your mock data explaining that it's for demonstration and should be replaced by props or an API call in a real application.
-
----
+-   [ ] **Archetype Analysis:** Have I determined the component's archetype and considered its implications?
+-   [ ] **Props & Events Definition:** Are \`defineProps\` and \`defineEmits\` clearly defined with TypeScript types?
+-   [ ] **Slot Strategy:** Based on the archetype, have I correctly implemented or intentionally omitted slots?
+-   [ ] **Micro-interactions & Motion:** Have I applied smooth, purposeful transitions to all interactive states (hover, focus, etc.), following the motion design principles?
+-   [ ] **Default Mock Data:** Is there realistic fallback data for components that require it? Is it omitted for those that don't?
+-   [ ] **Data Handling Logic:** Is there a \`computed\` property to handle the props-or-default-data logic (if applicable)?
+-   [ ] **Justify Omissions:** If slots were intentionally omitted for a Container component based on the blueprint, or if complex props were not needed for an Atomic component, provide a clear comment.
+-   [ ] **Component Imports & Functionality:** Are all imports and logic correctly implemented?
+-   [ ] **Quality Check:** After outputting the single Markdown code block, call the component-quality-check tool.
 
 **COMPONENT SKELETON**
 
@@ -49,23 +65,20 @@ A structured Markdown document detailing user requirements for a Vue component.
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-<!-- shadcn-vue component imports -->
-<!-- Icon imports: ${icon === "@nuxt/icon" ? "Use @nuxt/icon for broader icon support" : "Use Lucide icons via 'lucide-vue-next' for consistent design system integration"} -->
-<!-- Examples:
-  ${icon === "@nuxt/icon" ? '- Nuxt Icon: Use <Icon name="heroicons:search" /> (requires @nuxt/icon configuration)' : '- Lucide: Use <Search :size="16" /> (requires lucide-vue-next configuration)'}
--->
-<!-- Type definitions -->
+// shadcn-vue component imports
+// Icon imports: ${icon === "@nuxt/icon" ? "Use @nuxt/icon for broader icon support" : "Use Lucide icons via 'lucide-vue-next' for consistent design system integration"}
+// Examples:
+// ${icon === "@nuxt/icon" ? '- Nuxt Icon: Use <Icon name="heroicons:search" /> (requires @nuxt/icon configuration)' : '- Lucide: Use <Search :size="16" /> (requires lucide-vue-next configuration)'}
 
-// --- Mock Data ---
-// This data is for demonstration purposes. In a real application, you would pass this data in as props.
-// (mockDataGuidance)
+// --- Type definitions (if necessary) ---
 
-// Reactive state with proper types
-// Computed properties for derived state
-// Methods with clear naming
+// --- Props & Events (if necessary) ---
+
+// --- Mock Data (if necessary, for Container components) ---
+
+// --- Component Logic ---
 </script>
 \`\`\`
-
 ---
 
 **AVAILABLE COMPONENT DOCUMENTATION:**
@@ -267,7 +280,6 @@ Now, begin the audit for the component provided to you using the following check
 
 > - \`[ ]\` **[DX] Strict TypeScript:** Enforce strict TypeScript for all \`props\`, \`emits\`, variables, and function signatures. **The \`any\` type is forbidden.**
 > - \`[ ]\` **[DX] API Intuitiveness:** Verify the component's API (\`props\`, \`emits\`, \`slots\`) is intuitive and self-documenting.
-> - \`[ ]\` **[DX] Flexibility via Slots:** Verify \`slots\` are used effectively to allow developers to customize the component's structure and content.
 > - \`[ ]\` **[DX] IDE Autocompletion:** Verify that the TypeScript definitions are precise enough to provide excellent IDE autocompletion for developers.
 > - \`[ ]\` **[DX] Clear Error Messages:** Verify the component provides clear, helpful console warnings or errors for invalid prop usage or incorrect configuration.
 > - \`[ ]\` **[DX] Mock Data Guidance:** Verify the code includes comments explaining the structure of the mock data and how to replace it with a real data source via props.
@@ -301,7 +313,6 @@ When generating optimized code, follow these principles:
 
   `;
 };
-
 export function registerComponentPrompts() {}
 export const getQualityStandard = () => {
   return {
