@@ -243,11 +243,13 @@ The user requirement will be provided via the \`${params.message}\` variable.
     }),
     execute: async (params) => {
       // 1. 规范化文件路径
-      let componentCode = params.componentCode;
+      let componentCode = '';
       if (params.absolute_component_path) {
         componentCode = await services.ComponentServices.getContentOfFile(
           params.absolute_component_path
         );
+      } else if (params.componentCode) {
+        componentCode = params.componentCode;
       }
 
       const prompt = getComponentQualityCheckPrompt(componentCode || "");

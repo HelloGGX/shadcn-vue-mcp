@@ -306,7 +306,7 @@ Output the following format:
 ### Production-Ready Component Code:
 
 \`\`\`vue
-${formattedComponentCode}
+[ORIGINAL_COMPONENT_CODE]
 \`\`\`
 
 ### Deployment Instructions:
@@ -374,7 +374,7 @@ When generating optimized code, follow these principles:
 
 ---
 
-# Component Code
+# Component Code to Audit
 
 \`\`\`vue
 ${formattedComponentCode}
