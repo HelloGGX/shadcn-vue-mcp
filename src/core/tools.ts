@@ -163,7 +163,7 @@ The user requirement will be provided via the \`${params.message}\` variable.
     }),
     execute: async (params) => {
       try {
-        const necessityFilter = services.ComponentServices.createNecessityFilter("important");
+        const necessityFilter = services.ComponentServices.createNecessityFilter("optional");
         // 并发处理所有组件文档
         const componentPromises = params.components
           .filter(necessityFilter)
