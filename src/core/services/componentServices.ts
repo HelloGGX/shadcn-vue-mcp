@@ -1,6 +1,6 @@
 import z from "zod";
 import axios, { AxiosError } from "axios";
-
+import fs from "fs/promises";
 // Shadcn/Vue 组件和对应的 demo 列表
 export const SHADCN_VUE_COMPONENTS = {
   accordion: ["AccordionDemo"],
@@ -506,7 +506,7 @@ export class ComponentServices {
   }
   static async getContentOfFile(path: string): Promise<string> {
     try {
-      const fs = await import("fs/promises");
+      
       return await fs.readFile(path, "utf-8");
     } catch (error) {
       console.error(`Error reading file ${path}:`, error);
