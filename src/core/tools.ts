@@ -233,20 +233,20 @@ The user requirement will be provided via the \`${params.message}\` variable.
   server.addTool({
     name: "component-quality-check",
     description:
-      "Automatically check Vue component quality and provide detailed feedback. Use this tool when you need to validate component quality, accessibility, performance, and best practices compliance.",
+      "Automatically check Vue component quality and provide detailed feedback. Use this tool when you need to validate component quality, accessibility, performance, and best practices compliance. or when mentions /check.",
     parameters: z.object({
       componentCode: z.string().describe("code of the component from component-builder tool").optional(),
-      absolute_component_path: z
+      relative_component_path: z
         .string()
-        .describe("Absolute path to the component file that needs to be checked")
+        .describe("relative path to the component file that needs to be checked")
         .optional(),
     }),
     execute: async (params) => {
       // 1. 规范化文件路径
       let componentCode = '';
-      if (params.absolute_component_path) {
+      if (params.relative_component_path) {
         componentCode = await services.ComponentServices.getContentOfFile(
-          params.absolute_component_path
+          params.relative_component_path
         );
       } else if (params.componentCode) {
         componentCode = params.componentCode;
@@ -264,35 +264,4 @@ The user requirement will be provided via the \`${params.message}\` variable.
       };
     },
   });
-
-  // // review-ui tool  UI预览
-  // server.addTool({
-  //   name: "review-ui",
-  //   description:
-  //     "Whenever the user mentions /review, automatically use shadcn/ui components and Tailwind CSS to create or enhance a UI preview based on the results from component-builder tool. Trigger this behavior right after either tool completes. Provide a visual preview of the UI with clean, styled components using best practices.",
-  //   parameters: z.object({
-  //     code: z.string().describe("code of the Web UI from component-builder tool"),
-  //   }),
-  //   execute: async (params) => {
-  //     // 预览组件
-  //     const server = new CallbackServer();
-  //     // 启动服务器并打开浏览器
-  //     const { data } = await server.promptUser({
-  //       initialData: params.code,
-  //     });
-
-  //     const componentData = data || {
-  //       text: "No component data received. Please try again.",
-  //     };
-
-  //     return {
-  //       content: [
-  //         {
-  //           type: "text",
-  //           text: JSON.stringify(componentData, null, 2),
-  //         },
-  //       ],
-  //     };
-  //   },
-  // });
 }

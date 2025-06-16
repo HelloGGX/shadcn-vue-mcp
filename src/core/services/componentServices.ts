@@ -1,6 +1,8 @@
 import z from "zod";
 import axios, { AxiosError } from "axios";
 import fs from "fs/promises";
+import fg from "fast-glob";
+import path from "path";
 // Shadcn/Vue 组件和对应的 demo 列表
 export const SHADCN_VUE_COMPONENTS = {
   accordion: ["AccordionDemo"],
@@ -504,12 +506,27 @@ export class ComponentServices {
 
     return markdown;
   }
-  static async getContentOfFile(path: string): Promise<string> {
+  static async getContentOfFile(relativePath: string): Promise<string> {
     try {
+      // Use fast-glob to find files matching the relative path pattern
+      const files = await fg(relativePath, {
+        cwd: process.cwd(),
+        absolute: true,
+        onlyFiles: true,
+        unique: true
+      });
       
-      return await fs.readFile(path, "utf-8");
+      // If no files found, try to resolve as a direct path
+      if (files.length === 0) {
+        const absolutePath = path.resolve(process.cwd(), relativePath);
+        return await fs.readFile(absolutePath, "utf-8");
+      }
+      
+      // Return content of the first matching file
+      const filePath = files[0];
+      return await fs.readFile(filePath, "utf-8");
     } catch (error) {
-      console.error(`Error reading file ${path}:`, error);
+      console.error(`Error reading file ${relativePath}:`, error);
       return "";
     }
   }

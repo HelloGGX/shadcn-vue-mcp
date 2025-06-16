@@ -236,7 +236,7 @@ export const getComponentQualityCheckPrompt = (componentCode: string) => {
   ## Component Code to Audit
 
   \`\`\`vue
-  ${componentCode}
+  ${formattedComponentCode}
   \`\`\`
 
 Now, begin the audit for the component provided to you using the following checklist.
