@@ -235,24 +235,10 @@ The user requirement will be provided via the \`${params.message}\` variable.
     description:
       "Automatically check Vue component quality and provide detailed feedback. Use this tool when you need to validate component quality, accessibility, performance, and best practices compliance. or when mentions /check.",
     parameters: z.object({
-      componentCode: z.string().describe("code of the component from component-builder tool").optional(),
-      relative_component_path: z
-        .string()
-        .describe("relative path to the component file that needs to be checked")
-        .optional(),
+      componentCode: z.string().describe("code of the component from component-builder tool")
     }),
     execute: async (params) => {
-      // 1. 规范化文件路径
-      let componentCode = '';
-      if (params.relative_component_path) {
-        componentCode = await services.ComponentServices.getContentOfFile(
-          params.relative_component_path
-        );
-      } else if (params.componentCode) {
-        componentCode = params.componentCode;
-      }
-
-      const prompt = getComponentQualityCheckPrompt(componentCode || "");
+      const prompt = getComponentQualityCheckPrompt(params.componentCode || "");
 
       return {
         content: [
