@@ -7,13 +7,15 @@ RUN corepack enable && corepack prepare pnpm@latest --activate
 
 WORKDIR /app
 
+# Copy manifest files
+COPY package.json pnpm-lock.yaml tsconfig.json ./
+
+# Copy source
+COPY src ./src
+
 # Install deps and build
 RUN pnpm store prune
 RUN pnpm install --frozen-lockfile && pnpm run build:http
-
-# Copy the rest of the application code into the container
-COPY src ./src
-COPY tsconfig.json ./
 
 # Runner stage
 FROM node:lts-alpine AS runner
