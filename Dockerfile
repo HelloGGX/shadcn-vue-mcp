@@ -7,15 +7,13 @@ RUN corepack enable && corepack prepare pnpm@latest --activate
 
 WORKDIR /app
 
-# Install dependencies
-RUN npm ci --ignore-scripts
+# Install deps and build
+RUN pnpm store prune
+RUN pnpm install --frozen-lockfile && pnpm run build:http
 
 # Copy the rest of the application code into the container
 COPY src ./src
 COPY tsconfig.json ./
-
-# Build the project for Docker
-RUN npm run build:http
 
 # Runner stage
 FROM node:lts-alpine AS runner
