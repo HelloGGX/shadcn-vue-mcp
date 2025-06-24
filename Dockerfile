@@ -7,15 +7,15 @@ RUN corepack enable && corepack prepare pnpm@latest --activate
 
 WORKDIR /app
 
-# Copy manifest files
-COPY package.json pnpm-lock.yaml tsconfig.json ./
+# Install dependencies
+RUN npm ci --ignore-scripts
 
-# Copy source
+# Copy the rest of the application code into the container
 COPY src ./src
+COPY tsconfig.json ./
 
-# Install deps and build
-RUN pnpm store prune
-RUN pnpm install --frozen-lockfile && pnpm run build
+# Build the project for Docker
+RUN npm run build:http
 
 # Runner stage
 FROM node:lts-alpine AS runner
@@ -32,5 +32,5 @@ COPY package.json pnpm-lock.yaml ./
 # Install only production dependencies
 RUN pnpm install --prod --frozen-lockfile
 
-# Start server via STDIO
-ENTRYPOINT ["node", "build/index.js"]
+# Start server via HTTP Stream
+ENTRYPOINT ["node", "build/http-server.js"]
