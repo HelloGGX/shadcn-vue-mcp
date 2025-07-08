@@ -7,16 +7,14 @@
 
 一个强大的 AI 代理工具，可以帮助开发者即时创建高质量的 UI 组件
 
-  <p align="center">
-    <a href="https://github.com/HelloGGX/shadcn-vue-mcp">GitHub 仓库</a>
-  </p>
-
 [![GitHub forks](https://img.shields.io/github/forks/HelloGGX/shadcn-vue-mcp.svg?style=social&label=Fork&maxAge=2592000)](https://GitHub.com/HelloGGX/shadcn-vue-mcp/network/)
 [![GitHub stars](https://img.shields.io/github/stars/HelloGGX/shadcn-vue-mcp.svg?style=social&label=Star&maxAge=2592000)](https://GitHub.com/HelloGGX/shadcn-vue-mcp/stargazers/)
 [![GitHub commits](https://badgen.net/github/commits/HelloGGX/shadcn-vue-mcp)](https://GitHub.com/HelloGGX/shadcn-vue-mcp/commit/)
 [![smithery badge](https://smithery.ai/badge/@HelloGGX/shadcn-vue-mcp)](https://smithery.ai/server/@HelloGGX/shadcn-vue-mcp)
 [![License](https://img.shields.io/github/license/HelloGGX/shadcn-vue-mcp?colorA=00C586&colorB=000000)](https://github.com/HelloGGX/shadcn-vue-mcp/blob/main/LICENSE)
 [![Contributors](https://img.shields.io/github/contributors/HelloGGX/shadcn-vue-mcp?colorA=00C586&colorB=000000)](https://github.com/HelloGGX/shadcn-vue-mcp/graphs/contributors)
+
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/helloggx-shadcn-vue-mcp-badge.png)](https://mseep.ai/app/helloggx-shadcn-vue-mcp)
 
 Shadcn-vue MCP Server 是一个强大的 AI 驱动工具，可帮助开发人员通过自然语言描述即时创建美观、现代的 UI 组件。它集成了 shadcn-vue 组件库和 tailwindcss，与主流 IDE 无缝连接，并提供简化的 UI 开发工作流程。
 
