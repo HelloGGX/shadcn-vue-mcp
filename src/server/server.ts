@@ -15,7 +15,7 @@ async function startServer() {
     // Register all resources, tools, and prompts
     registerResources(server);
     registerTools(server);
-    registerPrompts(server);
+    registerPrompts();
 
     // Log server information
     console.error(`MCP Server initialized`);

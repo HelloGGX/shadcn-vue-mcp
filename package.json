@@ -9,7 +9,7 @@
   "author": "gavin",
   "license": "Apache-2.0",
   "bin": {
-    "shadcn-vue-mcp": "build/index.js"
+    "shadcn-vue-mcp": "build/http-server.js"
   },
   "files": [
     "build"
@@ -18,13 +18,13 @@
     "url": "https://github.com/HelloGGX/shadcn-vue-mcp/issues"
   },
   "scripts": {
-    "inspect": "npm run build && npx @modelcontextprotocol/inspector node -- build/index.js",
-    "start": "npx bun run src/index.ts",
+    "inspect": "npx @modelcontextprotocol/inspector node -- build/index.js",
     "build": "npx bun build src/index.ts --outdir build --target node && shx cp -r src/server/previewer build/ && shx chmod +x build/*.js",
-    "build:http": "npx bun build src/server/http-server.ts --outdir build --target node",
+    "build:http": "npx bun build src/server/http-server.ts --outdir build --target node && shx chmod +x build/*.js",
     "dev": "npx bun --watch src/index.ts",
-    "start:http": "npx bun run src/server/http-server.ts",
     "dev:http": "npx bun --watch src/server/http-server.ts",
+    "start": "npx bun run src/index.ts",
+    "start:http": "npx bun run src/server/http-server.ts",
     "format": "prettier --write .",
     "lint": "eslint \"**/*.{js,ts,tsx}\" --fix"
   },

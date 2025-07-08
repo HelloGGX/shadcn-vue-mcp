@@ -10,11 +10,11 @@ async function main() {
 
     // Start the server with SSE transport
     server.start({
-      transportType: "stdio",
-      // sse: {
-      //   port: PORT,
-      //   endpoint: "/sse",
-      // },
+      transportType: "httpStream",
+      httpStream: {
+        endpoint: "/mcp",
+        port: PORT,
+      },
     });
 
     console.error(`MCP Server running at http://localhost:${PORT}`);
