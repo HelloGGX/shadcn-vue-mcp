@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/helloggx-shadcn-vue-mcp-badge.png)](https://mseep.ai/app/helloggx-shadcn-vue-mcp)
+
 <div align="center">
   <a href="https://smithery.ai/server/@HelloGGX/shadcn-vue-mcp">
     <img src="https://github.com/HelloGGX/tailwindcss-mcp/raw/fast-agent/docs/logo.png" alt="shadcnVue MCP Logo" max-height="450">
