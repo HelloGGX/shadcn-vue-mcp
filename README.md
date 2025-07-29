@@ -87,74 +87,25 @@ Before you begin, ensure you have Node.js installed on your system.
 
 > Using a different version might lead to installation errors like `Error: spawnSync code-insiders.cmd EINVAL`. Downgrading or upgrading to the recommended version is the best solution.
 
-### Method 1: Get connection URL
+### Qucik install: URL Quick Installation for copilot
 
-To install shadcn-vue-mcp for all clients automatically via [Smithery](https://smithery.ai/server/@HelloGGX/shadcn-vue-mcp):
+First, you need to obtain a unique connection URL from the Smithery service that contains your personal credentials. Visit the [shadcn-vue-mcp page on Smithery](https://smithery.ai/server/@HelloGGX/shadcn-vue-mcp).
 
-<img src="https://raw.githubusercontent.com/HelloGGX/shadcn-vue-mcp/httpStream/docs/install.png" width="700" >
+Step 1. Click the Generate URL button on the page.:
 
-- Supported clients: cursor, windsurf, cline, claude, vscode, vscode-insiders
+<img src="https://raw.githubusercontent.com/HelloGGX/shadcn-vue-mcp/fast-agent/docs/install.png" width="700" >
 
-### Method 2: add your client
+The system will generate a unique URL for you, which includes an API key for authentication. Copy this entire URL.
 
-Manually configure your AI application (e.g., Claude Desktop) by selecting the JSON option and copying the configuration for your operating system:
+Step 2. Open vscode, open copilot and select Agent model, Next, add the URL you just obtained to your IDE's MCP configuration file.
+1. In your IDE project, find or create the configuration file named mcp.json.
+2. Add or merge the following JSON object into the servers field of that file.
 
-**For Mac/Linux:**
-
-```json
-{
-  "mcpServers": {
-    "shadcn-vue-mcp": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@smithery/cli@latest",
-        "run",
-        "@HelloGGX/shadcn-vue-mcp",
-        "--key",
-        "parental-gayal-aplQPT"
-      ]
-    }
-  }
-}
-```
-
-**For Windows:**
-
-```json
-{
-  "mcpServers": {
-    "shadcn-vue-mcp": {
-      "command": "cmd",
-      "args": [
-        "/c",
-        "npx",
-        "-y",
-        "@smithery/cli@latest",
-        "run",
-        "@HelloGGX/shadcn-vue-mcp",
-        "--key",
-        "parental-gayal-aplQPT"
-      ]
-    }
-  }
-}
-```
-
-### Method 3 URL Quick Installation for copilot
-
-You can also install shadcn-vue-mcp via URL.
-Step 1. copy the following URL and paste it into the URL field of the Smithery AI application:
-
-<img src="https://raw.githubusercontent.com/HelloGGX/shadcn-vue-mcp/main/docs/install_URL.png" width="600">
-
-Step 2. Open vscode, open copilot and select Agent model
-
-Step 3: Select Add Server
+Step 3: for vscode IDE, Select Add Server
 
 <img src="https://raw.githubusercontent.com/HelloGGX/shadcn-vue-mcp/main/docs/add_server.png" width="600">
 
-Step 4: choose HTTP
+Step 4: choose HTTP(HTTP or Server-Sent Events)
 
 <img src="https://raw.githubusercontent.com/HelloGGX/shadcn-vue-mcp/main/docs/choose_mcp_type.png" width="600">
 
@@ -164,11 +115,9 @@ Step 6: config like this:
 
 ```json
 {
-  "mcp": {
-    "servers": {
-      "shadcn-vue-mcp": {
-        "url": "https://server.smithery.ai/@HelloGGX/shadcn-vue-mcp/mcp?profile=parental-gayal-aplQPT&api_key=xxxxxxx"
-      }
+  "servers": {
+    "shadcn-vue-mcp": {
+      "url": "https://server.smithery.ai/@HelloGGX/shadcn-vue-mcp/mcp?api_key=xxxx&profile=linguistic-landfowl-TWeEt8"
     }
   }
 }

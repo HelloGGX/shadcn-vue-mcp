@@ -24,174 +24,119 @@ Shadcn-vue MCP Server 是一个强大的 AI 驱动工具，可帮助开发人员
 
 </div>
 
+好的，这是对您提供的 README.md 内容的中文翻译，力求准确、合理并保留了原始格式。
+
+
 ## ❌ 没有 shadcn-vue MCP
 
-开发者在构建 UI 组件时面临多重挑战：
+开发者在构建 UI 组件时面临着多重挑战：
 
-- ❌ **开发流程繁琐**: 需要在 IDE、官方文档和浏览器之间不断切换，严重影响开发效率和专注度。
-- ❌ **组件选择困难**: 面对 `shadcn-vue` 提供的众多组件，开发者难以快速找到最符合需求的那个，缺乏智能化的推荐。
-- ❌ **重复性工作量大**: 需要手动编写大量模板代码，并处理组件的各种状态和复杂的交互逻辑。
-- ❌ **质量保障不足**: 容易忽略可访问性（A11y）、性能优化、代码最佳实践等质量标准，导致组件质量参差不齐。
-- ❌ **维护成本高**: 随着项目规模扩大，手动维护所有组件的风格、行为和依赖关系变得异常困难，难以保证一致性。
+  - ❌ **繁琐的开发流程**：在 IDE、官方文档和浏览器之间不断切换，严重影响开发效率和专注度。
+  - ❌ **组件选择困难**：面对 `shadcn-vue` 的海量组件，如果没有智能推荐，开发者很难快速找到最适合其需求的组件。
+  - ❌ **高重复性工作**：涉及手动编写大量样板代码，以及处理各种组件状态和复杂的交互逻辑。
+  - ❌ **质量保证不足**：很容易忽视可访问性（A11y）、性能优化和最佳编码实践等质量标准，导致组件质量不一致。
+  - ❌ **高昂的维护成本**：随着项目规模的增长，手动维护所有组件的样式、行为和依赖关系变得异常困难，难以实现一致性。
 
-## ✅ 使用 shadcn-vue MCP
 
-shadcn-vue MCP 提供了智能化的 UI 组件开发体验，彻底改变了传统开发流程：
+## ✅ 拥有 shadcn-vue MCP
 
-- ✅ **一站式开发体验**: 无需离开编辑器，只需通过自然语言描述，即可完成从组件选择、编码到预览的全过程。
-- ✅ **智能组件推荐**: `components-filter` 工具会根据你的需求描述，智能分析并推荐最适合的 `shadcn-vue` 组件。
-- ✅ **高质量代码自动生成**: `component-builder` 能够自动生成符合 `shadcn-vue` 和 `tailwindcss` 规范的高质量 Vue 组件代码，内置最佳实践。
-- ✅ **内置质量保证**: `component-quality-check` 会自动对生成的代码进行可访问性（A11y）和代码质量检查，确保组件的专业水准。
-- ✅ **即时文档与预览**: `component-usage-doc` 提供实时的组件文档、API 和用法示例，让你即刻上手。
-- ✅ **确保设计高度一致**: 所有生成的组件都严格遵守统一的设计规范，确保整个应用的视觉和交互一致性，提升品牌价值。
+shadcn-vue MCP 提供了一种智能化的 UI 组件开发体验，彻底改变了传统工作流程：
 
-## 先决条件
+  - ✅ **一站式开发体验**：只需通过自然语言描述您的需求，即可在编辑器内完成从组件选择、编码到预览的整个流程，无需离开编辑器。
+  - ✅ **智能组件推荐**：`components-filter` 工具能够智能分析您的需求，并推荐最合适的 `shadcn-vue` 组件。
+  - ✅ **高质量代码自动生成**：`component-builder` 可自动生成符合 `shadcn-vue` 和 `tailwindcss` 标准的高质量 Vue 组件代码，并内置了最佳实践。
+  - ✅ **内置质量保证**：`component-quality-check` 会自动对生成的代码执行可访问性（A11y）和代码质量检查，确保组件达到专业水准。
+  - ✅ **即时文档与预览**：`component-usage-doc` 提供实时的组件文档、API 和使用示例，帮助您快速上手。
+  - ✅ **确保高度的设计一致性**：所有生成的组件都严格遵循统一的设计规范，确保整个应用的视觉和交互一致性，从而提升品牌价值。
 
-在开始之前，请确保您的系统上已安装 Node.js。
 
-- **推荐 Node.js 版本**: `18.20.1` 或更高版本。
+## 🌟 功能特性
 
-> 使用不同版本可能会导致安装错误，如 `Error: spawnSync code-insiders.cmd EINVAL`。降级或升级到推荐版本是最佳解决方案。
+  - **自然语言描述**:
 
-## ✨ 特性
+      - **AI 驱动的 UI 生成**：通过用自然语言描述来创建 UI 组件。
 
-- **自然语言描述**:
+  - **多 IDE 支持**:
 
-  - 通过简单的语言描述，轻松创建 UI 组件。
+      - **[Cursor](https://cursor.com) IDE** 集成，实现无缝工作流。
+      - **[Trae](https://www.trae.ai/)** 支持，用于先进的 AI 驱动开发。
+      - **[VSCode](https://code.visualstudio.com/)** 支持，提供强大的编码体验。
+      - **[VSCode + Cline](https://cline.bot)** 集成（测试版），用于增强协作。
 
-- **多 IDE 支持**:
+  - **现代化的组件库**:
 
-  - 集成 [Cursor](https://cursor.com) IDE，实现无缝工作流。
-  - 支持 [Trae](https://www.trae.ai/)，实现先进的 AI 驱动开发。
-  - 支持 [VSCode](https://code.visualstudio.com/)，提供强大的编码体验。
-  - 集成 [VSCode + Cline](https://cline.bot) (Beta)，增强协作能力。
+      - 基于 **shadcn-vue** 组件库和 **tailwindcss** 构建，用于实现现代化的响应式设计。
 
-- **现代化组件库**:
+  - **TypeScript 支持**:
 
-  - 基于 shadcn-vue 组件库和 tailwindcss 构建，实现现代化、响应式设计。
+      - 完整的 **TypeScript** 支持，确保类型安全和可扩展的开发。
 
-- **TypeScript 支持**:
+  - **智能文档查询**:
 
-  - 全面支持 TypeScript，确保类型安全和可扩展的开发。
+      - 实时访问详细的 **shadcn-vue** 组件文档，并集成了用法和最佳实践的预览。
 
-- **智能文档查询**:
+  - **组件增强**:
 
-  - 实时访问详细的 shadcn-vue 组件文档，并集成用法和最佳实践的预览。
+      - **可访问性**：符合 WCAG 2.1 标准，支持键盘导航，支持 ARIA。
+      - **性能**：代码分割、摇树优化（Tree Shaking）、优化的包体。
+      - **一致性**：统一的设计系统，一致的行为模式。
+      - **可维护性**：清晰的代码架构，文档完善的组件。
+      - **开发者体验**：支持 TypeScript、热重载、直观的 API。
 
-- **组件增强**:
-  - 可访问性：符合 WCAG 2.1 标准，支持键盘导航和 ARIA
-  - 性能：代码分割、摇树优化、优化的捆绑包
-  - 一致性：统一的设计系统，一致的行为模式
-  - 可维护性：清晰的代码架构，文档齐全的组件
-  - 开发者体验：TypeScript 支持、热重载、直观的 API
 
 ## 🚀 快速上手
 
-### 方法一：CLI 快速安装
+### 先决条件
 
-通过 [Smithery](https://smithery.ai/server/@HelloGGX/shadcn-vue-mcp) 为所有客户端自动安装 shadcn-vue-mcp：
+在开始之前，请确保您的系统中已经安装了 Node.js。
 
-<img src="https://raw.githubusercontent.com/HelloGGX/shadcn-vue-mcp/main/docs/install.png" width="600" >
+  - **推荐的 Node.js 版本**：`18.20.1` 或更高版本。
 
-- 支持的客户端: cursor, windsurf, cline, claude, vscode, vscode-insiders
+> 使用其他版本可能会导致安装错误，例如 `Error: spawnSync code-insiders.cmd EINVAL`。降级或升级到推荐版本是最好的解决方案。
 
-> **注意**: 以 vscode 为例：当您选择"自动"时，在终端中运行 Smithery CLI 命令：
+### 快速安装：为 Copilot 进行 URL 快速安装
 
-```bash
-npx -y @smithery/cli@latest install @HelloGGX/shadcn-vue-mcp --client vscode --profile parental-gayal-aplQPT --key xxxxx
-```
+首先，您需要从 Smithery 服务获取一个包含您个人凭证的唯一连接 URL。请访问 [Smithery 上的 shadcn-vue-mcp 页面](https://smithery.ai/server/@HelloGGX/shadcn-vue-mcp)。
 
-您可能会遇到错误：`Failed to install @HelloGGX/shadcn-vue-mcp`
+**第 1 步：** 在页面上点击“Generate URL”（生成 URL）按钮：
 
-```bash
-Error: spawnSync code-insiders.cmd EINVAL
-```
+<img src="https://raw.githubusercontent.com/HelloGGX/shadcn-vue-mcp/fast-agent/docs/install.png" width="700" >
 
-**解决方案**: 如"先决条件"部分所述，请确保您使用的是 Node.js `18.20.1` 版本。
+系统将为您生成一个唯一的 URL，其中包含用于身份验证的 API 密钥。请复制这整个 URL。
 
-### 方法二：手动配置
+**第 2 步：** 打开 VSCode, 启动 Copilot 并选择 Agent 模型。接下来，将您刚刚获取的 URL 添加到您 IDE 的 MCP 配置文件中。
 
-通过选择 JSON 选项并复制适用于您操作系统的配置，手动配置您的 AI 应用程序（例如 Claude 桌面版）：
+1.  在您的 IDE 项目中，找到或创建一个名为 `mcp.json` 的配置文件。
+2.  将以下 JSON 对象添加或合并到该文件的 `servers` 字段中。
 
-**对于 Mac/Linux:**
-
-```json
-{
-  "mcpServers": {
-    "shadcn-vue-mcp": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@smithery/cli@latest",
-        "run",
-        "@HelloGGX/shadcn-vue-mcp",
-        "parental-gayal-aplQPT"
-      ]
-    }
-  }
-}
-```
-
-**对于 Windows:**
-
-```json
-{
-  "mcpServers": {
-    "shadcn-vue-mcp": {
-      "command": "cmd",
-      "args": [
-        "/c",
-        "npx",
-        "-y",
-        "@smithery/cli@latest",
-        "run",
-        "@HelloGGX/shadcn-vue-mcp",
-        "parental-gayal-aplQPT"
-      ]
-    }
-  }
-}
-```
-
-### 方法三：通过 URL 为 Copilot 快速安装
-
-您还可以通过 URL 安装 shadcn-vue-mcp。
-步骤 1. 复制以下 URL 并将其粘贴到 Smithery AI 应用程序的 URL 字段中：
-
-<img src="https://raw.githubusercontent.com/HelloGGX/shadcn-vue-mcp/main/docs/install_URL.png" width="600">
-
-步骤 2. 打开 VSCode，打开 Copilot 并选择 Agent 模型
-
-步骤 3: 选择"添加服务器"
+**第 3 步：** 对于 VSCode IDE，选择“Add Server”（添加服务器）
 
 <img src="https://raw.githubusercontent.com/HelloGGX/shadcn-vue-mcp/main/docs/add_server.png" width="600">
 
-步骤 4: 选择 HTTP
+**第 4 步：** 选择 HTTP (HTTP or Server-Sent Events)
 
 <img src="https://raw.githubusercontent.com/HelloGGX/shadcn-vue-mcp/main/docs/choose_mcp_type.png" width="600">
 
-步骤 5: 粘贴 URL
+**第 5 步：** 粘贴 URL
 
-步骤 6: 配置如下:
+**第 6 步：** 在vscode中像这样配置：
 
 ```json
 {
-  "mcp": {
-    "servers": {
-      "shadcn-vue-mcp": {
-        "url": "https://server.smithery.ai/@HelloGGX/shadcn-vue-mcp/mcp?profile=parental-gayal-aplQPT&api_key=xxxxxxx"
-      }
-    }
-  }
+  "servers": {
+    "shadcn-vue-mcp": {
+      "url": "https://server.smithery.ai/@HelloGGX/shadcn-vue-mcp/mcp?api_key=xxxx&profile=linguistic-landfowl-TWeEt8"
+    }
+  }
 }
 ```
 
-配置文件位置:
+**配置文件位置：**
 
-- Cursor: `~/.cursor/mcp.json`
-- Trae: `~/.Trae/mcp.json`
-- Cline: `~/.cline/mcp_config.json`
-- Claude: `~/.claude/mcp_config.json`
+  - Cursor: `~/.cursor/mcp.json`
+  - Trae: `~/.Trae/mcp.json`
+  - Cline: `~/.cline/mcp_config.json`
+  - Claude: `~/.claude/mcp_config.json`
 
 ## 🛠️ 工具列表与核心功能
 
