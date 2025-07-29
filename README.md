@@ -91,7 +91,7 @@ Before you begin, ensure you have Node.js installed on your system.
 
 To install shadcn-vue-mcp for all clients automatically via [Smithery](https://smithery.ai/server/@HelloGGX/shadcn-vue-mcp):
 
-<img src="https://raw.githubusercontent.com/HelloGGX/shadcn-vue-mcp/main/docs/install.png" width="600" >
+<img src="https://raw.githubusercontent.com/HelloGGX/shadcn-vue-mcp/httpStream/docs/install.png" width="600" >
 
 - Supported clients: cursor, windsurf, cline, claude, vscode, vscode-insiders
 
