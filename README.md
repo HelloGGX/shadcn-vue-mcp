@@ -93,7 +93,7 @@ First, you need to obtain a unique connection URL from the Smithery service that
 
 Step 1. Click the Generate URL button on the page.:
 
-<img src="https://raw.githubusercontent.com/HelloGGX/shadcn-vue-mcp/fast-agent/docs/install.png" width="700" >
+<img src="https://raw.githubusercontent.com/HelloGGX/shadcn-vue-mcp/fast-agent/docs/url.png" width="700" >
 
 The system will generate a unique URL for you, which includes an API key for authentication. Copy this entire URL.
 

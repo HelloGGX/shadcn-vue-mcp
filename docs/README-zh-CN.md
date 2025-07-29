@@ -100,7 +100,7 @@ shadcn-vue MCP 提供了一种智能化的 UI 组件开发体验，彻底改变�
 
 **第 1 步：** 在页面上点击“Generate URL”（生成 URL）按钮：
 
-<img src="https://raw.githubusercontent.com/HelloGGX/shadcn-vue-mcp/fast-agent/docs/install.png" width="700" >
+<img src="https://raw.githubusercontent.com/HelloGGX/shadcn-vue-mcp/fast-agent/docs/url.png" width="700" >
 
 系统将为您生成一个唯一的 URL，其中包含用于身份验证的 API 密钥。请复制这整个 URL。
 
