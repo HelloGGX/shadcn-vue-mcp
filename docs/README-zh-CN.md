@@ -24,9 +24,6 @@ Shadcn-vue MCP Server 是一个强大的 AI 驱动工具，可帮助开发人员
 
 </div>
 
-好的，这是对您提供的 README.md 内容的中文翻译，力求准确、合理并保留了原始格式。
-
-
 ## ❌ 没有 shadcn-vue MCP
 
 开发者在构建 UI 组件时面临着多重挑战：
