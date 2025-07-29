@@ -1,6 +1,6 @@
 <div align="center">
   <a href="https://smithery.ai/server/@HelloGGX/shadcn-vue-mcp">
-    <img src="https://github.com/HelloGGX/tailwindcss-mcp/raw/fast-agent/docs/logo2.png" alt="shadcnVue MCP Logo" max-height="450">
+    <img src="https://github.com/HelloGGX/tailwindcss-mcp/raw/fast-agent/docs/logo1.png" alt="shadcnVue MCP Logo" max-height="450">
   </a>
 
   <br />
