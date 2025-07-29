@@ -123,12 +123,13 @@ shadcn-vue MCP 提供了一种智能化的 UI 组件开发体验，彻底改变�
 
 ```json
 {
-  "servers": {
-    "shadcn-vue-mcp": {
-      "url": "https://server.smithery.ai/@HelloGGX/shadcn-vue-mcp/mcp?api_key=xxxx&profile=linguistic-landfowl-TWeEt8"
-    }
-  }
+  "servers": {
+    "shadcn-vue-mcp": {
+      "url": "https://server.smithery.ai/@HelloGGX/shadcn-vue-mcp/mcp?api_key=xxxx&profile=linguistic-landfowl-TWeEt8"
+    }
+  }
 }
+```
 ```
 
 **配置文件位置：**
