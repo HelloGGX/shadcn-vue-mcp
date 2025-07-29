@@ -87,29 +87,15 @@ Before you begin, ensure you have Node.js installed on your system.
 
 > Using a different version might lead to installation errors like `Error: spawnSync code-insiders.cmd EINVAL`. Downgrading or upgrading to the recommended version is the best solution.
 
-### Method 1: CLI Quick Installation
+### Method 1: Get connection URL
 
 To install shadcn-vue-mcp for all clients automatically via [Smithery](https://smithery.ai/server/@HelloGGX/shadcn-vue-mcp):
 
-<img src="https://raw.githubusercontent.com/HelloGGX/shadcn-vue-mcp/httpStream/docs/install.png" width="600" >
+<img src="https://raw.githubusercontent.com/HelloGGX/shadcn-vue-mcp/httpStream/docs/install.png" width="700" >
 
 - Supported clients: cursor, windsurf, cline, claude, vscode, vscode-insiders
 
-> **Note**: Take vscode as an example: When you select Auto, run the Smithery CLI command in the terminal:
-
-```bash
-npx -y @smithery/cli@latest install @HelloGGX/shadcn-vue-mcp --client vscode --profile parental-gayal-aplQPT --key xxxxx
-```
-
-You may get an error: Failed to install @HelloGGX/shadcn-vue-mcp
-
-```bash
-Error: spawnSync code-insiders.cmd EINVAL
-```
-
-**Solution**: Downgrade the Node version to 18.20.1 and rerun
-
-### Method 2: Manual Configuration
+### Method 2: add your client
 
 Manually configure your AI application (e.g., Claude Desktop) by selecting the JSON option and copying the configuration for your operating system:
 
