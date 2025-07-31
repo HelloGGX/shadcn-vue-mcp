@@ -1,7 +1,11 @@
 import { FastMCP } from "fastmcp";
 import { z } from "zod";
 import * as services from "./services/index.js";
-import { getComponentPrompt, getComponentQualityCheckPrompt, getFilterComponentsPrompt } from "./prompts/componentPrompts.js";
+import {
+  getComponentPrompt,
+  getComponentQualityCheckPrompt,
+  getFilterComponentsPrompt,
+} from "./prompts/componentPrompts.js";
 // import { CallbackServer } from "../server/callback-server.js";
 
 /**
@@ -60,7 +64,7 @@ The user requirement will be provided via the \`${params.message}\` variable.
       "icon": "${icon}"
     }
    \`\`\`
-3.  After outputting the JSON, you **must** call the \`components-filter\` tool with the JSON as the input. 
+3.  After outputting the JSON, you **must** call the \`components-filter\` tool with the JSON string format as the input. 
   `;
 
       return {
@@ -235,7 +239,7 @@ The user requirement will be provided via the \`${params.message}\` variable.
     description:
       "Automatically check Vue component quality and provide detailed feedback. Use this tool when you need to validate component quality, accessibility, performance, and best practices compliance. or when mentions /check.",
     parameters: z.object({
-      componentCode: z.string().describe("code of the component from component-builder tool")
+      componentCode: z.string().describe("code of the component from component-builder tool"),
     }),
     execute: async (params) => {
       const prompt = getComponentQualityCheckPrompt(params.componentCode || "");
