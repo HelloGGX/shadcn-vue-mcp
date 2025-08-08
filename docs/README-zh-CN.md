@@ -8,8 +8,8 @@
 
 一个强大的 AI 代理工具，可以帮助开发者即时创建高质量的 UI 组件
 
-[![GitHub forks](https://img.shields.io/github/forks/HelloGGX/shadcn-vue-mcp.svg?style=social&label=Fork&maxAge=2592000)](https://GitHub.com/HelloGGX/shadcn-vue-mcp/network/)
-[![GitHub stars](https://img.shields.io/github/stars/HelloGGX/shadcn-vue-mcp.svg?style=social&label=Star&maxAge=2592000)](https://GitHub.com/HelloGGX/shadcn-vue-mcp/stargazers/)
+[![GitHub forks](https://img.shields.io/github/forks/HelloGGX/shadcn-vue-mcp.svg?style=social&label=Fork)](https://GitHub.com/HelloGGX/shadcn-vue-mcp/network/)
+[![GitHub stars](https://img.shields.io/github/stars/HelloGGX/shadcn-vue-mcp.svg?style=social&label=Star)](https://GitHub.com/HelloGGX/shadcn-vue-mcp/stargazers/)
 [![GitHub commits](https://badgen.net/github/commits/HelloGGX/shadcn-vue-mcp)](https://GitHub.com/HelloGGX/shadcn-vue-mcp/commit/)
 [![smithery badge](https://smithery.ai/badge/@HelloGGX/shadcn-vue-mcp)](https://smithery.ai/server/@HelloGGX/shadcn-vue-mcp)
 [![License](https://img.shields.io/github/license/HelloGGX/shadcn-vue-mcp?colorA=00C586&colorB=000000)](https://github.com/HelloGGX/shadcn-vue-mcp/blob/main/LICENSE)
