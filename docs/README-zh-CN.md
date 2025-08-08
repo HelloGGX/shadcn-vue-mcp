@@ -185,7 +185,7 @@ shadcn-vue MCP 提供了一种智能化的 UI 组件开发体验，彻底改变�
 
 AI: 生成代码如下:
 
-![UI Component Example](https://github.com/HelloGGX/tailwindcss-mcp/raw/fast-agent/docs/ui.png)
+![UI Component Example](https://github.com/HelloGGX/tailwindcss-mcp/raw/fast-agent/docs/uiDemo.png)
 
 用户: /check
 

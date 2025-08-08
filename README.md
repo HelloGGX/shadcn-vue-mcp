@@ -178,7 +178,7 @@ User: /ui create a flight display component
 
 AI: Generated code as follows:
 
-![UI Component Example](https://github.com/HelloGGX/tailwindcss-mcp/raw/fast-agent/docs/ui.png)
+![UI Component Example](https://github.com/HelloGGX/tailwindcss-mcp/raw/fast-agent/docs/uiDemo.png)
 
 User: /check
 
