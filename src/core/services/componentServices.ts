@@ -1,4 +1,4 @@
-import z from "zod";
+import z from "zod/v3";
 import axios, { AxiosError } from "axios";
 // import fg from "fast-glob";
 

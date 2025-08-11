@@ -1,5 +1,5 @@
 import { FastMCP } from "fastmcp";
-import { z } from "zod";
+import { z } from "zod/v3";
 import * as services from "./services/index.js";
 import {
   getComponentPrompt,

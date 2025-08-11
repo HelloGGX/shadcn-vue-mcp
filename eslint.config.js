@@ -32,7 +32,7 @@ export default defineConfig([
     extends: ["markdown/recommended"],
   },
   {
-    ignores: ["node_modules/**", "build/**"],
+    ignores: ["node_modules/**", "build/**", "src/server/previewer/**"],
   },
   {
     rules: {
