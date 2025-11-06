@@ -24,6 +24,10 @@ Shadcn-vue MCP Server is a powerful AI-driven tool that helps developers instant
 
 </div>
 
+<a href="https://glama.ai/mcp/servers/@HelloGGX/shadcn-vue-mcp">
+  <img width="380" height="200" src="https://glama.ai/mcp/servers/@HelloGGX/shadcn-vue-mcp/badge" alt="shadcn-vue-mcp MCP server" />
+</a>
+
 ## ❌ Without shadcn-vue MCP
 
 Developers face multiple challenges when building UI components:
