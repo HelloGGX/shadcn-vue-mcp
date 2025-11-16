@@ -41,21 +41,21 @@
     "tailwindcss"
   ],
   "devDependencies": {
-    "@eslint/js": "^9.33.0",
-    "@eslint/json": "^0.13.1",
-    "@eslint/markdown": "^7.1.0",
+    "@eslint/js": "^9.39.1",
+    "@eslint/json": "^0.14.0",
+    "@eslint/markdown": "^7.5.1",
     "@types/bun": "latest",
     "@types/cors": "^2.8.19",
-    "@types/express": "^5.0.3",
-    "@types/node": "^24.2.1",
-    "eslint": "^9.33.0",
+    "@types/express": "^5.0.5",
+    "@types/node": "^24.10.1",
+    "eslint": "^9.39.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
-    "eslint-plugin-vue": "^10.4.0",
-    "globals": "^16.3.0",
+    "eslint-plugin-vue": "^10.5.1",
+    "globals": "^16.5.0",
     "prettier": "^3.6.2",
     "shx": "^0.4.0",
-    "typescript-eslint": "^8.39.0"
+    "typescript-eslint": "^8.46.4"
   },
   "peerDependencies": {
     "@valibot/to-json-schema": "^1.0.0",
@@ -63,14 +63,14 @@
     "typescript": "^5.8.2"
   },
   "dependencies": {
-    "axios": "^1.11.0",
+    "axios": "^1.13.2",
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "fast-glob": "^3.3.3",
-    "fastmcp": "^3.14.4",
-    "marked": "^16.1.2",
-    "open": "^10.2.0",
-    "sury": "11.0.0-alpha.2",
-    "zod": "^4.0.17"
+    "fastmcp": "^3.23.0",
+    "marked": "^17.0.0",
+    "open": "^11.0.0",
+    "sury": "11.0.0-alpha.4",
+    "zod": "^4.1.12"
   }
 }

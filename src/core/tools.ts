@@ -6,7 +6,7 @@ import {
   getComponentQualityCheckPrompt,
   getFilterComponentsPrompt,
 } from "./prompts/componentPrompts.js";
-// import { CallbackServer } from "../server/callback-server.js";
+import { CallbackServer } from "../server/callback-server.js";
 
 /**
  * Register all tools with the MCP server
@@ -120,25 +120,19 @@ The user requirement will be provided via the \`${params.message}\` variable.
           message: "Component must be a valid shadcn/vue component",
         }),
     }),
-    execute: async (params) => {
+    execute: async () => {
       try {
-        const processedDoc = await services.ComponentServices.createComponentDoc(
-          params.name,
-          params.type
-        );
+        const server = new CallbackServer()
 
-        // 在浏览器中打开markdown文档
-        const componentTitle = `${params.name} - shadcn/vue Component Documentation`;
-        await services.WebViewService.openMarkdownInBrowser(
-          processedDoc || "No documentation found for this component",
-          componentTitle
-        );
+        server.promptUser({initialData: 'sssss'})
+
+        
 
         return {
           content: [
             {
               type: "text",
-              text: `${processedDoc}`,
+              text: ``,
             },
           ],
         };
